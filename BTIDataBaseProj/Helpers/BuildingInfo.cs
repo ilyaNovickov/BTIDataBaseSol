@@ -12,6 +12,21 @@ namespace BTIDataBaseProj.Helpers
     public class BuildingInfo : INotifyPropertyChanged
     {
         private BuildingsTable building = null;
+        private string kadastr = "";
+        private string address="";
+        private string district = "";
+        private int land = 0;
+        private int year = 0;
+        private string material = "";
+        private string @base ="";
+        private string comments = null;
+        private int wear = 0;
+        private int flow = 0;
+        private int line = 0;
+        private int square = 0;
+        private byte[] pic = null;
+        private int flats = 0;
+        private bool elevator = false;
 
         public BuildingInfo() { }
         public BuildingInfo(BuildingsTable building)
@@ -19,21 +34,141 @@ namespace BTIDataBaseProj.Helpers
             BuildingsTable = building;
         }
 
-        public string Kadastr { get; set; }
-        public string Address { get; set; }
-        public string District { get; set; }
-        public int Land { get; set; }
-        public int Year { get; set; }
-        public string Material { get; set; }
-        public string Base { get; set; }
-        public string Comments { get; set; }
-        public int Wear { get; set; }
-        public int Flow { get; set; }
-        public int Line { get; set; }
-        public int Square { get; set; }
-        public byte[] Picture { get; set; }
-        public int Flats { get; set; }
-        public bool Elevator { get; set; }
+        public string Kadastr 
+        {
+            get => kadastr;
+            set
+            {
+                kadastr = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Address 
+        {
+            get => address;
+            set
+            {
+                address = value;
+                OnPropertyChanged();
+            }
+        }
+        public string District 
+        {
+            get => district;
+            set
+            {
+                district = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Land 
+        {
+            get => land;
+            set
+            {
+                land = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Year 
+        {
+            get => year;
+            set
+            {
+                year = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Material
+        {
+            get => material;
+            set
+            {
+                material = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Base 
+        {
+            get => @base;
+            set
+            {
+                @base = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Comments
+        {
+            get => comments;
+            set
+            {
+                comments = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Wear 
+        {
+            get => wear;
+            set
+            {
+                wear = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Flow 
+        {
+            get => flow;
+            set
+            {
+                flow = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Line 
+        {
+            get => line;
+            set
+            {
+                line = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Square 
+        {
+            get => square;
+            set
+            {
+                square = value;
+                OnPropertyChanged();
+            }
+        }
+        public byte[] Picture 
+        {
+            get => pic;
+            set
+            {
+                pic = value;
+                OnPropertyChanged();
+            }
+        }
+        public int Flats 
+        {
+            get => flats;
+            set
+            {
+                flats = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool Elevator 
+        {
+            get => elevator;
+            set
+            {
+                elevator = value;
+                OnPropertyChanged();
+            }
+        }
 
         public  BuildingsTable BuildingsTable 
         {
@@ -42,11 +177,14 @@ namespace BTIDataBaseProj.Helpers
             {
                 if (value == null)
                 {
-                    Clear();
-                    return;
+                    ClearProperties();
+                    building = value;
+                    goto End;
                 }
                 building = value;
                 SetProperties(value);
+End:
+                OnPropertyChanged();
             }
         }
 
@@ -69,7 +207,7 @@ namespace BTIDataBaseProj.Helpers
             Elevator = buildingsTable.Elevator;
         }
 
-        public void Clear()
+        private void ClearProperties()
         {
             Kadastr = string.Empty;
             Address = string.Empty;
@@ -86,6 +224,11 @@ namespace BTIDataBaseProj.Helpers
             Picture = null;
             Flats = 0;
             Elevator = false;
+        }
+
+        public void Clear()
+        {
+            ClearProperties();
 
             BuildingsTable = null;
         }

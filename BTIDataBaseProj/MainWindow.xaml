@@ -89,10 +89,10 @@
                                             <RowDefinition Height="1.3*"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
-                                        <Border Grid.Row="0" BorderThickness="2" BorderBrush="Red">
-                                            <Image Margin="5,5,5,5" Source="{Binding Picture, TargetNullValue={StaticResource imageFailed}}"/>
+                                        <Border Grid.Row="0" BorderThickness="2" BorderBrush="GreenYellow" Margin="5,5,5,5">
+                                            <Image Margin="5,5,5,5" Stretch="None" Source="{Binding Picture, TargetNullValue={StaticResource imageFailed}}"/>
                                         </Border>
-                                        <TextBox Text="{Binding Comments}" MinWidth="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                                        <TextBox Grid.Row="1" Text="{Binding Comments}" MinWidth="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                                     </Grid>
                                 </Grid>
                             </ScrollViewer>

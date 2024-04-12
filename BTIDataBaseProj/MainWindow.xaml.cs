@@ -83,6 +83,8 @@ namespace BTIDataBaseProj
             //    aboutBuildingGrid.DataContext = null;
             //    return;
             //}
+            if (!(buildingsDataGrid.SelectedItem is BuildingsTable))
+                return;
 
             buildingInfo.BuildingsTable = (BuildingsTable)buildingsDataGrid.SelectedItem;
         }
