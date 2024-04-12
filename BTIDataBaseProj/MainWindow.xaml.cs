@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xceed.Wpf.AvalonDock;
+using BTIDataBaseProj.Helpers;
 
 namespace BTIDataBaseProj
 {
@@ -26,12 +27,13 @@ namespace BTIDataBaseProj
         BTIDataBaseEntities contex = new BTIDataBaseEntities();
         //CollectionViewSource buildingsViewSourse;
         //CollectionViewSource flatsViewSourse;
+        BuildingInfo buildingInfo = new BuildingInfo();
 
         public MainWindow()
         {
             InitializeComponent();
 
-            
+            //DataContext = this;
         }
 
         ~MainWindow()
@@ -39,8 +41,14 @@ namespace BTIDataBaseProj
             contex?.Dispose();
         }
 
+        public BuildingInfo BuildingInfo
+        {
+            get => buildingInfo;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            aboutBuildingGrid.DataContext = buildingInfo;
             //System.Windows.Data.CollectionViewSource buildingsTableViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource")));
             //// Загрузите данные, установив свойство CollectionViewSource.Source:
             //// buildingsTableViewSource.Source = [универсальный источник данных]
@@ -70,13 +78,13 @@ namespace BTIDataBaseProj
 
         private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (buildingsDataGrid.SelectedItem == null)
-            {
-                aboutBuildingGrid.DataContext = null;
-                return;
-            }
+            //if (buildingsDataGrid.SelectedItem == null)
+            //{
+            //    aboutBuildingGrid.DataContext = null;
+            //    return;
+            //}
 
-            aboutBuildingGrid.DataContext = buildingsDataGrid.SelectedItem;
+            buildingInfo.BuildingsTable = (BuildingsTable)buildingsDataGrid.SelectedItem;
         }
     }
 }
