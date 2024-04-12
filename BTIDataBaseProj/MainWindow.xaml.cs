@@ -21,47 +21,47 @@ namespace BTIDataBaseProj
     /// </summary>
     public partial class MainWindow : Window
     {
-        BTIDataBaseEntities contex = new BTIDataBaseEntities();
-        CollectionViewSource buildingsViewSourse;
-        CollectionViewSource flatsViewSourse;
+        //BTIDataBaseEntities contex = new BTIDataBaseEntities();
+        //CollectionViewSource buildingsViewSourse;
+        //CollectionViewSource flatsViewSourse;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingsTableViewSource")));
-            flatsViewSourse = ((CollectionViewSource)(FindResource("buildingsTableFlatsTableViewSource")));
+            //buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingsTableViewSource")));
+            //flatsViewSourse = ((CollectionViewSource)(FindResource("buildingsTableFlatsTableViewSource")));
 
-            DataContext = this;
+            //DataContext = this;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            System.Windows.Data.CollectionViewSource buildingsTableViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource")));
-            // Загрузите данные, установив свойство CollectionViewSource.Source:
-            // buildingsTableViewSource.Source = [универсальный источник данных]
+            //System.Windows.Data.CollectionViewSource buildingsTableViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource")));
+            //// Загрузите данные, установив свойство CollectionViewSource.Source:
+            //// buildingsTableViewSource.Source = [универсальный источник данных]
 
-            contex.BuildingsTable.Load();
+            //contex.BuildingsTable.Load();
 
-            buildingsViewSourse.Source = null;//contex.BuildingsTable.Local;
+            //buildingsViewSourse.Source = null;//contex.BuildingsTable.Local;
 
-            contex.FlatsTable.Load();
+            //contex.FlatsTable.Load();
 
-            flatsViewSourse.Source = contex.FlatsTable.Local;
+            //flatsViewSourse.Source = contex.FlatsTable.Local;
 
-            //buildingsTableFlatsTableViewSource
+            ////buildingsTableFlatsTableViewSource
         }
 
         private void buildingsTableDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            buildingsViewSourse.View?.Refresh();
+            //buildingsViewSourse.View?.Refresh();
 
 
 
-            if (flatsTableDataGrid.SelectedItem is FlatsTable flat)
-            {
-                buildingsViewSourse.Source = from b in contex.BuildingsTable.ToList() where b.Kadastr == flat.BuildingKadastr select b;
-                    }
+            //if (flatsTableDataGrid.SelectedItem is FlatsTable flat)
+            //{
+            //    buildingsViewSourse.Source = from b in contex.BuildingsTable.ToList() where b.Kadastr == flat.BuildingKadastr select b;
+            //        }
         }
     }
 }
