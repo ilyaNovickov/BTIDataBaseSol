@@ -10,14 +10,14 @@
 namespace BTIDataBaseProj
 {
     using System;
-    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class FlatsTable
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public FlatsTable()
         {
-            this.RoomsTable = new HashSet<RoomsTable>();
+            this.RoomsTable = new ObservableCollection<RoomsTable>();
         }
     
         public int FlatId { get; set; }
@@ -34,6 +34,6 @@ namespace BTIDataBaseProj
     
         public virtual BuildingsTable BuildingsTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomsTable> RoomsTable { get; set; }
+        public virtual ObservableCollection<RoomsTable> RoomsTable { get; set; }
     }
 }
