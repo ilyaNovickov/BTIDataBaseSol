@@ -5,6 +5,173 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BTIDataBaseProj"
         mc:Ignorable="d"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
-    
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="asd" Click="MenuItem_Click"/>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <Label Content=""/>
+        </StatusBar>
+        <xcad:DockingManager x:Name="dockingManager">
+            <xcad:LayoutRoot x:Name="layoutRoot">
+                <xcad:LayoutPanel>
+                    <!--Инфо про здания-->
+                    <xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorable x:Name="buildingInfoPanel" 
+                                               ContentId="buldingInfo" 
+                                               Title="О здании" 
+                                               CanHide="True" 
+                                               CanClose="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <Grid x:Name="aboutBuildingGrid" MinHeight="500" MinWidth="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--О здании-->
+                                    <Grid Grid.Column="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Кадастр" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBox Text="{Binding Kadastr}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Адресс" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <TextBox Text="{Binding Address}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Район города" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding District}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Площадь земельного участка" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                         <xctk:IntegerUpDown Value="{Binding Land}" Minimum="0" Grid.Column="1" Grid.Row="3" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Год постройки" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <xctk:IntegerUpDown Value="{Binding Year}" Minimum="0" Grid.Column="1" Grid.Row="4" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Материал стен" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5"/>
+                                        <TextBox Text="{Binding Material}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Фундамент" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <TextBox Text="{Binding Base}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Износ, %" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <xctk:IntegerUpDown Value="{Binding Wear}" Minimum="0" Grid.Column="1" Grid.Row="7" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Ко-во этажей" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <xctk:IntegerUpDown Value="{Binding Flow}" Minimum="0" Grid.Column="1" Grid.Row="8" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Расстояние от центра" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <xctk:IntegerUpDown Value="{Binding Line}" Minimum="0" Grid.Column="1" Grid.Row="9" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Площадь квартир" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
+                                        <xctk:IntegerUpDown Value="{Binding Square}" Minimum="0" Grid.Column="1" Grid.Row="10" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Кол-во квартир" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="11"/>
+                                        <xctk:IntegerUpDown Value="{Binding Flats}" Minimum="0" Grid.Column="1" Grid.Row="11" Margin="5,5,5,5" MaxWidth="150"/>
+                                        <Label Content="Наличие лифта" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="12"/>
+                                        <CheckBox IsChecked="{Binding Elevator}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150"/>
+                                    </Grid>
+                                    <!--Доп о здании-->
+                                    <Grid Grid.Column="1" Margin="5,0,0,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="1.3*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <Border Grid.Row="0" BorderThickness="2" BorderBrush="Red">
+                                            <Image Margin="5,5,5,5" Source="{Binding Picture}"/>
+                                        </Border>
+                                        <TextBox Text="{Binding Comments}" MinWidth="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                                    </Grid>
+                                </Grid>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
+                    <!--здания-->
+                    <xcad:LayoutDocumentPane>
+                        <xcad:LayoutDocument ContentId="buildings" Title="Здания" CanClose="False">
+                            <DataGrid x:Name="buildingsDataGrid" IsReadOnly="False" HorizontalScrollBarVisibility="Visible" AutoGenerateColumns="False" SelectionChanged="buildingsDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Kadastr}" Header="Кадастр" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Address}" Header="Адресс" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding District}" Header="Район города" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Land}" Header="Площадь земельного участка" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Year}" Header="Год постройки" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Material}" Header="Материал стен" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Base}" Header="Фундамент" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Wear}" Header="Износ, %" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Flow}" Header="Кол-во этажей" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Line}" Header="Расстояние от центра" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Square}" Header="Площадь квартир" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Flats}" Header="Кол-во квартир" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Elevator}" Header="Наличие лифта" Width="auto"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </xcad:LayoutDocument>
+                    </xcad:LayoutDocumentPane>
+
+
+                    <xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorable ContentId="alarms" Title="Alarms"  >
+                            <ListBox>
+                                <s:String>Alarm 1</s:String>
+                                <s:String>Alarm 2</s:String>
+                                <s:String>Alarm 3</s:String>
+                            </ListBox>
+                        </xcad:LayoutAnchorable>
+                        <xcad:LayoutAnchorable ContentId="journal" Title="Journal" CanClose="False" CanHide="False" >
+                            <RichTextBox>
+                                <FlowDocument>
+                                    <Paragraph FontSize="14" FontFamily="Segoe">
+                                        This is the content of the Journal Pane.
+                                        <LineBreak/>
+                                        A
+                                        <Bold>RichTextBox</Bold> has been added here
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
+
+
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </DockPanel>
+    <!--<xcad:DockingManager Grid.Row="1" MaxHeight="425"
+                           AllowMixedOrientation="True"
+                           BorderBrush="Black"
+                           BorderThickness="1"
+                           Theme="{Binding ElementName=_themeCombo, Path=SelectedItem.Tag}">
+            <xcad:LayoutRoot x:Name="_layoutRoot">
+                <xcad:LayoutPanel Orientation="Horizontal">
+                    
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="125">
+                       
+                    </xcad:LayoutAnchorablePaneGroup>
+                </xcad:LayoutPanel>
+
+                <xcad:LayoutRoot.LeftSide>
+                    <xcad:LayoutAnchorSide>
+                        <xcad:LayoutAnchorGroup>
+                            <xcad:LayoutAnchorable Title="Agenda" ContentId="agenda" >
+                                <TextBlock Text="Agenda Content" Margin="10" FontSize="18" FontWeight="Black" TextWrapping="Wrap"/>
+                            </xcad:LayoutAnchorable>
+                            <xcad:LayoutAnchorable Title="Contacts" ContentId="contacts"  >
+                                <TextBlock Text="Contacts Content" Margin="10" FontSize="18" FontWeight="Black" TextWrapping="Wrap"/>
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorGroup>
+                    </xcad:LayoutAnchorSide>
+                </xcad:LayoutRoot.LeftSide>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </Grid>-->
 </Window>

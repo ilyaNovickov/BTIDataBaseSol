@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock;
 
 namespace BTIDataBaseProj
 {
@@ -21,7 +23,7 @@ namespace BTIDataBaseProj
     /// </summary>
     public partial class MainWindow : Window
     {
-        //BTIDataBaseEntities contex = new BTIDataBaseEntities();
+        BTIDataBaseEntities contex = new BTIDataBaseEntities();
         //CollectionViewSource buildingsViewSourse;
         //CollectionViewSource flatsViewSourse;
 
@@ -29,10 +31,12 @@ namespace BTIDataBaseProj
         {
             InitializeComponent();
 
-            //buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingsTableViewSource")));
-            //flatsViewSourse = ((CollectionViewSource)(FindResource("buildingsTableFlatsTableViewSource")));
+            
+        }
 
-            //DataContext = this;
+        ~MainWindow()
+        {
+            contex?.Dispose();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -50,18 +54,29 @@ namespace BTIDataBaseProj
             //flatsViewSourse.Source = contex.FlatsTable.Local;
 
             ////buildingsTableFlatsTableViewSource
+            ///
+
+            contex.BuildingsTable.Load();
+
+            buildingsDataGrid.ItemsSource = contex.BuildingsTable.Local.ToBindingList<BuildingsTable>();
         }
 
-        private void buildingsTableDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-            //buildingsViewSourse.View?.Refresh();
+            //bool v = zxc.IsVisible;
+            //zxc.IsVisible = !zxc.IsVisible;
+        }
 
+        private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (buildingsDataGrid.SelectedItem == null)
+            {
+                aboutBuildingGrid.DataContext = null;
+                return;
+            }
 
-
-            //if (flatsTableDataGrid.SelectedItem is FlatsTable flat)
-            //{
-            //    buildingsViewSourse.Source = from b in contex.BuildingsTable.ToList() where b.Kadastr == flat.BuildingKadastr select b;
-            //        }
+            aboutBuildingGrid.DataContext = buildingsDataGrid.SelectedItem;
         }
     }
 }
