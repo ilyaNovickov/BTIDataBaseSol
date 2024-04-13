@@ -9,6 +9,11 @@
         Title="Window1" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="buildingsTableViewSource" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
+        <CollectionViewSource x:Key="buildingsTableViewSource1" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
+        <CollectionViewSource x:Key="buildingsTableFlatsTableViewSource" Source="{Binding FlatsTable, Source={StaticResource buildingsTableViewSource1}}"/>
+        <CollectionViewSource x:Key="buildingsTableViewSource2" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
+        <CollectionViewSource x:Key="buildingsTableFlatsTableViewSource1" Source="{Binding FlatsTable, Source={StaticResource buildingsTableViewSource2}}"/>
+        <CollectionViewSource x:Key="buildingsTableFlatsTableRoomsTableViewSource" Source="{Binding RoomsTable, Source={StaticResource buildingsTableFlatsTableViewSource1}}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource buildingsTableViewSource}">
 
@@ -28,6 +33,35 @@
                 <DataGridTextColumn x:Name="squareColumn" Binding="{Binding Square}" Header="Square" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="wearColumn" Binding="{Binding Wear}" Header="Wear" Width="SizeToHeader"/>
                 <DataGridTextColumn x:Name="yearColumn" Binding="{Binding Year}" Header="Year" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="flatsTableDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource buildingsTableFlatsTableViewSource}}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="139,121,261,113">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="balconyColumn" Binding="{Binding Balcony}" Header="Balcony" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="branchColumn" Binding="{Binding Branch}" Header="Branch" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="buildingKadastrColumn" Binding="{Binding BuildingKadastr}" Header="Building Kadastr" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="dwellColumn" Binding="{Binding Dwell}" Header="Dwell" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="flatColumn" Binding="{Binding Flat}" Header="Flat" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="flatIdColumn" Binding="{Binding FlatId}" Header="Flat Id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="heightColumn" Binding="{Binding Height}" Header="Height" Width="SizeToHeader"/>
+                <DataGridCheckBoxColumn x:Name="levelColumn" Binding="{Binding Level}" Header="Level" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="roomsColumn" Binding="{Binding Rooms}" Header="Rooms" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="squareFlatColumn" Binding="{Binding SquareFlat}" Header="Square Flat" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="storeyColumn" Binding="{Binding Storey}" Header="Storey" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid x:Name="roomsTableDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource buildingsTableFlatsTableRoomsTableViewSource}}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="106,374,294,-140">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="decoretionColumn" Binding="{Binding Decoretion}" Header="Decoretion" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="flatColumn1" Binding="{Binding Flat}" Header="Flat" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="heightRoomColumn" Binding="{Binding HeightRoom}" Header="Height Room" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="recordColumn" Binding="{Binding Record}" Header="Record" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="roomIdColumn" Binding="{Binding RoomId}" Header="Room Id" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="sectionColumn" Binding="{Binding Section}" Header="Section" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="sizeColumn" Binding="{Binding Size}" Header="Size" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="socketColumn" Binding="{Binding Socket}" Header="Socket" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="squareRoomColumn" Binding="{Binding SquareRoom}" Header="Square Room" Width="SizeToHeader"/>
             </DataGrid.Columns>
         </DataGrid>
 

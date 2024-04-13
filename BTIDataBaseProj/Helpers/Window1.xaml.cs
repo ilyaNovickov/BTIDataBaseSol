@@ -30,6 +30,12 @@ namespace BTIDataBaseProj.Helpers
             System.Windows.Data.CollectionViewSource buildingsTableViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource")));
             // Загрузите данные, установив свойство CollectionViewSource.Source:
             // buildingsTableViewSource.Source = [универсальный источник данных]
+            System.Windows.Data.CollectionViewSource buildingsTableViewSource1 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource1")));
+            // Загрузите данные, установив свойство CollectionViewSource.Source:
+            // buildingsTableViewSource1.Source = [универсальный источник данных]
+            System.Windows.Data.CollectionViewSource buildingsTableViewSource2 = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource2")));
+            // Загрузите данные, установив свойство CollectionViewSource.Source:
+            // buildingsTableViewSource2.Source = [универсальный источник данных]
         }
     }
 }

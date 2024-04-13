@@ -25,14 +25,16 @@ namespace BTIDataBaseProj
     public partial class MainWindow : Window
     {
         BTIDataBaseEntities contex = new BTIDataBaseEntities();
-        //CollectionViewSource buildingsViewSourse;
-        //CollectionViewSource flatsViewSourse;
+        CollectionViewSource buildingsViewSourse;
+        CollectionViewSource flatsViewSourse;
         BuildingInfo buildingInfo = new BuildingInfo();
 
         public MainWindow()
         {
             InitializeComponent();
 
+            buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingViewSourse")));
+            flatsViewSourse = ((CollectionViewSource)(FindResource("flatsViewSourse")));
             //DataContext = this;
         }
 
@@ -49,24 +51,9 @@ namespace BTIDataBaseProj
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             aboutBuildingGrid.DataContext = buildingInfo;
-            //System.Windows.Data.CollectionViewSource buildingsTableViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("buildingsTableViewSource")));
-            //// Загрузите данные, установив свойство CollectionViewSource.Source:
-            //// buildingsTableViewSource.Source = [универсальный источник данных]
-
-            //contex.BuildingsTable.Load();
-
-            //buildingsViewSourse.Source = null;//contex.BuildingsTable.Local;
-
-            //contex.FlatsTable.Load();
-
-            //flatsViewSourse.Source = contex.FlatsTable.Local;
-
-            ////buildingsTableFlatsTableViewSource
-            ///
 
             contex.BuildingsTable.Load();
-
-            buildingsDataGrid.ItemsSource = contex.BuildingsTable.Local.ToBindingList<BuildingsTable>();
+            buildingsViewSourse.Source = contex.BuildingsTable.Local;
         }
 
 
@@ -97,10 +84,28 @@ namespace BTIDataBaseProj
                 return;
             }
 
-            contex.AddBuilding(buildingInfo.Kadastr, buildingInfo.Address, buildingInfo.District, buildingInfo.Land, buildingInfo.Year,
-                buildingInfo.Material, buildingInfo.Base, buildingInfo.Flow, buildingInfo.Line, buildingInfo.Square, buildingInfo.Flats, buildingInfo.Comments,
-                buildingInfo.Wear, buildingInfo.Picture, buildingInfo.Elevator);
-            //update ....
+            BuildingsTable building = new BuildingsTable()
+            {
+                Kadastr = buildingInfo.Kadastr,
+                Address = buildingInfo.Address,
+                District = buildingInfo.District,
+                Land = buildingInfo.Land,
+                Year = buildingInfo.Year,
+                Material = buildingInfo.Material,
+                Base = buildingInfo.Base,
+                Flow = buildingInfo.Flow,
+                Line = buildingInfo.Line,
+                Square = buildingInfo.Square,
+                Flats = buildingInfo.Flats,
+                Comments = buildingInfo.Comments,
+                Wear = buildingInfo.Wear,
+                Picture = buildingInfo.Picture,
+                Elevator = buildingInfo.Elevator
+            };
+
+            contex.BuildingsTable.Add(building);
+            buildingsViewSourse.View.Refresh();
+            contex.SaveChanges();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
