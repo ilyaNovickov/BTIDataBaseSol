@@ -1,0 +1,35 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BTIDataBaseProj.Helpers"
+        xmlns:BTIDataBaseProj="clr-namespace:BTIDataBaseProj" x:Class="BTIDataBaseProj.Helpers.Window1"
+        mc:Ignorable="d"
+        Title="Window1" Height="450" Width="800" Loaded="Window_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="buildingsTableViewSource" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource buildingsTableViewSource}">
+
+        <DataGrid x:Name="buildingsTableDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="288,162,112,72">
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="addressColumn" Binding="{Binding Address}" Header="Address" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="baseColumn" Binding="{Binding Base}" Header="Base" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="commentsColumn" Binding="{Binding Comments}" Header="Comments" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="districtColumn" Binding="{Binding District}" Header="District" Width="SizeToHeader"/>
+                <DataGridCheckBoxColumn x:Name="elevatorColumn" Binding="{Binding Elevator}" Header="Elevator" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="flatsColumn" Binding="{Binding Flats}" Header="Flats" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="flowColumn" Binding="{Binding Flow}" Header="Flow" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="kadastrColumn" Binding="{Binding Kadastr}" Header="Kadastr" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="landColumn" Binding="{Binding Land}" Header="Land" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="lineColumn" Binding="{Binding Line}" Header="Line" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="materialColumn" Binding="{Binding Material}" Header="Material" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="squareColumn" Binding="{Binding Square}" Header="Square" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="wearColumn" Binding="{Binding Wear}" Header="Wear" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="yearColumn" Binding="{Binding Year}" Header="Year" Width="SizeToHeader"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

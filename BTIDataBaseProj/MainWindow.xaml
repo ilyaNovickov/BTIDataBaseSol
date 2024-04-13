@@ -8,7 +8,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
-        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded">
+        Title="Бюро технической инвентаризации" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <BitmapImage x:Key="imageFailed" UriSource="Assests/nonImage.png"/>
     </Window.Resources>
@@ -35,8 +35,18 @@
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <!--Панель инструментов-->
+                                    <ToolBar Grid.Column="0" Grid.Row="0">
+                                        <Button Content="Добавить" Click="addBuildingButton_Click"/>
+                                        <Button Content="Изменить"/>
+                                        <Button Content="Удалить"/>
+                                    </ToolBar>
                                     <!--О здании-->
-                                    <Grid Grid.Column="0">
+                                    <Grid Grid.Column="0" Grid.Row="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -84,7 +94,7 @@
                                         <CheckBox IsChecked="{Binding Elevator}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150"/>
                                     </Grid>
                                     <!--Доп о здании-->
-                                    <Grid Grid.Column="1" Margin="5,0,0,0">
+                                    <Grid Grid.Column="1" Grid.RowSpan="2" Margin="5,0,0,0">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="1.3*"/>
                                             <RowDefinition Height="*"/>

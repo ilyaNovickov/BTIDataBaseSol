@@ -78,15 +78,34 @@ namespace BTIDataBaseProj
 
         private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (buildingsDataGrid.SelectedItem == null)
-            //{
-            //    aboutBuildingGrid.DataContext = null;
-            //    return;
-            //}
             if (!(buildingsDataGrid.SelectedItem is BuildingsTable))
                 return;
 
             buildingInfo.BuildingsTable = (BuildingsTable)buildingsDataGrid.SelectedItem;
+        }
+
+        private void addBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingInfo.Kadastr == "" || buildingInfo.Kadastr == null)
+            {
+                MessageBox.Show("Не указан кадастр здания");
+                return;
+            }
+            else if ((from b in contex.BuildingsTable.Local where b.Kadastr == buildingInfo.Kadastr select b).Count() != 0)
+            {
+                MessageBox.Show("Здание с таким кадастром уже указано");
+                return;
+            }
+
+            contex.AddBuilding(buildingInfo.Kadastr, buildingInfo.Address, buildingInfo.District, buildingInfo.Land, buildingInfo.Year,
+                buildingInfo.Material, buildingInfo.Base, buildingInfo.Flow, buildingInfo.Line, buildingInfo.Square, buildingInfo.Flats, buildingInfo.Comments,
+                buildingInfo.Wear, buildingInfo.Picture, buildingInfo.Elevator);
+            //update ....
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
