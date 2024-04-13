@@ -126,5 +126,39 @@ namespace BTIDataBaseProj
             buildingsViewSourse.View.Refresh();
             contex.SaveChanges();
         }
+
+        private void updateBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable.Kadastr)
+            {
+                MessageBox.Show("Запис здания не выбрана");
+                return;
+            }
+
+            if (buildingInfo.BuildingsTable.Kadastr != buildingInfo.Kadastr)
+            {
+                MessageBox.Show("Кадастр здания изменить нельзя");
+                return;
+            }
+
+            buildingInfo.BuildingsTable.District = buildingInfo.District;
+            buildingInfo.BuildingsTable.Address = buildingInfo.Address;
+            buildingInfo.BuildingsTable.Wear = buildingInfo.Wear;
+            buildingInfo.BuildingsTable.Picture = buildingInfo.Picture;
+            buildingInfo.BuildingsTable.Year = buildingInfo.Year;
+            buildingInfo.BuildingsTable.Material = buildingInfo.Material;
+            buildingInfo.BuildingsTable.Comments = buildingInfo.Comments;
+            buildingInfo.BuildingsTable.Base = buildingInfo.Base;
+            buildingInfo.BuildingsTable.Elevator = buildingInfo.Elevator;
+            buildingInfo.BuildingsTable.Flats = buildingInfo.Flats;
+            buildingInfo.BuildingsTable.Flow = buildingInfo.Flow;
+            buildingInfo.BuildingsTable.Square = buildingInfo.Square;
+            buildingInfo.BuildingsTable.Line = buildingInfo.Line;
+            buildingInfo.BuildingsTable.Land = buildingInfo.Land;
+            //buildingInfo.BuildingsTable.Kadastr = buildingInfo.Kadastr;
+
+            buildingsViewSourse.View.Refresh();
+            contex.SaveChanges();
+        }
     }
 }
