@@ -15,10 +15,10 @@ namespace BTIDataBaseProj
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class BTIDataBaseEntities : DbContext
+    public partial class BTIDataBaseEntities1 : DbContext
     {
-        public BTIDataBaseEntities()
-            : base("name=BTIDataBaseEntities")
+        public BTIDataBaseEntities1()
+            : base("name=BTIDataBaseEntities1")
         {
         }
     

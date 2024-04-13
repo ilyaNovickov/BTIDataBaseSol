@@ -24,7 +24,7 @@ namespace BTIDataBaseProj
     /// </summary>
     public partial class MainWindow : Window
     {
-        BTIDataBaseEntities contex = new BTIDataBaseEntities();
+        BTIDataBaseEntities1 contex = new BTIDataBaseEntities1();
         CollectionViewSource buildingsViewSourse;
         CollectionViewSource flatsViewSourse;
         BuildingInfo buildingInfo = new BuildingInfo();
