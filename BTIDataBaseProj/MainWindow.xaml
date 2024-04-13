@@ -48,7 +48,7 @@
                                     <ToolBar Grid.Column="0" Grid.Row="0">
                                         <Button Content="Добавить" Click="addBuildingButton_Click"/>
                                         <Button Content="Изменить"/>
-                                        <Button Content="Удалить"/>
+                                        <Button Content="Удалить" Click="removeBuildingButton_Click"/>
                                     </ToolBar>
                                     <!--О здании-->
                                     <Grid Grid.Column="0" Grid.Row="1">

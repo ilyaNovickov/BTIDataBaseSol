@@ -112,5 +112,19 @@ namespace BTIDataBaseProj
         {
 
         }
+
+        private void removeBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable.Kadastr)
+            {
+                MessageBox.Show("Запис здания не выбрана");
+                return;
+            }
+
+            contex.BuildingsTable.Remove(buildingInfo.BuildingsTable);
+            buildingInfo.Clear();
+            buildingsViewSourse.View.Refresh();
+            contex.SaveChanges();
+        }
     }
 }
