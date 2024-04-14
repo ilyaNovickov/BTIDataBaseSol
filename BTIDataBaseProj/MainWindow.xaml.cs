@@ -18,14 +18,31 @@ using Xceed.Wpf.AvalonDock;
 using BTIDataBaseProj.Helpers;
 using System.IO;
 using Microsoft.Win32;
+using System.ComponentModel;
 
 namespace BTIDataBaseProj
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private float minScale = 0.02f;
+        private float maxScale = 10.0f;
+        private float scale = 1f;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public float Scale
+        {
+            get => scale;
+            private set
+            {
+                scale = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Scale)));
+            }
+        }
+
         BTIDataBaseEntities1 contex = new BTIDataBaseEntities1();
         CollectionViewSource buildingsViewSourse;
         CollectionViewSource flatsViewSourse;
@@ -180,6 +197,14 @@ namespace BTIDataBaseProj
                 buildingInfo.Picture = memoryStream.ToArray();
                 memoryStream.Close();
             }
+        }
+        private double a => (minScale * maxScale - Math.Pow(1d, 2d)) / (minScale - 2d * 1d + maxScale);
+        private double b => Math.Pow((1d - minScale), 2d) / (minScale - 2d * 1d + maxScale);
+        private double c => 2d * Math.Log((maxScale - 1d) / (1d - minScale));
+
+        private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Scale = (float)(a + b * Math.Exp(c * slider.Value));
         }
     }
 }

@@ -9,6 +9,7 @@
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         xmlns:BTIDataBaseProj="clr-namespace:BTIDataBaseProj"
+        x:Name="mainWin"
         Title="Бюро технической инвентаризации" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="buildingViewSourse" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
@@ -102,15 +103,12 @@
                                     <!--Доп о здании-->
                                     <Grid Grid.Column="1" Grid.RowSpan="2" Margin="5,0,0,0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition />
                                         </Grid.RowDefinitions>
-                                        <Border Grid.Row="0" BorderThickness="2" BorderBrush="GreenYellow" Margin="5,5,5,5">
-                                            <ScrollViewer Margin="5,5,5,5" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                                                <Image Grid.Row="0" Stretch="None" Source="{Binding Picture, UpdateSourceTrigger=PropertyChanged, TargetNullValue={StaticResource imageFailed}}"/>
-                                            </ScrollViewer>
-                                        </Border>
-                                        <TextBox Grid.Row="1" Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                                        <Label Content="Комментарии"/>
+                                        <TextBox Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                                 MinWidth="250" MaxWidth="250" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                                     </Grid>
                                 </Grid>
                             </ScrollViewer>
@@ -191,11 +189,30 @@
 
                     <xcad:LayoutAnchorablePane>
                         <xcad:LayoutAnchorable ContentId="alarms" Title="Alarms"  >
-                            <ListBox>
-                                <s:String>Alarm 1</s:String>
-                                <s:String>Alarm 2</s:String>
-                                <s:String>Alarm 3</s:String>
-                            </ListBox>
+                            <DockPanel>
+                                <StatusBar DockPanel.Dock="Bottom">
+                                    <Slider x:Name="slider" 
+                                        Minimum="0" 
+                                        Maximum="1" 
+                                        MinWidth="100" 
+                                        Value="0.5" 
+                                        ValueChanged="slider_ValueChanged"
+                                        TickPlacement="BottomRight"
+                                        IsSelectionRangeEnabled="True"
+                                        SelectionStart="0"
+                                        SelectionEnd="1"/>
+                                </StatusBar>
+                                <Border Grid.Row="1" BorderThickness="2" BorderBrush="GreenYellow" Margin="5,5,5,5">
+                                    <ScrollViewer Margin="5,5,5,5" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                                        <Image Stretch="None" DataContext="{Binding ElementName=mainWin, Path=BuildingInfo}"
+                                               Source="{Binding Picture, UpdateSourceTrigger=PropertyChanged, TargetNullValue={StaticResource imageFailed}}">
+                                            <Image.LayoutTransform>
+                                                <ScaleTransform ScaleX="{Binding ElementName=mainWin, Path=Scale}" ScaleY="{Binding ElementName=mainWin, Path=Scale}"/>
+                                            </Image.LayoutTransform>
+                                        </Image>
+                                    </ScrollViewer>
+                                </Border>
+                            </DockPanel>
                         </xcad:LayoutAnchorable>
                         <xcad:LayoutAnchorable ContentId="journal" Title="Journal" CanClose="False" CanHide="False" >
                             <RichTextBox>
