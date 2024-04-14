@@ -48,6 +48,7 @@
                                     <ToolBar Grid.Column="0" Grid.Row="0">
                                         <Button Content="Добавить" Click="addBuildingButton_Click"/>
                                         <Button Content="Изменить" Click="updateBuildingButton_Click"/>
+                                        <Button Content="Загрузить фото" Click="loadImageButton_Click"/>
                                         <Button Content="Удалить" Click="removeBuildingButton_Click"/>
                                     </ToolBar>
                                     <!--О здании-->
@@ -72,42 +73,44 @@
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <Label Content="Кадастр" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
-                                        <TextBox Text="{Binding Kadastr}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Kadastr, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Адресс" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
-                                        <TextBox Text="{Binding Address}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Район города" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
-                                        <TextBox Text="{Binding District}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding District, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Площадь земельного участка" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
-                                        <xctk:IntegerUpDown Value="{Binding Land}" Minimum="0" Grid.Column="1" Grid.Row="3" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Land, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="3" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Год постройки" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
-                                        <xctk:IntegerUpDown Value="{Binding Year}" Minimum="0" Grid.Column="1" Grid.Row="4" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Year, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="4" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Материал стен" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
-                                        <TextBox Text="{Binding Material}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Material, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Фундамент" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
-                                        <TextBox Text="{Binding Base}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <TextBox Text="{Binding Base, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Износ, %" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
-                                        <xctk:IntegerUpDown Value="{Binding Wear}" Minimum="0" Grid.Column="1" Grid.Row="7" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Wear, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="7" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Ко-во этажей" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
-                                        <xctk:IntegerUpDown Value="{Binding Flow}" Minimum="0" Grid.Column="1" Grid.Row="8" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Flow, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="8" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Расстояние от центра" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
-                                        <xctk:IntegerUpDown Value="{Binding Line}" Minimum="0" Grid.Column="1" Grid.Row="9" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Line, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="9" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Площадь квартир" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
-                                        <xctk:IntegerUpDown Value="{Binding Square}" Minimum="0" Grid.Column="1" Grid.Row="10" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Square, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="10" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Кол-во квартир" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="11"/>
-                                        <xctk:IntegerUpDown Value="{Binding Flats}" Minimum="0" Grid.Column="1" Grid.Row="11" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <xctk:IntegerUpDown Value="{Binding Flats, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="11" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                         <Label Content="Наличие лифта" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="12"/>
-                                        <CheckBox IsChecked="{Binding Elevator}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <CheckBox IsChecked="{Binding Elevator, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                     </Grid>
                                     <!--Доп о здании-->
                                     <Grid Grid.Column="1" Grid.RowSpan="2" Margin="5,0,0,0">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="1.3*"/>
-                                            <RowDefinition Height="*"/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
                                         </Grid.RowDefinitions>
                                         <Border Grid.Row="0" BorderThickness="2" BorderBrush="GreenYellow" Margin="5,5,5,5">
-                                            <Image Margin="5,5,5,5" Stretch="None" Source="{Binding Picture, TargetNullValue={StaticResource imageFailed}}"/>
+                                            <ScrollViewer Margin="5,5,5,5" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                                <Image Grid.Row="0" Stretch="None" Source="{Binding Picture, UpdateSourceTrigger=PropertyChanged, TargetNullValue={StaticResource imageFailed}}"/>
+                                            </ScrollViewer>
                                         </Border>
-                                        <TextBox Grid.Row="1" Text="{Binding Comments}" MinWidth="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                                        <TextBox Grid.Row="1" Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" MinWidth="100" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                                     </Grid>
                                 </Grid>
                             </ScrollViewer>

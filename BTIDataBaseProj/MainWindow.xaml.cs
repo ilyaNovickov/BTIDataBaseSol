@@ -16,6 +16,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Xceed.Wpf.AvalonDock;
 using BTIDataBaseProj.Helpers;
+using System.IO;
+using Microsoft.Win32;
 
 namespace BTIDataBaseProj
 {
@@ -159,6 +161,25 @@ namespace BTIDataBaseProj
 
             buildingsViewSourse.View.Refresh();
             contex.SaveChanges();
+        }
+
+        private void loadImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+
+            ofd.Filter = "Изображения (*.png, *.jpeg, *.jpg, *.bmp)|*.png;*.jpeg;*.jpg;*.bmp";
+
+            bool? res = ofd.ShowDialog();
+
+            if (res.HasValue && res.Value)
+            {
+                FileStream stream = new FileStream(ofd.FileName, FileMode.Open, FileAccess.Read);
+                MemoryStream memoryStream = new MemoryStream();
+                stream.CopyTo(memoryStream);
+                stream.Close();
+                buildingInfo.Picture = memoryStream.ToArray();
+                memoryStream.Close();
+            }
         }
     }
 }
