@@ -14,56 +14,50 @@
         <CollectionViewSource x:Key="buildingsTableViewSource2" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
         <CollectionViewSource x:Key="buildingsTableFlatsTableViewSource1" Source="{Binding FlatsTable, Source={StaticResource buildingsTableViewSource2}}"/>
         <CollectionViewSource x:Key="buildingsTableFlatsTableRoomsTableViewSource" Source="{Binding RoomsTable, Source={StaticResource buildingsTableFlatsTableViewSource1}}"/>
+        <CollectionViewSource x:Key="buildingsTableViewSource3" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
+        <CollectionViewSource x:Key="buildingsTableFlatsTableViewSource2" Source="{Binding FlatsTable, Source={StaticResource buildingsTableViewSource3}}"/>
     </Window.Resources>
     <Grid DataContext="{StaticResource buildingsTableViewSource}">
-
-        <DataGrid x:Name="buildingsTableDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="288,162,112,72">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="addressColumn" Binding="{Binding Address}" Header="Address" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="baseColumn" Binding="{Binding Base}" Header="Base" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="commentsColumn" Binding="{Binding Comments}" Header="Comments" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="districtColumn" Binding="{Binding District}" Header="District" Width="SizeToHeader"/>
-                <DataGridCheckBoxColumn x:Name="elevatorColumn" Binding="{Binding Elevator}" Header="Elevator" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="flatsColumn" Binding="{Binding Flats}" Header="Flats" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="flowColumn" Binding="{Binding Flow}" Header="Flow" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="kadastrColumn" Binding="{Binding Kadastr}" Header="Kadastr" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="landColumn" Binding="{Binding Land}" Header="Land" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="lineColumn" Binding="{Binding Line}" Header="Line" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="materialColumn" Binding="{Binding Material}" Header="Material" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="squareColumn" Binding="{Binding Square}" Header="Square" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="wearColumn" Binding="{Binding Wear}" Header="Wear" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="yearColumn" Binding="{Binding Year}" Header="Year" Width="SizeToHeader"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid x:Name="flatsTableDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource buildingsTableFlatsTableViewSource}}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="139,121,261,113">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="balconyColumn" Binding="{Binding Balcony}" Header="Balcony" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="branchColumn" Binding="{Binding Branch}" Header="Branch" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="buildingKadastrColumn" Binding="{Binding BuildingKadastr}" Header="Building Kadastr" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="dwellColumn" Binding="{Binding Dwell}" Header="Dwell" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="flatColumn" Binding="{Binding Flat}" Header="Flat" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="flatIdColumn" Binding="{Binding FlatId}" Header="Flat Id" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="heightColumn" Binding="{Binding Height}" Header="Height" Width="SizeToHeader"/>
-                <DataGridCheckBoxColumn x:Name="levelColumn" Binding="{Binding Level}" Header="Level" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="roomsColumn" Binding="{Binding Rooms}" Header="Rooms" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="squareFlatColumn" Binding="{Binding SquareFlat}" Header="Square Flat" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="storeyColumn" Binding="{Binding Storey}" Header="Storey" Width="SizeToHeader"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid x:Name="roomsTableDataGrid" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding Source={StaticResource buildingsTableFlatsTableRoomsTableViewSource}}" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="106,374,294,-140">
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="decoretionColumn" Binding="{Binding Decoretion}" Header="Decoretion" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="flatColumn1" Binding="{Binding Flat}" Header="Flat" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="heightRoomColumn" Binding="{Binding HeightRoom}" Header="Height Room" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="nameColumn" Binding="{Binding Name}" Header="Name" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="recordColumn" Binding="{Binding Record}" Header="Record" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="roomIdColumn" Binding="{Binding RoomId}" Header="Room Id" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="sectionColumn" Binding="{Binding Section}" Header="Section" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="sizeColumn" Binding="{Binding Size}" Header="Size" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="socketColumn" Binding="{Binding Socket}" Header="Socket" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="squareRoomColumn" Binding="{Binding SquareRoom}" Header="Square Room" Width="SizeToHeader"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
+        <Grid x:Name="grid1" DataContext="{StaticResource buildingsTableFlatsTableViewSource2}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="286,141,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Column="0" Content="Balcony:" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <TextBox x:Name="balconyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="0" Text="{Binding Balcony, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Branch:" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <TextBox x:Name="branchTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="1" Text="{Binding Branch, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Building Kadastr:" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <TextBox x:Name="buildingKadastrTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="2" Text="{Binding BuildingKadastr, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Dwell:" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <TextBox x:Name="dwellTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="3" Text="{Binding Dwell, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Flat:" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <TextBox x:Name="flatTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="4" Text="{Binding Flat, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Flat Id:" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <TextBox x:Name="flatIdTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="5" Text="{Binding FlatId, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Height:" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <TextBox x:Name="heightTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="6" Text="{Binding Height, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Level:" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <CheckBox x:Name="levelCheckBox" Grid.Column="1" Content="" HorizontalAlignment="Left" IsChecked="{Binding Level, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <Label Grid.Column="0" Content="Rooms:" HorizontalAlignment="Left" Margin="3" Grid.Row="8" VerticalAlignment="Center"/>
+            <TextBox x:Name="roomsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="8" Text="{Binding Rooms, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Square Flat:" HorizontalAlignment="Left" Margin="3" Grid.Row="9" VerticalAlignment="Center"/>
+            <TextBox x:Name="squareFlatTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="9" Text="{Binding SquareFlat, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Grid.Column="0" Content="Storey:" HorizontalAlignment="Left" Margin="3" Grid.Row="10" VerticalAlignment="Center"/>
+            <TextBox x:Name="storeyTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="NaN" Margin="3" Grid.Row="10" Text="{Binding Storey, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+        </Grid>
     </Grid>
 </Window>

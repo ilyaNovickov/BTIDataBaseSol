@@ -47,6 +47,7 @@ namespace BTIDataBaseProj
         CollectionViewSource buildingsViewSourse;
         CollectionViewSource flatsViewSourse;
         BuildingInfo buildingInfo = new BuildingInfo();
+        FlatInfo flatInfo = new FlatInfo();
 
         public MainWindow()
         {
@@ -70,6 +71,7 @@ namespace BTIDataBaseProj
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             aboutBuildingGrid.DataContext = buildingInfo;
+            aboutFlatGrid.DataContext = flatInfo;
 
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
@@ -90,6 +92,15 @@ namespace BTIDataBaseProj
             buildingInfo.BuildingsTable = (BuildingsTable)buildingsDataGrid.SelectedItem;
         }
 
+        private void flatsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(flatsDataGrid.SelectedItem is FlatsTable))
+                return;
+
+            flatInfo.FlatsTable = (FlatsTable)flatsDataGrid.SelectedItem;
+        }
+
+        #region forBuilding
         private void addBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.Kadastr == "" || buildingInfo.Kadastr == null)
@@ -125,11 +136,6 @@ namespace BTIDataBaseProj
             contex.BuildingsTable.Add(building);
             buildingsViewSourse.View.Refresh();
             contex.SaveChanges();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void removeBuildingButton_Click(object sender, RoutedEventArgs e)
@@ -198,6 +204,9 @@ namespace BTIDataBaseProj
                 memoryStream.Close();
             }
         }
+        
+
+        #region forImage
         private double a => (minScale * maxScale - Math.Pow(1d, 2d)) / (minScale - 2d * 1d + maxScale);
         private double b => Math.Pow((1d - minScale), 2d) / (minScale - 2d * 1d + maxScale);
         private double c => 2d * Math.Log((maxScale - 1d) / (1d - minScale));
@@ -205,6 +214,73 @@ namespace BTIDataBaseProj
         private void slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Scale = (float)(a + b * Math.Exp(c * slider.Value));
+        }
+        #endregion
+
+        #endregion
+
+        private void addFlatButtin_Click(object sender, RoutedEventArgs e)
+        {
+            if (flatInfo.FlatId != -1 && flatInfo.FlatsTable != null)
+            {
+                MessageBoxResult res = MessageBox.Show("Информация о квартире ссылается на существующею квартиру\nДобавить новую квартиру?", "Внимание", MessageBoxButton.YesNo);
+
+                if (res != MessageBoxResult.Yes)
+                    return;
+            }
+
+            #region checkKadastr
+            {
+                IEnumerable<string> kadastrs = from building in contex.BuildingsTable
+                                               select building.Kadastr;
+
+                if (!kadastrs.Contains(flatInfo.BuildingKadastr))
+                {
+                    MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзменити кадастр здания для квартиры");
+                    return;
+                }
+            }
+            #endregion
+
+            FlatsTable flatsTable = new FlatsTable()
+            {
+                BuildingKadastr = flatInfo.BuildingKadastr,
+                Flat = flatInfo.Flat,
+                Storey = flatInfo.Storey,
+                Level = flatInfo.Level,
+                Dwell = flatInfo.Dwell,
+                Balcony = flatInfo.Balcony,
+                Height = flatInfo.Height,
+                Branch = flatInfo.Branch,
+                Rooms = flatInfo.Rooms,
+                SquareFlat = flatInfo.SquareFlat,
+            };
+
+            contex.FlatsTable.Add(flatsTable);
+            buildingsViewSourse.View.Refresh();
+            contex.SaveChanges();
+        }
+
+        private void removeFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (flatInfo.FlatsTable == null)// && flatInfo.FlatId != buildingInfo.BuildingsTable.Kadastr)
+            {
+                MessageBox.Show("Запис квартиры не выбрана");
+                return;
+            }
+
+            contex.FlatsTable.Remove(flatInfo.FlatsTable);
+            flatInfo.Clear();
+            buildingsViewSourse.View.Refresh();
+            contex.SaveChanges();
+        }
+
+        private void TextBox_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+
+            }
         }
     }
 }

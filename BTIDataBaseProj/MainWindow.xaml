@@ -28,8 +28,8 @@
         <xcad:DockingManager x:Name="dockingManager">
             <xcad:LayoutRoot x:Name="layoutRoot">
                 <xcad:LayoutPanel>
-                    <!--Инфо про здания-->
                     <xcad:LayoutAnchorablePane>
+                        <!--Инфо про здания-->
                         <xcad:LayoutAnchorable x:Name="buildingInfoPanel" 
                                                ContentId="buldingInfo" 
                                                Title="О здании" 
@@ -113,9 +113,77 @@
                                 </Grid>
                             </ScrollViewer>
                         </xcad:LayoutAnchorable>
+                        <!--Инфо про квартиры-->
+                        <xcad:LayoutAnchorable x:Name="flatInfoPanel"
+                                               ContentId="flatInfo"
+                                               Title="О квартире"
+                                               CanHide="True"
+                                               CanClose="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <Grid x:Name="aboutFlatGrid" MinHeight="500" MinWidth="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--Панель инструментов-->
+                                    <ToolBar Grid.Column="0" Grid.Row="0">
+                                        <Button Content="Добавить" Click="addFlatButtin_Click"/>
+                                        <Button Content="Изменить" Click="removeFlatButton_Click"/>
+                                        <Button Content="Удалить" Click="removeBuildingButton_Click"/>
+                                    </ToolBar>
+
+                                    <Grid Grid.Column="0" Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Id квартиры" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBox Text="{Binding FlatId, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кадастр здания" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <TextBox Text="{Binding BuildingKadastr, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Номер квартиры" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding Flat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Этаж" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                        <TextBox Text="{Binding Storey, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True, ValidationRules=}" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="TextBox_Error"/>
+                                        <Label Content="Кол-во комант" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <TextBox Text="{Binding Rooms, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Общая площадь" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
+                                        <TextBox Text="{Binding SquareFlat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Жилая площадь" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <TextBox Text="{Binding Dwell, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Площадь балкона" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <TextBox Text="{Binding Balcony, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Вспомогательная площадь" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <TextBox Text="{Binding Branch, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="8" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Высота потолков" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="9" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Двух уровневая" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
+                                        <TextBox Text="{Binding Level, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="10" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </Grid>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
-                    <!--здания-->
+                    <!--Таблицы-->
                     <xcad:LayoutDocumentPane>
+                        <!--здания-->
                         <xcad:LayoutDocument ContentId="buildings" Title="Здания" CanClose="False">
                             <DataGrid DataContext="{StaticResource buildingViewSourse}"
                                       ItemsSource="{Binding}"
@@ -147,7 +215,8 @@
                                       x:Name="flatsDataGrid" 
                                       IsReadOnly="False" 
                                       HorizontalScrollBarVisibility="Visible" 
-                                      AutoGenerateColumns="False" >        
+                                      AutoGenerateColumns="False" 
+                                      SelectionChanged="flatsDataGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Binding="{Binding FlatId}" Header="Id квартиры" Width="auto"/>
                                     <DataGridTextColumn Binding="{Binding BuildingKadastr}" Header="Кадастр здания" Width="auto"/>
@@ -233,32 +302,4 @@
             </xcad:LayoutRoot>
         </xcad:DockingManager>
     </DockPanel>
-    <!--<xcad:DockingManager Grid.Row="1" MaxHeight="425"
-                           AllowMixedOrientation="True"
-                           BorderBrush="Black"
-                           BorderThickness="1"
-                           Theme="{Binding ElementName=_themeCombo, Path=SelectedItem.Tag}">
-            <xcad:LayoutRoot x:Name="_layoutRoot">
-                <xcad:LayoutPanel Orientation="Horizontal">
-                    
-                    <xcad:LayoutAnchorablePaneGroup DockWidth="125">
-                       
-                    </xcad:LayoutAnchorablePaneGroup>
-                </xcad:LayoutPanel>
-
-                <xcad:LayoutRoot.LeftSide>
-                    <xcad:LayoutAnchorSide>
-                        <xcad:LayoutAnchorGroup>
-                            <xcad:LayoutAnchorable Title="Agenda" ContentId="agenda" >
-                                <TextBlock Text="Agenda Content" Margin="10" FontSize="18" FontWeight="Black" TextWrapping="Wrap"/>
-                            </xcad:LayoutAnchorable>
-                            <xcad:LayoutAnchorable Title="Contacts" ContentId="contacts"  >
-                                <TextBlock Text="Contacts Content" Margin="10" FontSize="18" FontWeight="Black" TextWrapping="Wrap"/>
-                            </xcad:LayoutAnchorable>
-                        </xcad:LayoutAnchorGroup>
-                    </xcad:LayoutAnchorSide>
-                </xcad:LayoutRoot.LeftSide>
-            </xcad:LayoutRoot>
-        </xcad:DockingManager>
-    </Grid>-->
 </Window>
