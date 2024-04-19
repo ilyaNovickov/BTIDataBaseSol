@@ -60,7 +60,6 @@
                                 <Grid x:Name="aboutBuildingGrid" MinHeight="500" MinWidth="200">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
-                                        <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
@@ -121,16 +120,6 @@
                                         <Label Content="Наличие лифта" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="12"/>
                                         <CheckBox IsChecked="{Binding Elevator, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
                                     </Grid>
-                                    <!--Доп о здании-->
-                                    <Grid Grid.Column="1" Grid.RowSpan="2" Margin="5,0,0,0">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="auto"/>
-                                            <RowDefinition />
-                                        </Grid.RowDefinitions>
-                                        <Label Content="Комментарии"/>
-                                        <TextBox Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
-                                                 MinWidth="250" MaxWidth="250" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
-                                    </Grid>
                                 </Grid>
                             </ScrollViewer>
                         </xcad:LayoutAnchorable>
@@ -149,14 +138,12 @@
                                         <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-
                                     <!--Панель инструментов-->
                                     <ToolBar Grid.Column="0" Grid.Row="0">
                                         <Button x:Name="addFlatButton" Content="Добавить" Click="addFlatButtin_Click"/>
                                         <Button x:Name="updateFlatButton" Content="Изменить" Click="updateFlatButton_Click"/>
                                         <Button x:Name="removeFlatButton" Content="Удалить" Click="removeFlatButton_Click"/>
                                     </ToolBar>
-
                                     <Grid Grid.Column="0" Grid.Row="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
@@ -275,10 +262,9 @@
                             </DataGrid>
                         </xcad:LayoutDocument>
                     </xcad:LayoutDocumentPane>
-
-
+                    <!--Доп информация о здании-->
                     <xcad:LayoutAnchorablePane>
-                        <xcad:LayoutAnchorable ContentId="alarms" Title="Alarms"  >
+                        <xcad:LayoutAnchorable ContentId="buildingPicture" Title="Изображение здания" CanHide="True" CanClose="False">
                             <DockPanel>
                                 <StatusBar DockPanel.Dock="Bottom">
                                     <Slider x:Name="slider" 
@@ -292,7 +278,7 @@
                                         SelectionStart="0"
                                         SelectionEnd="1"/>
                                 </StatusBar>
-                                <Border Grid.Row="1" BorderThickness="2" BorderBrush="GreenYellow" Margin="5,5,5,5">
+                                <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gray" Margin="5,5,5,5">
                                     <ScrollViewer Margin="5,5,5,5" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
                                         <Image Stretch="None" DataContext="{Binding ElementName=mainWin, Path=BuildingInfo}"
                                                Source="{Binding Picture, UpdateSourceTrigger=PropertyChanged, TargetNullValue={StaticResource imageFailed}}">
@@ -304,21 +290,11 @@
                                 </Border>
                             </DockPanel>
                         </xcad:LayoutAnchorable>
-                        <xcad:LayoutAnchorable ContentId="journal" Title="Journal" CanClose="False" CanHide="False" >
-                            <RichTextBox>
-                                <FlowDocument>
-                                    <Paragraph FontSize="14" FontFamily="Segoe">
-                                        This is the content of the Journal Pane.
-                                        <LineBreak/>
-                                        A
-                                        <Bold>RichTextBox</Bold> has been added here
-                                    </Paragraph>
-                                </FlowDocument>
-                            </RichTextBox>
+                        <xcad:LayoutAnchorable ContentId="buildingComments" Title="Комментарии к зданию" CanClose="False" CanHide="True" >
+                            <TextBox Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
-
-
                 </xcad:LayoutPanel>
             </xcad:LayoutRoot>
         </xcad:DockingManager>
