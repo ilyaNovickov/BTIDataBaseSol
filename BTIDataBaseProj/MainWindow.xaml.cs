@@ -19,6 +19,7 @@ using BTIDataBaseProj.Helpers;
 using System.IO;
 using Microsoft.Win32;
 using System.ComponentModel;
+using System.Runtime.Remoting.Contexts;
 
 namespace BTIDataBaseProj
 {
@@ -156,7 +157,7 @@ namespace BTIDataBaseProj
         {
             if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable.Kadastr)
             {
-                MessageBox.Show("Запис здания не выбрана");
+                MessageBox.Show("Запись здания не выбрана");
                 return;
             }
 
@@ -255,9 +256,9 @@ namespace BTIDataBaseProj
                 Rooms = flatInfo.Rooms,
                 SquareFlat = flatInfo.SquareFlat,
             };
-
+            
             contex.FlatsTable.Add(flatsTable);
-            buildingsViewSourse.View.Refresh();
+            flatsViewSourse.View.Refresh();
             contex.SaveChanges();
         }
 
@@ -271,7 +272,7 @@ namespace BTIDataBaseProj
 
             contex.FlatsTable.Remove(flatInfo.FlatsTable);
             flatInfo.Clear();
-            buildingsViewSourse.View.Refresh();
+            flatsViewSourse.View.Refresh();
             contex.SaveChanges();
         }
 
@@ -279,9 +280,43 @@ namespace BTIDataBaseProj
 
         private void updateFlatButton_Click(object sender, RoutedEventArgs e)
         {
+            if (flatInfo.FlatsTable == null)
+            {
+                MessageBox.Show("Квартира для изменения не выбрана");
+                return;
+            }
+            #region checkKadastr
+            {
+                IEnumerable<string> kadastrs = from building in contex.BuildingsTable
+                                               select building.Kadastr;
+
+                if (!kadastrs.Contains(flatInfo.BuildingKadastr))
+                {
+                    MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзменити кадастр здания для квартиры");
+                    return;
+                }
+            }
+            #endregion
+
+            flatInfo.FlatsTable.Dwell = flatInfo.Dwell;
+            flatInfo.FlatsTable.Rooms = flatInfo.Rooms;
+            flatInfo.FlatsTable.Branch = flatInfo.Branch;
+            flatInfo.FlatsTable.Balcony = flatInfo.Balcony;
+            flatInfo.FlatsTable.Flat = flatInfo.Flat;
+            flatInfo.FlatsTable.Height = flatInfo.Height;
+            flatInfo.FlatsTable.Level = flatInfo.Level;
+            flatInfo.FlatsTable.Storey = flatInfo.Storey;
+            flatInfo.FlatsTable.SquareFlat = flatInfo.SquareFlat;
+            //flatInfo.FlatsTable.BuildingKadastr = flatInfo.BuildingKadastr;
+
+            contex.SaveChanges();
+            buildingsViewSourse.View.Refresh();
+            flatsViewSourse.View.Refresh();
+
 
         }
 
+        #region forError
         private int flatErrorsCount = 0;
         private void AboutFlatTextBox_Error(object sender, ValidationErrorEventArgs e)
         {
@@ -303,6 +338,7 @@ namespace BTIDataBaseProj
                 }
             }
         }
-#endregion
+        #endregion
+        #endregion
     }
 }
