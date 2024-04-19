@@ -9,12 +9,33 @@
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:s="clr-namespace:System;assembly=mscorlib"
         xmlns:BTIDataBaseProj="clr-namespace:BTIDataBaseProj"
+        xmlns:h="clr-namespace:BTIDataBaseProj.Helpers"
         x:Name="mainWin"
         Title="Бюро технической инвентаризации" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="buildingViewSourse" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
         <CollectionViewSource x:Key="flatsViewSourse" Source="{Binding FlatsTable, Source={StaticResource buildingViewSourse}}"/>
         <CollectionViewSource x:Key="roomsViewSourse" Source="{Binding RoomsTable, Source={StaticResource flatsViewSourse}}"/>
+
+        <Style x:Key="errorToolTip" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self},
+                                    Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Violet" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" FontSize="26" FontWeight="Bold" VerticalAlignment="Center">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
 
         <BitmapImage x:Key="imageFailed" UriSource="Assests/nonImage.png"/>
     </Window.Resources>
@@ -131,9 +152,9 @@
 
                                     <!--Панель инструментов-->
                                     <ToolBar Grid.Column="0" Grid.Row="0">
-                                        <Button Content="Добавить" Click="addFlatButtin_Click"/>
-                                        <Button Content="Изменить" Click="removeFlatButton_Click"/>
-                                        <Button Content="Удалить" Click="removeBuildingButton_Click"/>
+                                        <Button x:Name="addFlatButton" Content="Добавить" Click="addFlatButtin_Click"/>
+                                        <Button x:Name="updateFlatButton" Content="Изменить" Click="removeFlatButton_Click"/>
+                                        <Button x:Name="removeFlatButton" Content="Удалить" Click="removeBuildingButton_Click"/>
                                     </ToolBar>
 
                                     <Grid Grid.Column="0" Grid.Row="1">
@@ -154,28 +175,28 @@
                                             <RowDefinition/>
                                             <RowDefinition/>
                                         </Grid.RowDefinitions>
-                                        <Label Content="Id квартиры" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
-                                        <TextBox Text="{Binding FlatId, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Кадастр здания" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <Label Content="Id квартиры:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBlock Text="{Binding FlatId, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кадастр здания:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
                                         <TextBox Text="{Binding BuildingKadastr, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Номер квартиры" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
-                                        <TextBox Text="{Binding Flat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Этаж" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
-                                        <TextBox Text="{Binding Storey, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True, ValidationRules=}" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="TextBox_Error"/>
-                                        <Label Content="Кол-во комант" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
-                                        <TextBox Text="{Binding Rooms, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Общая площадь" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
-                                        <TextBox Text="{Binding SquareFlat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Жилая площадь" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
-                                        <TextBox Text="{Binding Dwell, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Площадь балкона" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
-                                        <TextBox Text="{Binding Balcony, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Вспомогательная площадь" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
-                                        <TextBox Text="{Binding Branch, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="8" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Высота потолков" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
-                                        <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="9" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
-                                        <Label Content="Двух уровневая" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
-                                        <TextBox Text="{Binding Level, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="10" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Номер квартиры:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding Flat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Этаж:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                        <TextBox Text="{Binding Storey, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Кол-во комант:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <TextBox Text="{Binding Rooms, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Общая площадь:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
+                                        <TextBox Text="{Binding SquareFlat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Жилая площадь:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <TextBox Text="{Binding Dwell, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Площадь балкона:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <TextBox Text="{Binding Balcony, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Вспомогательная площадь:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <TextBox Text="{Binding Branch, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="8" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Высота потолков:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="9" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Двух уровневая:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
+                                        <CheckBox IsChecked="{Binding Level, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="10" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
                                     </Grid>
                                 </Grid>
                             </ScrollViewer>

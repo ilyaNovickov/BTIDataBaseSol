@@ -275,11 +275,25 @@ namespace BTIDataBaseProj
             contex.SaveChanges();
         }
 
-        private void TextBox_Error(object sender, ValidationErrorEventArgs e)
+        private int flatErrorsCount = 0;
+        private void AboutFlatTextBox_Error(object sender, ValidationErrorEventArgs e)
         {
             if (e.Action == ValidationErrorEventAction.Added)
             {
-
+                addFlatButton.IsEnabled = false;
+                removeFlatButton.IsEnabled = false;
+                updateFlatButton.IsEnabled = false;
+                flatErrorsCount++;
+            }
+            else if (e.Action == ValidationErrorEventAction.Removed)
+            {
+                flatErrorsCount--;
+                if (flatErrorsCount == 0)
+                {
+                    addFlatButton.IsEnabled = true;
+                    removeFlatButton.IsEnabled = true;
+                    updateFlatButton.IsEnabled = true;
+                }
             }
         }
     }

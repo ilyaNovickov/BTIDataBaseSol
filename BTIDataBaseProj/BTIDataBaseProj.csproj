@@ -95,6 +95,7 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BuildingInfo.cs" />
+    <Compile Include="Helpers\TextParsingRule.cs" />
     <Compile Include="Helpers\FlatInfo.cs" />
     <Compile Include="Helpers\UserControl1.xaml.cs">
       <DependentUpon>UserControl1.xaml</DependentUpon>
