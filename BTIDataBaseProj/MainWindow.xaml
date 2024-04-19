@@ -153,8 +153,8 @@
                                     <!--Панель инструментов-->
                                     <ToolBar Grid.Column="0" Grid.Row="0">
                                         <Button x:Name="addFlatButton" Content="Добавить" Click="addFlatButtin_Click"/>
-                                        <Button x:Name="updateFlatButton" Content="Изменить" Click="removeFlatButton_Click"/>
-                                        <Button x:Name="removeFlatButton" Content="Удалить" Click="removeBuildingButton_Click"/>
+                                        <Button x:Name="updateFlatButton" Content="Изменить" Click="updateFlatButton_Click"/>
+                                        <Button x:Name="removeFlatButton" Content="Удалить" Click="removeFlatButton_Click"/>
                                     </ToolBar>
 
                                     <Grid Grid.Column="0" Grid.Row="1">

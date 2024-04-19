@@ -218,7 +218,7 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
-
+        #region aboutFlats
         private void addFlatButtin_Click(object sender, RoutedEventArgs e)
         {
             if (flatInfo.FlatId != -1 && flatInfo.FlatsTable != null)
@@ -241,7 +241,7 @@ namespace BTIDataBaseProj
                 }
             }
             #endregion
-
+            
             FlatsTable flatsTable = new FlatsTable()
             {
                 BuildingKadastr = flatInfo.BuildingKadastr,
@@ -275,6 +275,13 @@ namespace BTIDataBaseProj
             contex.SaveChanges();
         }
 
+        
+
+        private void updateFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private int flatErrorsCount = 0;
         private void AboutFlatTextBox_Error(object sender, ValidationErrorEventArgs e)
         {
@@ -296,5 +303,6 @@ namespace BTIDataBaseProj
                 }
             }
         }
+#endregion
     }
 }
