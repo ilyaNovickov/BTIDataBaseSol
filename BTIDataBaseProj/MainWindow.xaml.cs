@@ -74,7 +74,7 @@ namespace BTIDataBaseProj
             aboutBuildingGrid.DataContext = buildingInfo;
             aboutFlatGrid.DataContext = flatInfo;
             aboutRoomGrid.DataContext = roomInfo;
-
+            
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
         }
@@ -86,6 +86,7 @@ namespace BTIDataBaseProj
             //zxc.IsVisible = !zxc.IsVisible;
         }
 
+        #region dataGrids Selection Changed
         private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(buildingsDataGrid.SelectedItem is BuildingsTable))
@@ -118,13 +119,8 @@ namespace BTIDataBaseProj
 
             roomInfo.RoomsTable = (RoomsTable)roomsDataGrid.SelectedItem;
         }
-
+        #endregion
         #region forBuilding
-        public BuildingInfo BuildingInfo
-        {
-            get => buildingInfo;
-        }
-
         private void addBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.Kadastr == "" || buildingInfo.Kadastr == null)
@@ -363,7 +359,6 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
-
         #region aboutRooms
         private void updateRoomButton_Click(object sender, RoutedEventArgs e)
         {
