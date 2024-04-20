@@ -52,6 +52,7 @@ namespace BTIDataBaseProj
         CollectionViewSource roomsViewSourse;
         BuildingInfo buildingInfo = new BuildingInfo();
         FlatInfo flatInfo = new FlatInfo();
+        RoomInfo roomInfo = new RoomInfo();
 
         public MainWindow()
         {
@@ -72,6 +73,7 @@ namespace BTIDataBaseProj
         {
             aboutBuildingGrid.DataContext = buildingInfo;
             aboutFlatGrid.DataContext = flatInfo;
+            aboutRoomGrid.DataContext = roomInfo;
 
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
@@ -98,6 +100,14 @@ namespace BTIDataBaseProj
                 return;
 
             flatInfo.FlatsTable = (FlatsTable)flatsDataGrid.SelectedItem;
+        }
+
+        private void roomsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!(roomsDataGrid.SelectedItem is RoomsTable))
+                return;
+
+            roomInfo.RoomsTable = (RoomsTable)roomsDataGrid.SelectedItem;
         }
 
         #region forBuilding
@@ -311,7 +321,7 @@ namespace BTIDataBaseProj
             flatInfo.FlatsTable.Level = flatInfo.Level;
             flatInfo.FlatsTable.Storey = flatInfo.Storey;
             flatInfo.FlatsTable.SquareFlat = flatInfo.SquareFlat;
-            //flatInfo.FlatsTable.BuildingKadastr = flatInfo.BuildingKadastr;
+            flatInfo.FlatsTable.BuildingKadastr = flatInfo.BuildingKadastr;
 
             contex.SaveChanges();
             buildingsViewSourse.View.Refresh();
@@ -343,6 +353,9 @@ namespace BTIDataBaseProj
             }
         }
         #endregion
+
         #endregion
+
+        
     }
 }

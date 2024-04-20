@@ -150,7 +150,7 @@ End:
 
         private void SetProperties(FlatsTable buildingsTable)
         {
-            FlatId = buildingsTable.Flat;
+            FlatId = buildingsTable.FlatId;
             BuildingKadastr = buildingsTable.BuildingKadastr;
             Flat = buildingsTable.Flat;
             Storey = buildingsTable.Storey;

@@ -25,6 +25,7 @@ namespace BTIDataBaseProj.Helpers
         private int heightRoom = 0;
         private int socket = 0;
         private int section = 0;
+        private int? flat = 0;
         private RoomsTable roomsTable = null;
 
         public int RoomId 
@@ -105,6 +106,15 @@ namespace BTIDataBaseProj.Helpers
             set
             {
                 section = value;
+                OnPropertyChanged();
+            }
+        }
+        public Nullable<int> Flat 
+        {
+            get => flat ?? 0;
+            set
+            {
+                flat = value;
                 OnPropertyChanged();
             }
         }

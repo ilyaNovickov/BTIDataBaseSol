@@ -46,7 +46,8 @@
         <StatusBar DockPanel.Dock="Bottom">
             <Label Content=""/>
         </StatusBar>
-        <xcad:DockingManager x:Name="dockingManager">
+        <xcad:DockingManager x:Name="dockingManager" AllowMixedOrientation="True" BorderBrush="Black"
+                           BorderThickness="1">
             <xcad:LayoutRoot x:Name="layoutRoot">
                 <xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane>
@@ -188,6 +189,70 @@
                                 </Grid>
                             </ScrollViewer>
                         </xcad:LayoutAnchorable>
+                        <!--Инфо про комнату-->
+                        <xcad:LayoutAnchorable x:Name="roomInfoPanel"
+                                               ContentId="roomInfo"
+                                               Title="О комнате"
+                                               CanHide="True"
+                                               CanClose="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <Grid x:Name="aboutRoomGrid" MinHeight="500" MinWidth="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <!--Панель инструментов-->
+                                    
+                                    <ToolBar Grid.Column="0" Grid.Row="0">
+                                        <Button x:Name="o" Content="Добавить" Click="addFlatButtin_Click"/>
+                                        <Button x:Name="j" Content="Изменить" Click="updateFlatButton_Click"/>
+                                        <Button x:Name="u" Content="Удалить" Click="removeFlatButton_Click"/>
+                                    </ToolBar>
+                                    
+                                    <Grid Grid.Column="0" Grid.Row="1">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Id комнаты:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBlock Text="{Binding RoomId, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Номер комнаты:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <TextBox Text="{Binding Flat, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Номер помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding Record, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Назначение:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Площадь помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <xctk:IntegerUpDown Value="{Binding SquareRoom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="4" Minimum="0" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Размер в плане:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
+                                        <TextBox Text="{Binding Size, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Высота помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <xctk:IntegerUpDown Value="{Binding HeightRoom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="6" Minimum="0" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Отделка помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <TextBox Text="{Binding Decoretion, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Число элементов батарее отопления:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <xctk:IntegerUpDown Value="{Binding Section, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="8" Minimum="0" VerticalContentAlignment="Center"  Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кол-во розеток:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <xctk:IntegerUpDown Value="{Binding Socket, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Minimum="0" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </Grid>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                     <!--Таблицы-->
                     <xcad:LayoutDocumentPane>
@@ -246,7 +311,8 @@
                                       x:Name="roomsDataGrid" 
                                       IsReadOnly="False" 
                                       HorizontalScrollBarVisibility="Visible" 
-                                      AutoGenerateColumns="False" >
+                                      AutoGenerateColumns="False"
+                                      SelectionChanged="roomsDataGrid_SelectionChanged">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn  Binding="{Binding RoomId}" Header="Id комнаты" Width="auto"/>
                                     <DataGridTextColumn Binding="{Binding Flat}" Header="Номер квартиры"  Width="auto"/>
