@@ -207,9 +207,9 @@
                                     <!--Панель инструментов-->
                                     
                                     <ToolBar Grid.Column="0" Grid.Row="0">
-                                        <Button x:Name="o" Content="Добавить" Click="addFlatButtin_Click"/>
-                                        <Button x:Name="j" Content="Изменить" Click="updateFlatButton_Click"/>
-                                        <Button x:Name="u" Content="Удалить" Click="removeFlatButton_Click"/>
+                                        <Button x:Name="addRoomButton" Content="Добавить" Click="addRoomButton_Click"/>
+                                        <Button x:Name="updateRoomButton" Content="Изменить" Click="updateRoomButton_Click"/>
+                                        <Button x:Name="removeRoomButton" Content="Удалить" Click="removeRoomButton_Click"/>
                                     </ToolBar>
                                     
                                     <Grid Grid.Column="0" Grid.Row="1">

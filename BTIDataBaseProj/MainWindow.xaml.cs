@@ -89,7 +89,10 @@ namespace BTIDataBaseProj
         private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(buildingsDataGrid.SelectedItem is BuildingsTable))
+            {
+                buildingInfo.Clear();
                 return;
+            }
 
             buildingInfo.BuildingsTable = (BuildingsTable)buildingsDataGrid.SelectedItem;
         }
@@ -97,7 +100,10 @@ namespace BTIDataBaseProj
         private void flatsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(flatsDataGrid.SelectedItem is FlatsTable))
+            {
+                flatInfo.Clear();
                 return;
+            }
 
             flatInfo.FlatsTable = (FlatsTable)flatsDataGrid.SelectedItem;
         }
@@ -105,7 +111,10 @@ namespace BTIDataBaseProj
         private void roomsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!(roomsDataGrid.SelectedItem is RoomsTable))
+            {
+                roomInfo.Clear();
                 return;
+            }
 
             roomInfo.RoomsTable = (RoomsTable)roomsDataGrid.SelectedItem;
         }
@@ -251,7 +260,7 @@ namespace BTIDataBaseProj
 
                 if (!kadastrs.Contains(flatInfo.BuildingKadastr))
                 {
-                    MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзменити кадастр здания для квартиры");
+                    MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзмените кадастр здания для квартиры");
                     return;
                 }
             }
@@ -289,8 +298,6 @@ namespace BTIDataBaseProj
             flatsViewSourse.View.Refresh();
             contex.SaveChanges();
         }
-
-        
 
         private void updateFlatButton_Click(object sender, RoutedEventArgs e)
         {
@@ -352,10 +359,70 @@ namespace BTIDataBaseProj
                 }
             }
         }
-        #endregion
 
         #endregion
 
-        
+        #endregion
+
+        #region aboutRooms
+        private void updateRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void removeRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (roomInfo.RoomsTable == null && roomInfo.RoomId != roomInfo.RoomsTable?.RoomId)
+            {
+                MessageBox.Show("Запис комнаты не выбрана");
+                return;
+            }
+
+            contex.RoomsTable.Remove(roomInfo.RoomsTable);
+            roomInfo.Clear();
+            roomsViewSourse.View.Refresh();
+            contex.SaveChanges();
+        }
+
+        private void addRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (roomInfo.Flat.Value != -1 && roomInfo.RoomsTable != null)
+            {
+                MessageBoxResult res = MessageBox.Show("Информация о комнате ссылается на существующею кмнату\nДобавить новую комнату?", "Внимание", MessageBoxButton.YesNo);
+
+                if (res != MessageBoxResult.Yes)
+                    return;
+            }
+
+            #region checkFlatId
+            {
+                IEnumerable<int> flats = from flat in contex.FlatsTable
+                                          select flat.FlatId;
+                if (!(flats.Contains(roomInfo.Flat.Value)))
+                {
+                    MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\nИзмените ID квартиры здания для комнаты");
+                    return;
+                }
+            }
+            #endregion
+
+            RoomsTable rooms = new RoomsTable()
+            {
+                Flat = roomInfo.Flat,
+                Decoretion = roomInfo.Decoretion,
+                Socket = roomInfo.Socket,
+                Section = roomInfo.Section,
+                Size = roomInfo.Size,
+                SquareRoom = roomInfo.SquareRoom,
+                HeightRoom = roomInfo.HeightRoom,
+                Name = roomInfo.Name,
+                Record = roomInfo.Record,
+            };
+
+            contex.RoomsTable.Add(rooms);
+            roomsViewSourse.View.Refresh();
+            contex.SaveChanges();
+        }
+        #endregion
     }
 }
