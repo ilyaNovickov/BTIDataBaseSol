@@ -367,7 +367,39 @@ namespace BTIDataBaseProj
         #region aboutRooms
         private void updateRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            if (roomInfo.RoomsTable == null)
+            {
+                MessageBox.Show("Комната для изменения не выбрана");
+                return;
+            }
 
+            #region checkFlatId
+            {
+                IEnumerable<int> flats = from flat in contex.FlatsTable
+                                         select flat.FlatId;
+                if (!(flats.Contains(roomInfo.Flat.Value)))
+                {
+                    MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\nИзмените ID квартиры здания для комнаты");
+                    return;
+                }
+            }
+            #endregion
+
+            roomInfo.RoomsTable.Record = roomInfo.Record;
+            roomInfo.RoomsTable.Flat = roomInfo.Flat;
+            roomInfo.RoomsTable.Decoretion = roomInfo.Decoretion;
+            roomInfo.RoomsTable.HeightRoom = roomInfo.HeightRoom;
+            roomInfo.RoomsTable.Section = roomInfo.Section;
+            roomInfo.RoomsTable.Socket = roomInfo.Socket;
+            roomInfo.RoomsTable.Size = roomInfo.Size;
+            roomInfo.RoomsTable.SquareRoom = roomInfo.SquareRoom;
+            roomInfo.RoomsTable.Name = roomInfo.Name;
+
+
+            contex.SaveChanges();
+            roomsViewSourse.View.Refresh();
+            flatsViewSourse.View.Refresh();
+            buildingsViewSourse.View.Refresh();
         }
 
         private void removeRoomButton_Click(object sender, RoutedEventArgs e)
@@ -423,6 +455,29 @@ namespace BTIDataBaseProj
             roomsViewSourse.View.Refresh();
             contex.SaveChanges();
         }
+        #region forErrors
+        private int roomsErrorsCount = 0;
+        private void RoomsTextBox_Error(object sender, ValidationErrorEventArgs e)
+        {
+            if (e.Action == ValidationErrorEventAction.Added)
+            {
+                addRoomButton.IsEnabled = false;
+                removeRoomButton.IsEnabled = false;
+                updateRoomButton.IsEnabled = false;
+                roomsErrorsCount++;
+            }
+            else if (e.Action == ValidationErrorEventAction.Removed)
+            {
+                roomsErrorsCount--;
+                if (roomsErrorsCount == 0)
+                {
+                    addRoomButton.IsEnabled = true;
+                    removeRoomButton.IsEnabled = true;
+                    updateRoomButton.IsEnabled = true;
+                }
+            }
+        }
+        #endregion
         #endregion
     }
 }

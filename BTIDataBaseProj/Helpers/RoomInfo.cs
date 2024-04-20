@@ -141,13 +141,14 @@ End:
         {
             RoomId = roomsTable.RoomId;
             Record = roomsTable.Record;
-            SquareRoom = roomsTable.Record;
+            SquareRoom = roomsTable.SquareRoom;
             Size = roomsTable.Size;
             Name = roomsTable.Name;
             Decoretion = roomsTable.Decoretion;
             HeightRoom = roomsTable.HeightRoom;
             Socket = roomsTable.Socket;
             Section = roomsTable.Section;
+            Flat = roomsTable.Flat;
         }
 
         private void ClearProperties()
@@ -161,6 +162,7 @@ End:
             HeightRoom = 0;
             Socket = 0;
             Section = 0;
+            Flat = -1;
         }
 
         public void Clear()
