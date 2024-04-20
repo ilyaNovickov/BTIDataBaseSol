@@ -61,7 +61,6 @@ namespace BTIDataBaseProj
             buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingViewSourse")));
             flatsViewSourse = ((CollectionViewSource)(FindResource("flatsViewSourse")));
             roomsViewSourse = ((CollectionViewSource)FindResource("roomsViewSourse"));
-            //DataContext = this;
         }
 
         ~MainWindow()
@@ -77,13 +76,6 @@ namespace BTIDataBaseProj
             
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
-        }
-
-
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
-        {
-            //bool v = zxc.IsVisible;
-            //zxc.IsVisible = !zxc.IsVisible;
         }
 
         #region dataGrids Selection Changed
