@@ -473,6 +473,28 @@ namespace BTIDataBaseProj
             }
         }
         #endregion
+
+        #endregion
+
+        #region menu
+        #region forVisibleofPanels
+        private void buildingInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingInfoPanel.IsVisible = true;
+        
+
+        private void flatInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => flatInfoPanel.IsVisible = true;
+        
+
+        private void roomInfoMenuItem_Click(object sender, RoutedEventArgs e) => roomInfoPanel.IsVisible = true;
+        
+
+        private void buildingImagePanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingImagePanel.IsVisible = true;
+        
+
+        private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
+        
+        #endregion
+
+
         #endregion
     }
 }

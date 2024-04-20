@@ -40,14 +40,28 @@
         <BitmapImage x:Key="imageFailed" UriSource="Assests/nonImage.png"/>
     </Window.Resources>
     <DockPanel>
+        <!--Меню-->
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="asd" Click="MenuItem_Click"/>
+            <!--<MenuItem Header="Таблицы">
+                <MenuItem Header="Здания" Click="buildingTableMenuItem_Click"/>
+                <MenuItem Header="Квартиры" Click="MenuItem_Click_1"/>
+                <MenuItem Header="Комнаты" Click="MenuItem_Click_2"/>
+            </MenuItem>-->
+            <MenuItem Header="Информация">
+                <MenuItem Header="О здании" Click="buildingInfoPanelMenuItem_Click"/>
+                <MenuItem Header="О квартире" Click="flatInfoPanelMenuItem_Click"/>
+                <MenuItem Header="О комнате" Click="roomInfoMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Дополнительное для здания">
+                <MenuItem Header="Изображение" Click="buildingImagePanelMenuItem_Click"/>
+                <MenuItem Header="Комметарии" Click="buildingCommentsPanelMenuItem_Click"/>
+            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <Label Content=""/>
         </StatusBar>
         <xcad:DockingManager x:Name="dockingManager" AllowMixedOrientation="True" BorderBrush="Black"
-                           BorderThickness="1">
+                             BorderThickness="1">
             <xcad:LayoutRoot x:Name="layoutRoot">
                 <xcad:LayoutPanel>
                     <xcad:LayoutAnchorablePane>
@@ -255,9 +269,9 @@
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                     <!--Таблицы-->
-                    <xcad:LayoutDocumentPane>
+                    <xcad:LayoutDocumentPane x:Name="tableLayout">
                         <!--здания-->
-                        <xcad:LayoutDocument ContentId="buildings" Title="Здания" CanClose="False">
+                        <xcad:LayoutDocument x:Name="buildingsTable" ContentId="buildings" Title="Здания" CanClose="False">
                             <DataGrid DataContext="{StaticResource buildingViewSourse}"
                                       ItemsSource="{Binding}"
                                       x:Name="buildingsDataGrid" 
@@ -330,7 +344,10 @@
                     </xcad:LayoutDocumentPane>
                     <!--Доп информация о здании-->
                     <xcad:LayoutAnchorablePane>
-                        <xcad:LayoutAnchorable ContentId="buildingPicture" Title="Изображение здания" CanHide="True" CanClose="False">
+                        <!--Изображение-->
+                        <xcad:LayoutAnchorable x:Name="buildingImagePanel"
+                                               ContentId="buildingPicture" 
+                                               Title="Изображение здания" CanHide="True" CanClose="False">
                             <DockPanel>
                                 <StatusBar DockPanel.Dock="Bottom">
                                     <Slider x:Name="slider" 
@@ -346,7 +363,7 @@
                                 </StatusBar>
                                 <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gray" Margin="5,5,5,5">
                                     <ScrollViewer Margin="5,5,5,5" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-                                        <Image Stretch="None" DataContext="{Binding ElementName=mainWin, Path=BuildingInfo}"
+                                        <Image Stretch="None" DataContext="{Binding ElementName=aboutBuildingGrid, Path=DataContext}"
                                                Source="{Binding Picture, UpdateSourceTrigger=PropertyChanged, TargetNullValue={StaticResource imageFailed}}">
                                             <Image.LayoutTransform>
                                                 <ScaleTransform ScaleX="{Binding ElementName=mainWin, Path=Scale}" ScaleY="{Binding ElementName=mainWin, Path=Scale}"/>
@@ -356,7 +373,10 @@
                                 </Border>
                             </DockPanel>
                         </xcad:LayoutAnchorable>
-                        <xcad:LayoutAnchorable ContentId="buildingComments" Title="Комментарии к зданию" CanClose="False" CanHide="True" >
+                        <!--Комментарии-->
+                        <xcad:LayoutAnchorable x:Name="buildingCommentsPanel"
+                                               ContentId="buildingComments" 
+                                               Title="Комментарии к зданию" CanClose="False" CanHide="True" >
                             <TextBox DataContext="{Binding ElementName=aboutBuildingGrid, Path=DataContext}" Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
                                       VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                         </xcad:LayoutAnchorable>
