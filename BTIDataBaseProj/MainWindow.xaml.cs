@@ -28,6 +28,7 @@ namespace BTIDataBaseProj
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        #region forScale
         private float minScale = 0.02f;
         private float maxScale = 10.0f;
         private float scale = 1f;
@@ -43,10 +44,12 @@ namespace BTIDataBaseProj
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Scale)));
             }
         }
+        #endregion
 
         BTIDataBaseEntities1 contex = new BTIDataBaseEntities1();
         CollectionViewSource buildingsViewSourse;
         CollectionViewSource flatsViewSourse;
+        CollectionViewSource roomsViewSourse;
         BuildingInfo buildingInfo = new BuildingInfo();
         FlatInfo flatInfo = new FlatInfo();
 
@@ -56,17 +59,13 @@ namespace BTIDataBaseProj
 
             buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingViewSourse")));
             flatsViewSourse = ((CollectionViewSource)(FindResource("flatsViewSourse")));
+            roomsViewSourse = ((CollectionViewSource)FindResource("roomsViewSourse"));
             //DataContext = this;
         }
 
         ~MainWindow()
         {
             contex?.Dispose();
-        }
-
-        public BuildingInfo BuildingInfo
-        {
-            get => buildingInfo;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -102,6 +101,11 @@ namespace BTIDataBaseProj
         }
 
         #region forBuilding
+        public BuildingInfo BuildingInfo
+        {
+            get => buildingInfo;
+        }
+
         private void addBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.Kadastr == "" || buildingInfo.Kadastr == null)
