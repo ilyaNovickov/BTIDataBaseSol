@@ -78,6 +78,11 @@ namespace BTIDataBaseProj
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
         }
 
+        private void mainWin_Closing(object sender, CancelEventArgs e)
+        {
+            contex.Dispose();
+        }
+
         #region dataGrids Selection Changed
         private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -148,11 +153,13 @@ namespace BTIDataBaseProj
             contex.BuildingsTable.Add(building);
             buildingsViewSourse.View.Refresh();
             contex.SaveChanges();
+
+            buildingsDataGrid.SelectedItem = building;
         }
 
         private void removeBuildingButton_Click(object sender, RoutedEventArgs e)
         {
-            if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable.Kadastr)
+            if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable?.Kadastr)
             {
                 MessageBox.Show("Запис здания не выбрана");
                 return;
@@ -216,7 +223,12 @@ namespace BTIDataBaseProj
                 memoryStream.Close();
             }
         }
-        
+
+        private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingsDataGrid.SelectedItem = null;
+            //buildingInfo.Clear();
+        }
 
         #region forImage
         private double a => (minScale * maxScale - Math.Pow(1d, 2d)) / (minScale - 2d * 1d + maxScale);
@@ -334,6 +346,7 @@ namespace BTIDataBaseProj
                 addFlatButton.IsEnabled = false;
                 removeFlatButton.IsEnabled = false;
                 updateFlatButton.IsEnabled = false;
+                addToSelectedBuildingButton.IsEnabled = false;
                 flatErrorsCount++;
             }
             else if (e.Action == ValidationErrorEventAction.Removed)
@@ -344,6 +357,7 @@ namespace BTIDataBaseProj
                     addFlatButton.IsEnabled = true;
                     removeFlatButton.IsEnabled = true;
                     updateFlatButton.IsEnabled = true;
+                    addToSelectedBuildingButton.IsEnabled = true;
                 }
             }
         }
@@ -483,10 +497,28 @@ namespace BTIDataBaseProj
         
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
-        
-        #endregion
-
 
         #endregion
+
+        #endregion
+
+        private void flatClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            flatsDataGrid.SelectedItem = null;
+            //flatInfo.Clear();
+        }
+
+        private void addToSelectedBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingInfo.BuildingsTable == null)
+            {
+                MessageBox.Show("Нет выбранного здания");
+                return;
+            }
+
+            flatInfo.BuildingKadastr = buildingInfo.Kadastr;
+
+            addFlatButtin_Click(sender, e);
+        }
     }
 }
