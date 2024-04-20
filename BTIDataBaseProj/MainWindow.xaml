@@ -64,14 +64,15 @@
                              BorderThickness="1">
             <xcad:LayoutRoot x:Name="layoutRoot">
                 <xcad:LayoutPanel>
+                    <!--Информация о ...-->
                     <xcad:LayoutAnchorablePane>
                         <!--Инфо про здания-->
-                        <xcad:LayoutAnchorable x:Name="buildingInfoPanel" 
+                        <xcad:LayoutAnchorable x:Name="buildingInfoPanel"
                                                ContentId="buldingInfo" 
                                                Title="О здании" 
                                                CanHide="True" 
                                                CanClose="False">
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" BorderBrush="red" BorderThickness="2">
                                 <Grid x:Name="aboutBuildingGrid" MinHeight="500" MinWidth="200">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -272,7 +273,7 @@
                     <xcad:LayoutDocumentPane x:Name="tableLayout">
                         <!--здания-->
                         <xcad:LayoutDocument x:Name="buildingsTable" ContentId="buildings" Title="Здания" CanClose="False">
-                            <DataGrid DataContext="{StaticResource buildingViewSourse}"
+                            <DataGrid DataContext="{StaticResource buildingViewSourse}" Background="Gray"
                                       ItemsSource="{Binding}"
                                       x:Name="buildingsDataGrid" 
                                       IsReadOnly="False" 
@@ -298,7 +299,7 @@
                         </xcad:LayoutDocument>
                         <!--Квартиры-->
                         <xcad:LayoutDocument ContentId="flats" Title="Квартиры" CanClose="False">
-                            <DataGrid ItemsSource="{Binding Source={StaticResource flatsViewSourse}}"
+                            <DataGrid ItemsSource="{Binding Source={StaticResource flatsViewSourse}}" Background="Gray"
                                       x:Name="flatsDataGrid" 
                                       IsReadOnly="False" 
                                       HorizontalScrollBarVisibility="Visible" 
@@ -321,7 +322,7 @@
                         </xcad:LayoutDocument>
                         <!--Комнаты-->
                         <xcad:LayoutDocument ContentId="rooms" Title="Комнаты" CanClose="False">
-                            <DataGrid ItemsSource="{Binding Source={StaticResource roomsViewSourse}}"
+                            <DataGrid ItemsSource="{Binding Source={StaticResource roomsViewSourse}}" Background="Gray"
                                       x:Name="roomsDataGrid" 
                                       IsReadOnly="False" 
                                       HorizontalScrollBarVisibility="Visible" 
