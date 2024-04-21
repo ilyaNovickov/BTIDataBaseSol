@@ -449,6 +449,8 @@
                                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                             </DockPanel>
                         </xcad:LayoutAnchorable>
+                        
+                        
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>
             </xcad:LayoutRoot>
