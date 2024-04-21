@@ -222,8 +222,9 @@ namespace BTIDataBaseProj
         
 
         private void openBuildingImageButton_Click(object sender, RoutedEventArgs e)=>buildingImagePanelMenuItem_Click(sender, e);
-        
 
+        #region extraForBuilding
+        #region forImage
         private void loadImageButton_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -248,7 +249,7 @@ namespace BTIDataBaseProj
             buildingInfo.Picture = null;
         }
 
-        #region forImage
+        #region forImageSlider
         private double a => (minScale * maxScale - Math.Pow(1d, 2d)) / (minScale - 2d * 1d + maxScale);
         private double b => Math.Pow((1d - minScale), 2d) / (minScale - 2d * 1d + maxScale);
         private double c => 2d * Math.Log((maxScale - 1d) / (1d - minScale));
@@ -257,6 +258,8 @@ namespace BTIDataBaseProj
         {
             Scale = (float)(a + b * Math.Exp(c * slider.Value));
         }
+        #endregion
+        #endregion
         #endregion
 
         #endregion
