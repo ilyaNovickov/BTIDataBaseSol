@@ -844,7 +844,7 @@ namespace BTIDataBaseProj
                                             where room.RoomId == roomId
                                             select room;
 
-            if (rooms.Count() != 0)
+            if (rooms.Count() != 1)
             {
                 MessageBox.Show("В таблице нет комнаты с таким Id");
                 return false;
