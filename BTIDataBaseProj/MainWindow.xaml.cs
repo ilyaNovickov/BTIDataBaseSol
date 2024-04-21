@@ -693,6 +693,8 @@ namespace BTIDataBaseProj
 
         #endregion
         #region menu
+        private void saveDBMenuItem_Click(object sender, RoutedEventArgs e) => SaveDBChangings();
+        private void closeMenuItem_Click(object sender, RoutedEventArgs e) => this.Close();
         #region forTables
         private void openBuildingsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(buildingsTable);
 
@@ -726,10 +728,6 @@ namespace BTIDataBaseProj
 
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
-
-        private void saveDBMenuItem_Click(object sender, RoutedEventArgs e) => SaveDBChangings();
-
-
         #endregion
         #region forSeaching
         private void openBuildingSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(buildingsSeachPanel);
@@ -878,5 +876,6 @@ namespace BTIDataBaseProj
                 MessageBox.Show(ex.Message);
             }
         }
+        
     }
 }
