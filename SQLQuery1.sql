@@ -50,7 +50,7 @@ create table RoomsTable
 	SquareRoom int not null,
 	Size nvarchar(40) not null,
 	Name nvarchar(30) not null,
-	Decoretion nvarchar(60) not null default n'Отсуствует',
+	Decoretion nvarchar(60) not null default N'Отсуствует',
 	HeightRoom int not null,
 	Socket int not null,
 	Section int not null,
@@ -62,80 +62,80 @@ go
 --(кадастр, адресс, район, площадб земельного участка, год, материал стен,
 --материал фундамента, примичания, износ%, кол-во этажей, расстояние от центра, площадб квартир,
 --картинка, кол-во квартир, лифт
-insert BuildingsTable values ('69:40:0100230:58', n'г Тверь, ул Горького, д. 140', 
-n'Центральный', 4833, 1971, n'Кирпич', n'Бетон', default, default , 10, 15, 50, default , 50, default)
+insert BuildingsTable values (N'69:40:0100230:58', N'г Тверь, ул Горького, д. 140', 
+N'Центральный', 4833, 1971, N'Кирпич', N'Бетон', default, default , 10, 15, 50, default , 50, default)
 go
-insert BuildingsTable values ('69:40:0400099:174', n'г Тверь, ул Александра Завидова, д. 24', 
-n'Центральный', 6853, 1982, n'Кирпич', n'Бетон', default, default , 5, 8, 30, default , 50, default)
+insert BuildingsTable values (N'69:40:0400099:174', N'г Тверь, ул Александра Завидова, д. 24', 
+N'Центральный', 6853, 1982, N'Кирпич', N'Бетон', default, default , 5, 8, 30, default , 50, default)
 go
-insert BuildingsTable values ('69:40:0300336:12', n'г Тверь, ул Марины Расковой, д. 41/42', 
-n'Южный', 562, 1968, n'Кирпич', n'Бетон', default, 27, 2, 23, 45, default , 8, default)
+insert BuildingsTable values (N'69:40:0300336:12', N'г Тверь, ул Марины Расковой, д. 41/42', 
+N'Южный', 562, 1968, N'Кирпич', N'Бетон', default, 27, 2, 23, 45, default , 8, default)
 go
 --(id, номер квартиы, этаж, кол-во комнат, два уровня, общая площадь, жилая площадь, 
 --вспомогательная площадь, площадь балкона, высота квартир, id задания)
 insert into FlatsTable (Flat, Storey, Rooms, Level, SquareFlat, Dwell, Branch, Balcony, Height, BuildingKadastr) 
-values (1, 1, 3, 0, 50, 30, 20, 0, 3, '69:40:0100230:58')
+values (1, 1, 3, 0, 50, 30, 20, 0, 3, N'69:40:0100230:58')
 go
-insert FlatsTable values (2, 1, 3, 0, 50, 30, 20, 0, 3, '69:40:0100230:58')
+insert FlatsTable values (2, 1, 3, 0, 50, 30, 20, 0, 3, N'69:40:0100230:58')
 go
-insert FlatsTable values (3, 2, 3, 0, 50, 28, 18, 4, 3, '69:40:0100230:58')
+insert FlatsTable values (3, 2, 3, 0, 50, 28, 18, 4, 3, N'69:40:0100230:58')
 go
-insert FlatsTable values (18, 3, 4, 0, 30, 15, 10, 5, 3, '69:40:0400099:174')
+insert FlatsTable values (18, 3, 4, 0, 30, 15, 10, 5, 3, N'69:40:0400099:174')
 go
-insert FlatsTable values (22, 3, 4, 0, 30, 15, 10, 5, 3, '69:40:0400099:174')
+insert FlatsTable values (22, 3, 4, 0, 30, 15, 10, 5, 3, N'69:40:0400099:174')
 go
-insert FlatsTable values (3, 1, 4, 0, 30, 15, 15, 0, 3, '69:40:0400099:174')
+insert FlatsTable values (3, 1, 4, 0, 30, 15, 15, 0, 3, N'69:40:0400099:174')
 go
-insert FlatsTable values (4, 2, 5, 0, 45, 30, 15, 0, 4, '69:40:0300336:12')
+insert FlatsTable values (4, 2, 5, 0, 45, 30, 15, 0, 4, N'69:40:0300336:12')
 go
 --(id, номер, площадь, размер в плане, назначение, отделка, 
 --высота, кол-во розеток, кол-во элементов в батарее отоплени, id-квартиры)
 --1
-insert RoomsTable values (1, 30, '5x6', n'Комната', n'Паркт, обои', 3, 10, 2, 1)
+insert RoomsTable values (1, 30, '5x6', N'Комната', N'Паркт, обои', 3, 10, 2, 1)
 go
-insert RoomsTable values (2, 5, '2.5x2', n'Сан узел', n'Плитка', 3, 0, 1, 1)
+insert RoomsTable values (2, 5, '2.5x2', N'Сан узел', N'Плитка', 3, 0, 1, 1)
 go
-insert RoomsTable values (3, 15, '3x5', n'Кухня', n'Обои, ленолиум', 3, 3, 1, 1)
+insert RoomsTable values (3, 15, '3x5', N'Кухня', N'Обои, ленолиум', 3, 3, 1, 1)
 go
-insert RoomsTable values (4, 30, '5x6', n'Комната', n'Паркт, обои', 3, 10, 2, 2)
+insert RoomsTable values (4, 30, '5x6', N'Комната', N'Паркт, обои', 3, 10, 2, 2)
 go
-insert RoomsTable values (5, 5, '2.5x2', n'Сан узел', n'Плитка, обои', 3, 0, 1, 2)
+insert RoomsTable values (5, 5, '2.5x2', N'Сан узел', N'Плитка, обои', 3, 0, 1, 2)
 go
-insert RoomsTable values (6, 15, '3x5', n'Кухня', n'Обои, ленолиум, натяжной потолок', 3, 3, 1, 2)
+insert RoomsTable values (6, 15, '3x5', N'Кухня', N'Обои, ленолиум, натяжной потолок', 3, 3, 1, 2)
 go
-insert RoomsTable values (7, 30, '5x6', n'Комната', n'Лелониум, обои', 3, 10, 2, 3)
+insert RoomsTable values (7, 30, '5x6', N'Комната', N'Лелониум, обои', 3, 10, 2, 3)
 go
-insert RoomsTable values (8, 5, '2.5x2', n'Сан узел', n'Плитка, обои', 3, 0, 1, 3)
+insert RoomsTable values (8, 5, '2.5x2', N'Сан узел', N'Плитка, обои', 3, 0, 1, 3)
 go
-insert RoomsTable values (6, 15, '3x5', n'Кухня', n'Обои, ленолиум, натяжной потолок', 3, 3, 1, 3)
+insert RoomsTable values (6, 15, '3x5', N'Кухня', N'Обои, ленолиум, натяжной потолок', 3, 3, 1, 3)
 go
 --2
-insert RoomsTable values (1, 15, '5x3', n'Комната', n'Обои, лелониум', 3, 3, 2, 4)
+insert RoomsTable values (1, 15, '5x3', N'Комната', N'Обои, лелониум', 3, 3, 2, 4)
 go
-insert RoomsTable values (2, 3, '1.5x2', n'Сан узел', n'Плитка', 3, 1, 1, 4)
+insert RoomsTable values (2, 3, '1.5x2', N'Сан узел', N'Плитка', 3, 1, 1, 4)
 go
-insert RoomsTable values (3, 7, '4x1.75', n'Кухня', n'Обои, лелониум', 3, 2, 1, 4)
+insert RoomsTable values (3, 7, '4x1.75', N'Кухня', N'Обои, лелониум', 3, 2, 1, 4)
 go
-insert RoomsTable values (8, 15, '3x5', n'Комната', n'Обои, паркет', 3, 5, 2, 5)
+insert RoomsTable values (8, 15, '3x5', N'Комната', N'Обои, паркет', 3, 5, 2, 5)
 go
-insert RoomsTable values (9, 3, '1.5x2', n'Сан узел', n'Плитка', 3, 1, 1, 5)
+insert RoomsTable values (9, 3, '1.5x2', N'Сан узел', N'Плитка', 3, 1, 1, 5)
 go
-insert RoomsTable values (10, 7, '4x1.75', n'Кухня', n'Обои, лелониум', 3, 2, 1, 5)
+insert RoomsTable values (10, 7, '4x1.75', N'Кухня', N'Обои, лелониум', 3, 2, 1, 5)
 go
-insert RoomsTable values (16, 15, '3x5', n'Комната', n'Обои, паркет', 3, 3, 2, 6)
+insert RoomsTable values (16, 15, '3x5', N'Комната', N'Обои, паркет', 3, 3, 2, 6)
 go
-insert RoomsTable values (17, 3, '1.5x2', n'Сан узел', n'Плитка', 3, 1, 1, 6)
+insert RoomsTable values (17, 3, '1.5x2', N'Сан узел', N'Плитка', 3, 1, 1, 6)
 go
-insert RoomsTable values (18, 7, '2x3.5', n'Кухня', n'Обои, лелониум', 3, 2, 1, 6)
+insert RoomsTable values (18, 7, '2x3.5', N'Кухня', N'Обои, лелониум', 3, 2, 1, 6)
 go
 --3
-insert RoomsTable values (8, 20, '4x5', n'Комната', n'Обои, лелолиум', 4, 3, 2, 7)
+insert RoomsTable values (8, 20, '4x5', N'Комната', N'Обои, лелолиум', 4, 3, 2, 7)
 go
-insert RoomsTable values (8, 10, '4x2.5', n'Комната', n'Обои, лелолиум', 4, 2, 1, 7)
+insert RoomsTable values (8, 10, '4x2.5', N'Комната', N'Обои, лелолиум', 4, 2, 1, 7)
 go
-insert RoomsTable values (9, 5, '2.5x2', n'Сан узел', n'Плитка', 4, 1, 1, 7)
+insert RoomsTable values (9, 5, '2.5x2', N'Сан узел', N'Плитка', 4, 1, 1, 7)
 go
-insert RoomsTable values (10, 10, '3x3.5', n'Кухня', n'Лелониум', 4, 2, 1, 7)
+insert RoomsTable values (10, 10, '3x3.5', N'Кухня', N'Лелониум', 4, 2, 1, 7)
 go
 create procedure AddBuilding
 	@kadastr nvarchar(20),
