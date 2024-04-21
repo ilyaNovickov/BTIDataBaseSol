@@ -146,8 +146,6 @@ namespace BTIDataBaseProj
 #endregion
         }
 
-
-
         private void mainWin_Closing(object sender, CancelEventArgs e)
         {
             contex.Dispose();
