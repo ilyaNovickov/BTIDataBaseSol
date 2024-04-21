@@ -737,17 +737,11 @@ namespace BTIDataBaseProj
                 return;
             }
 
-            IEnumerable<BuildingsTable> buildings = from BuildingsTable building in buildingsDataGrid.Items
-                                                    where building.Kadastr == ((FlatsTable)flatSeachDataGrid.SelectedItem).BuildingKadastr
-                                                    select building;
-
-            if (buildings.Count() != 1 )
+            if (SelectBuildingOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).BuildingKadastr))
             {
-                MessageBox.Show("В таблице нет здания с таким кадастром");
+                MessageBox.Show("Здания с таким кадастром нет");
                 return;
-            }    
-
-            buildingsDataGrid.SelectedItem = buildings.First();
+            }
 
             IEnumerable<FlatsTable> flats = from FlatsTable flat in flatsDataGrid.Items
                                             where flat.FlatId == ((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId
@@ -774,17 +768,24 @@ namespace BTIDataBaseProj
                 return;
             }
 
+            SelectBuildingOnSeach(((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr);
+        }
+
+        private bool SelectBuildingOnSeach(string kadastr = "")
+        {
             IEnumerable<BuildingsTable> buildings = from BuildingsTable building in buildingsDataGrid.Items
-                                                    where building.Kadastr == ((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr
+                                                    where building.Kadastr == kadastr
                                                     select building;
 
             if (buildings.Count() != 1)
             {
                 MessageBox.Show("В таблице нет здания с таким кадастром");
-                return;
+                return false;
             }
 
             buildingsDataGrid.SelectedItem = buildings.First();
+
+            return true;
         }
     }
 }
