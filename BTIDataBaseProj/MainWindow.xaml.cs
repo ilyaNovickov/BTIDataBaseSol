@@ -119,6 +119,29 @@ namespace BTIDataBaseProj
         }
         #endregion
         #region forBuilding
+        #region buildingsToolBar
+        private void firstBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingsViewSourse.View.MoveCurrentToFirst();
+        }
+
+        private void previousBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingsViewSourse.View.MoveCurrentToPrevious();
+        }
+
+        private void nextBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingsViewSourse.View.MoveCurrentToNext();
+        }
+
+        private void lastBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingsViewSourse.View.MoveCurrentToLast();
+        }
+
+
+        #endregion
         private void addBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.Kadastr == "" || buildingInfo.Kadastr == null)
@@ -274,6 +297,27 @@ namespace BTIDataBaseProj
 
         #endregion
         #region aboutFlats
+        #region flatToolBar
+        private void firstFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+            flatsViewSourse.View.MoveCurrentToFirst();
+        }
+
+        private void previousFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+            flatsViewSourse.View.MoveCurrentToPrevious();
+        }
+
+        private void nextFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+            flatsViewSourse.View.MoveCurrentToNext();
+        }
+
+        private void lastFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+            flatsViewSourse.View.MoveCurrentToLast();
+        }
+        #endregion
         private void addFlatButtin_Click(object sender, RoutedEventArgs e)
         {
             //if (flatInfo.FlatId != -1 && flatInfo.FlatsTable != null)
@@ -418,6 +462,28 @@ namespace BTIDataBaseProj
 
         #endregion
         #region aboutRooms
+        #region roomsToolBar
+        private void firstRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            roomsViewSourse.View.MoveCurrentToFirst();
+        }
+
+        private void previousRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            roomsViewSourse.View.MoveCurrentToPrevious();
+
+        }
+
+        private void nextRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            roomsViewSourse.View.MoveCurrentToNext();
+        }
+
+        private void lastRoomButton_Click(object sender, RoutedEventArgs e)
+        {
+            roomsViewSourse.View.MoveCurrentToLast();
+        }
+        #endregion
         private void updateRoomButton_Click(object sender, RoutedEventArgs e)
         {
             if (roomInfo.RoomsTable == null)
@@ -601,8 +667,6 @@ namespace BTIDataBaseProj
 
         #endregion
 
-
-
         private void SaveDBChangings()
         {
             try
@@ -614,71 +678,6 @@ namespace BTIDataBaseProj
                 MessageBox.Show(ex.Message);
             }
         }
-        #region buildingsToolBar
-        private void firstBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToFirst();
-        }
-
-        private void previousBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToPrevious();
-        }
-
-        private void nextBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToNext();
-        }
-
-        private void lastBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToLast();
-        }
-
-
-        #endregion
-        #region flatToolBar
-        private void firstFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToFirst();
-        }
-
-        private void previousFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToPrevious();
-        }
-
-        private void nextFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToNext();
-        }
-
-        private void lastFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToLast();
-        }
-        #endregion
-        #region roomsToolBar
-        private void firstRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToFirst();
-        }
-
-        private void previousRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToPrevious();
-
-        }
-
-        private void nextRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToNext();
-        }
-
-        private void lastRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToLast();
-        }
-        #endregion
+  
     }
 }
