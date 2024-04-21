@@ -495,8 +495,12 @@
                                 <ToolBar DockPanel.Dock="Top">
                                     <Button Content="Выбрать квартиру" Click="selectFlatOnSeachButton_Click"/>
                                     <Separator/>
+                                    <Label Content="Id квартиры"/>
                                     <TextBox x:Name="flatIdSeachTextBox" MaxWidth="100" MinWidth="100" HorizontalScrollBarVisibility="Auto" BorderThickness="1" BorderBrush="Gray"/>
-                                    <Button Content="Поиск по Id квартиры" Click="updateFlatSeachButton_Click"/>
+                                    <Separator/>
+                                    <Label Content="Номер квартиры"/>
+                                    <TextBox x:Name="flatNumberSeachTextBox" MaxWidth="100" MinWidth="100" HorizontalScrollBarVisibility="Auto" BorderThickness="1" BorderBrush="Gray"/>
+                                    <Button Content="Поиск" Click="updateFlatSeachButton_Click"/>
                                 </ToolBar>
                                 <DataGrid Background="Gray"
                                           x:Name="flatSeachDataGrid"
@@ -519,7 +523,6 @@
                                 </DataGrid>
                             </DockPanel>
                         </xcad:LayoutAnchorable>
-                        
                         <!--Поиск комнат-->
                         <xcad:LayoutAnchorable x:Name="roomsSeachPanel" ContentId="rooomsSeach"
                                                Title="Поиск комнат" CanHide="True" CanClose="True">

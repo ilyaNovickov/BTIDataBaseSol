@@ -110,12 +110,14 @@ namespace BTIDataBaseProj
             flatsSeachCollectionView = CollectionViewSource.GetDefaultView(flatsObservableList);
             flatsSeachCollectionView.Filter = (obj) =>
             {
-                if (flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "")
+                if ((flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "") &&
+                    (flatNumberSeachTextBox.Text == null || flatNumberSeachTextBox.Text == ""))
                     return true;
 
                 FlatsTable f = obj as FlatsTable;
 
-                return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text);
+                return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text) && 
+                            f.Flat.ToString().Contains(flatNumberSeachTextBox.Text);
             };
             
             flatSeachDataGrid.ItemsSource = flatsObservableList;
