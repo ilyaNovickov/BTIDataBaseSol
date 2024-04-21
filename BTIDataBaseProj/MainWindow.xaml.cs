@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using System.ComponentModel;
 using System.Runtime.Remoting.Contexts;
 using Xceed.Wpf.AvalonDock.Layout;
+using System.Collections.ObjectModel;
 
 namespace BTIDataBaseProj
 {
@@ -77,7 +78,28 @@ namespace BTIDataBaseProj
             
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
+
+
+
+            contex.FlatsTable.Load();
+
+            var s = new ObservableCollection<FlatsTable>(contex.FlatsTable.Local);
+
+            v = CollectionViewSource.GetDefaultView(s);
+            v.Filter = (obj) =>
+            {
+                if (flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "")
+                    return true;
+
+                FlatsTable f = obj as FlatsTable;
+
+                return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text);
+            };
+            
+            flatSeachDataGrid.ItemsSource = s;
         }
+
+        private ICollectionView v;
 
         private void mainWin_Closing(object sender, CancelEventArgs e)
         {
@@ -678,6 +700,10 @@ namespace BTIDataBaseProj
                 MessageBox.Show(ex.Message);
             }
         }
-  
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            v.Refresh();
+        }
     }
 }
