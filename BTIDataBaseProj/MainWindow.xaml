@@ -291,32 +291,51 @@
                     <xcad:LayoutDocumentPane x:Name="tableLayout">
                         <!--здания-->
                         <xcad:LayoutDocument x:Name="buildingsTable" ContentId="buildings" Title="Здания" CanClose="True">
-                            <DataGrid DataContext="{StaticResource buildingViewSourse}" Background="Gray"
+                            <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="|◄" Click="firstBuildingButton_Click"/>
+                                    <Button Content="◄" Click="previousBuildingButton_Click"/>
+                                    <Button Content="►" Click="nextBuildingButton_Click"/>
+                                    <Button Content="►|" Click="lastBuildingButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Удалить" Click="removeBuildingButton_Click"/>
+                                </ToolBar>
+                                <DataGrid DataContext="{StaticResource buildingViewSourse}" Background="Gray"
                                       ItemsSource="{Binding}"
                                       x:Name="buildingsDataGrid" 
                                       IsReadOnly="True" 
                                       HorizontalScrollBarVisibility="Visible" 
                                       AutoGenerateColumns="False" 
                                       SelectionChanged="buildingsDataGrid_SelectionChanged">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Binding="{Binding Kadastr}" Header="Кадастр" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Address}" Header="Адресс" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding District}" Header="Район города" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Land}" Header="Площадь земельного участка" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Year}" Header="Год постройки" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Material}" Header="Материал стен" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Base}" Header="Фундамент" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Wear}" Header="Износ, %" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Flow}" Header="Кол-во этажей" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Line}" Header="Расстояние от центра" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Square}" Header="Площадь квартир" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Flats}" Header="Кол-во квартир" Width="auto"/>
-                                    <DataGridCheckBoxColumn Binding="{Binding Elevator}" Header="Наличие лифта" Width="auto"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Kadastr}" Header="Кадастр" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Address}" Header="Адресс" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding District}" Header="Район города" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Land}" Header="Площадь земельного участка" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Year}" Header="Год постройки" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Material}" Header="Материал стен" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Base}" Header="Фундамент" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Wear}" Header="Износ, %" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flow}" Header="Кол-во этажей" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Line}" Header="Расстояние от центра" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Square}" Header="Площадь квартир" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flats}" Header="Кол-во квартир" Width="auto"/>
+                                        <DataGridCheckBoxColumn Binding="{Binding Elevator}" Header="Наличие лифта" Width="auto"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
                         </xcad:LayoutDocument>
                         <!--Квартиры-->
                         <xcad:LayoutDocument x:Name="flatsTable" ContentId="flats" Title="Квартиры" CanClose="True">
+                            <DockPanel>
+                            <ToolBar DockPanel.Dock="Top">
+                                <Button Content="|◄" Click="firstFlatButton_Click"/>
+                                <Button Content="◄" Click="previousFlatButton_Click"/>
+                                <Button Content="►" Click="nextFlatButton_Click"/>
+                                <Button Content="►|" Click="lastFlatButton_Click"/>
+                                <Separator/>
+                                <Button Content="Удалить" Click="removeFlatButton_Click"/>
+                            </ToolBar>
                             <DataGrid ItemsSource="{Binding Source={StaticResource flatsViewSourse}}" Background="Gray" 
                                       x:Name="flatsDataGrid"
                                       IsReadOnly="True" 
@@ -337,28 +356,39 @@
                                     <DataGridCheckBoxColumn Binding="{Binding Level}" Header="Двух уровневая" Width="auto"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                            </DockPanel>
                         </xcad:LayoutDocument>
                         <!--Комнаты-->
                         <xcad:LayoutDocument x:Name="roomsTable" ContentId="rooms" Title="Комнаты" CanClose="True">
-                            <DataGrid ItemsSource="{Binding Source={StaticResource roomsViewSourse}}" Background="Gray"
-                                      x:Name="roomsDataGrid" 
-                                      IsReadOnly="True" 
-                                      HorizontalScrollBarVisibility="Visible" 
-                                      AutoGenerateColumns="False"
-                                      SelectionChanged="roomsDataGrid_SelectionChanged">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn  Binding="{Binding RoomId}" Header="Id комнаты" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Flat}" Header="Id квартиры"  Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Record}" Header="Номер помещения" Width="auto"/>
-                                    <DataGridTextColumn  Binding="{Binding Name}" Header="Назначение" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding SquareRoom}" Header="Площадь помещения" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Size}" Header="Размер в плане" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding HeightRoom}" Header="Высота помещения" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Decoretion}" Header="Отделка помещения" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Section}" Header="Число элементов в батарее отопления" Width="auto"/>
-                                    <DataGridTextColumn Binding="{Binding Socket}" Header="Кол-во розеток" Width="auto"/>
-                                </DataGrid.Columns>
-                            </DataGrid>
+                            <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="|◄" Click="firstRoomButton_Click"/>
+                                    <Button Content="◄" Click="previousRoomButton_Click"/>
+                                    <Button Content="►" Click="nextRoomButton_Click"/>
+                                    <Button Content="►|" Click="lastRoomButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Удалить" Click="removeRoomButton_Click"/>
+                                </ToolBar>
+                                <DataGrid ItemsSource="{Binding Source={StaticResource roomsViewSourse}}" Background="Gray"
+                                          x:Name="roomsDataGrid" 
+                                          IsReadOnly="True" 
+                                          HorizontalScrollBarVisibility="Visible" 
+                                          AutoGenerateColumns="False"
+                                          SelectionChanged="roomsDataGrid_SelectionChanged">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn  Binding="{Binding RoomId}" Header="Id комнаты" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flat}" Header="Id квартиры"  Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Record}" Header="Номер помещения" Width="auto"/>
+                                        <DataGridTextColumn  Binding="{Binding Name}" Header="Назначение" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding SquareRoom}" Header="Площадь помещения" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Size}" Header="Размер в плане" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding HeightRoom}" Header="Высота помещения" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Decoretion}" Header="Отделка помещения" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Section}" Header="Число элементов в батарее отопления" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Socket}" Header="Кол-во розеток" Width="auto"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
                         </xcad:LayoutDocument>
                     </xcad:LayoutDocumentPane>
                     <!--Доп информация о здании-->
