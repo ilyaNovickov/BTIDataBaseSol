@@ -724,10 +724,8 @@ namespace BTIDataBaseProj
             }
         }
 
-        private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsSeachCollectionView.Refresh();
-        }
+        private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e)=>flatsSeachCollectionView.Refresh();
+        
 
         private void selectFlatOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
@@ -743,22 +741,11 @@ namespace BTIDataBaseProj
                 return;
             }
 
-            IEnumerable<FlatsTable> flats = from FlatsTable flat in flatsDataGrid.Items
-                                            where flat.FlatId == ((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId
-                                            select flat;
-            if (flats.Count() != 1)
-            {
-                MessageBox.Show("В таблице нет квартиры с таким Id");
-                return;
-            }
-
-            flatsDataGrid.SelectedItem = flats.First();
+            SelectFlatOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId);
         }
 
-        private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsSeachCollectionView.Refresh();
-        }
+        private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e)=>buildingsSeachCollectionView.Refresh();
+        
 
         private void selectBuildingOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
@@ -784,6 +771,22 @@ namespace BTIDataBaseProj
             }
 
             buildingsDataGrid.SelectedItem = buildings.First();
+
+            return true;
+        }
+
+        private bool SelectFlatOnSeach(int flatId = -1)
+        {
+            IEnumerable<FlatsTable> flats = from FlatsTable flat in flatsDataGrid.Items
+                                            where flat.FlatId == flatId
+                                            select flat;
+            if (flats.Count() != 1)
+            {
+                MessageBox.Show("В таблице нет квартиры с таким Id");
+                return false;
+            }
+
+            flatsDataGrid.SelectedItem = flats.First();
 
             return true;
         }
