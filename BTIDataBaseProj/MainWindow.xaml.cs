@@ -259,6 +259,12 @@ namespace BTIDataBaseProj
         }
         #endregion
         #endregion
+        #region forComments
+        private void clearBuildingCommentsButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingCommentsTextBox.Clear();
+        }
+        #endregion
         #endregion
 
         #endregion
@@ -540,7 +546,6 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
-
         #region menu
         #region forTables
         private void openBuildingsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(buildingsTable);
@@ -582,5 +587,7 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
+
+        
     }
 }

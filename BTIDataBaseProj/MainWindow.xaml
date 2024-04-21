@@ -368,6 +368,8 @@
                                                Title="Изображение здания" CanHide="True" CanClose="False">
                             <DockPanel>
                                 <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="Сохранить изменения" Click="updateBuildingButton_Click"/>
+                                    <Separator/>
                                     <Button Content="Загрузить фото для выбранного здания" Click="loadImageButton_Click"/>
                                     <Separator/>
                                     <Button Content="Очистить фото" Click="clearBuildingPictureButton_Click"/>
@@ -400,8 +402,21 @@
                         <xcad:LayoutAnchorable x:Name="buildingCommentsPanel"
                                                ContentId="buildingComments" 
                                                Title="Комментарии к зданию" CanClose="False" CanHide="True" >
-                            <TextBox DataContext="{Binding ElementName=aboutBuildingGrid, Path=DataContext}" Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
-                                      VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                            <DockPanel LastChildFill="True">
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="Сохранить изменения" Click="updateBuildingButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Копировать" Command="Copy" CommandTarget="{Binding ElementName=buildingCommentsTextBox}"/>
+                                    <Button Content="Вырезать" Command="Cut" CommandTarget="{Binding ElementName=buildingCommentsTextBox}"/>
+                                    <Button Content="Вставить" Command="Paste" CommandTarget="{Binding ElementName=buildingCommentsTextBox}"/>
+                                    <Separator/>
+                                    <Button Content="Очистить" Click="clearBuildingCommentsButton_Click"/>
+                                </ToolBar>
+                                <TextBox x:Name="buildingCommentsTextBox" 
+                                         DataContext="{Binding ElementName=aboutBuildingGrid, Path=DataContext}" 
+                                         Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                            </DockPanel>
                         </xcad:LayoutAnchorable>
                     </xcad:LayoutAnchorablePane>
                 </xcad:LayoutPanel>
