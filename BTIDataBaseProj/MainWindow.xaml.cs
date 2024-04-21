@@ -56,6 +56,10 @@ namespace BTIDataBaseProj
         FlatInfo flatInfo = new FlatInfo();
         RoomInfo roomInfo = new RoomInfo();
 
+        private ICollectionView flatsSeachCollectionView;
+        private ICollectionView buildingsSeachCollectionView;
+        private ICollectionView roomsSeacgCollectionView;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -79,14 +83,32 @@ namespace BTIDataBaseProj
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
 
+            ObservableCollection<BuildingsTable> buildingsObsevableList = new ObservableCollection<BuildingsTable>(contex.BuildingsTable.Local);
 
+            buildingsSeachCollectionView = CollectionViewSource.GetDefaultView(buildingsObsevableList);
+            buildingsSeachCollectionView.Filter = (obj) =>
+            {
+                if ((buildingKadastrSeachTextBox.Text == null || buildingKadastrSeachTextBox.Text == "")
+                && ((buildingAddressSeachTextBox.Text == null || buildingAddressSeachTextBox.Text == "")))
+                {
+                    return true;
+                }
 
+                BuildingsTable building = obj as BuildingsTable;
+
+                return building.Kadastr.Contains(buildingKadastrSeachTextBox.Text) &&
+                        building.Address.Contains(buildingAddressSeachTextBox.Text);
+            };
+
+            buildingsSeachDataGrid.ItemsSource = buildingsObsevableList;
+
+            #region forFlatSeach
             contex.FlatsTable.Load();
 
-            var s = new ObservableCollection<FlatsTable>(contex.FlatsTable.Local);
+            ObservableCollection<FlatsTable> flatsObservableList = new ObservableCollection<FlatsTable>(contex.FlatsTable.Local);
 
-            v = CollectionViewSource.GetDefaultView(s);
-            v.Filter = (obj) =>
+            flatsSeachCollectionView = CollectionViewSource.GetDefaultView(flatsObservableList);
+            flatsSeachCollectionView.Filter = (obj) =>
             {
                 if (flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "")
                     return true;
@@ -96,10 +118,11 @@ namespace BTIDataBaseProj
                 return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text);
             };
             
-            flatSeachDataGrid.ItemsSource = s;
+            flatSeachDataGrid.ItemsSource = flatsObservableList;
+            #endregion
         }
 
-        private ICollectionView v;
+        
 
         private void mainWin_Closing(object sender, CancelEventArgs e)
         {
@@ -701,9 +724,67 @@ namespace BTIDataBaseProj
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e)
         {
-            v.Refresh();
+            flatsSeachCollectionView.Refresh();
+        }
+
+        private void selectFlatOnSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (flatSeachDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Квартира не выбрана");
+                return;
+            }
+
+            IEnumerable<BuildingsTable> buildings = from BuildingsTable building in buildingsDataGrid.Items
+                                                    where building.Kadastr == ((FlatsTable)flatSeachDataGrid.SelectedItem).BuildingKadastr
+                                                    select building;
+
+            if (buildings.Count() != 1 )
+            {
+                MessageBox.Show("В таблице нет здания с таким кадастром");
+                return;
+            }    
+
+            buildingsDataGrid.SelectedItem = buildings.First();
+
+            IEnumerable<FlatsTable> flats = from FlatsTable flat in flatsDataGrid.Items
+                                            where flat.FlatId == ((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId
+                                            select flat;
+            if (flats.Count() != 1)
+            {
+                MessageBox.Show("В таблице нет квартиры с таким Id");
+                return;
+            }
+
+            flatsDataGrid.SelectedItem = flats.First();
+        }
+
+        private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            buildingsSeachCollectionView.Refresh();
+        }
+
+        private void selectBuildingOnSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingsSeachDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Здание не выбрано");
+                return;
+            }
+
+            IEnumerable<BuildingsTable> buildings = from BuildingsTable building in buildingsDataGrid.Items
+                                                    where building.Kadastr == ((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr
+                                                    select building;
+
+            if (buildings.Count() != 1)
+            {
+                MessageBox.Show("В таблице нет здания с таким кадастром");
+                return;
+            }
+
+            buildingsDataGrid.SelectedItem = buildings.First();
         }
     }
 }

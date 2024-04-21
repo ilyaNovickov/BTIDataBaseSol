@@ -432,7 +432,7 @@
                         <!--Комментарии-->
                         <xcad:LayoutAnchorable x:Name="buildingCommentsPanel"
                                                ContentId="buildingComments" 
-                                               Title="Комментарии к зданию" CanClose="False" CanHide="True" >
+                                               Title="Комментарии к зданию" CanClose="False" CanHide="True">
                             <DockPanel LastChildFill="True">
                                 <ToolBar DockPanel.Dock="Top">
                                     <Button Content="Сохранить изменения" Click="updateBuildingButton_Click"/>
@@ -449,21 +449,60 @@
                                          VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
                             </DockPanel>
                         </xcad:LayoutAnchorable>
-
+                        <!--Поиск зданий-->
+                        <xcad:LayoutAnchorable x:Name="buildingsSeachPanel" ContentId="buildingsSeach"
+                                               Title="Поиск здания" CanHide="True" CanClose="True">
+                            <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="Выбрать здание" Click="selectBuildingOnSeachButton_Click"/>
+                                    <Separator/>
+                                    <Label Content="Кадастр"/>
+                                    <TextBox x:Name="buildingKadastrSeachTextBox" MaxWidth="100" MinWidth="100" HorizontalScrollBarVisibility="Auto" 
+                                             BorderThickness="1" BorderBrush="Gray"/>
+                                    <Separator/>
+                                    <Label Content="Адресс"/>
+                                    <TextBox x:Name="buildingAddressSeachTextBox" MaxWidth="100" MinWidth="100" HorizontalScrollBarVisibility="Auto" 
+                                             BorderThickness="1" BorderBrush="Gray"/>
+                                    <Button Content="Поиск здания" Click="updateBuildingSeachButton_Click"/>
+                                </ToolBar>
+                                <DataGrid x:Name="buildingsSeachDataGrid"
+                                          Background="Gray"
+                                          IsReadOnly="True" 
+                                          HorizontalScrollBarVisibility="Visible" 
+                                          AutoGenerateColumns="False" >
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Kadastr}" Header="Кадастр" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Address}" Header="Адресс" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding District}" Header="Район города" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Land}" Header="Площадь земельного участка" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Year}" Header="Год постройки" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Material}" Header="Материал стен" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Base}" Header="Фундамент" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Wear}" Header="Износ, %" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flow}" Header="Кол-во этажей" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Line}" Header="Расстояние от центра" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Square}" Header="Площадь квартир" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flats}" Header="Кол-во квартир" Width="auto"/>
+                                        <DataGridCheckBoxColumn Binding="{Binding Elevator}" Header="Наличие лифта" Width="auto"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </xcad:LayoutAnchorable>
+                        <!--Поиск квартиры-->
                         <xcad:LayoutAnchorable x:Name="flatsSeachPanel" ContentId="flatsSeach"
                                                Title="Поиск квартиры" CanHide="True" CanClose="True">
                             <DockPanel>
                                 <ToolBar DockPanel.Dock="Top">
-                                    <Button Content="Выбрать квартиру"/>
+                                    <Button Content="Выбрать квартиру" Click="selectFlatOnSeachButton_Click"/>
                                     <Separator/>
                                     <TextBox x:Name="flatIdSeachTextBox" MaxWidth="100" MinWidth="100" HorizontalScrollBarVisibility="Auto" BorderThickness="1" BorderBrush="Gray"/>
-                                    <Button Content="Поиск по Id квартиры" Click="Button_Click"/>
+                                    <Button Content="Поиск по Id квартиры" Click="updateFlatSeachButton_Click"/>
                                 </ToolBar>
-                                <DataGrid Background="Gray" 
-                                      x:Name="flatSeachDataGrid"
-                                      IsReadOnly="True" 
-                                      HorizontalScrollBarVisibility="Visible" 
-                                      AutoGenerateColumns="False" >
+                                <DataGrid Background="Gray"
+                                          x:Name="flatSeachDataGrid"
+                                          IsReadOnly="True" 
+                                          HorizontalScrollBarVisibility="Visible" 
+                                          AutoGenerateColumns="False" >
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Binding="{Binding FlatId}" Header="Id квартиры" Width="auto"/>
                                         <DataGridTextColumn Binding="{Binding BuildingKadastr}" Header="Кадастр здания" Width="auto"/>
