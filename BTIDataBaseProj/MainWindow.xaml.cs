@@ -746,8 +746,25 @@ namespace BTIDataBaseProj
             }
         }
 
-        private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e)=>flatsSeachCollectionView.Refresh();
-        
+        #region seach
+        #region buildingSeach
+        private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e) => buildingsSeachCollectionView.Refresh();
+
+
+        private void selectBuildingOnSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingsSeachDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Здание не выбрано");
+                return;
+            }
+
+            SelectBuildingOnSeach(((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr);
+        }
+        #endregion
+        #region flatSeach
+        private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e) => flatsSeachCollectionView.Refresh();
+
 
         private void selectFlatOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
@@ -765,20 +782,33 @@ namespace BTIDataBaseProj
 
             SelectFlatOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId);
         }
+        #endregion
+        #region roomSeach
+        private void updateRoomsSeachButton_Click(object sender, RoutedEventArgs e) => roomsSeachCollectionView.Refresh();
 
-        private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e)=>buildingsSeachCollectionView.Refresh();
-        
-
-        private void selectBuildingOnSeachButton_Click(object sender, RoutedEventArgs e)
+        private void selectRoomOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
-            if (buildingsSeachDataGrid.SelectedItem == null)
+            if (roomsSeachDataGrid.SelectedItem == null)
             {
-                MessageBox.Show("Здание не выбрано");
+                MessageBox.Show("Комната не выбрана");
                 return;
             }
 
-            SelectBuildingOnSeach(((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr);
+            if (!SelectBuildingOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).FlatsTable.BuildingKadastr))
+            {
+                MessageBox.Show("Здания с таким кадастром нет");
+                return;
+            }
+
+            if (!SelectFlatOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).FlatsTable.FlatId))
+            {
+                MessageBox.Show("Квартиры с таким Id нет");
+                return;
+            }
+
+            SelectRoomOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).RoomId);
         }
+        #endregion
 
         private bool SelectBuildingOnSeach(string kadastr = "")
         {
@@ -813,31 +843,6 @@ namespace BTIDataBaseProj
             return true;
         }
 
-        private void selectRoomOnSeachButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (roomsSeachDataGrid.SelectedItem == null)
-            {
-                MessageBox.Show("Комната не выбрана");
-                return;
-            }
-
-            if (!SelectBuildingOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).FlatsTable.BuildingKadastr))
-            {
-                MessageBox.Show("Здания с таким кадастром нет");
-                return;
-            }
-
-            if (!SelectFlatOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).FlatsTable.FlatId))
-            {
-                MessageBox.Show("Квартиры с таким Id нет");
-                return;
-            }
-
-            SelectRoomOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).RoomId);
-        }
-
-        private void updateRoomsSeachButton_Click(object sender, RoutedEventArgs e)=>roomsSeachCollectionView.Refresh();
-        
         private bool SelectRoomOnSeach(int roomId = -1)
         {
             IEnumerable<RoomsTable> rooms = from RoomsTable room in roomsDataGrid.Items
@@ -854,5 +859,7 @@ namespace BTIDataBaseProj
 
             return true;
         }
+        #endregion
+
     }
 }
