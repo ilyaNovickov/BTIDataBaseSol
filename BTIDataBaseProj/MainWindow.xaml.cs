@@ -20,6 +20,7 @@ using System.IO;
 using Microsoft.Win32;
 using System.ComponentModel;
 using System.Runtime.Remoting.Contexts;
+using Xceed.Wpf.AvalonDock.Layout;
 
 namespace BTIDataBaseProj
 {
@@ -150,6 +151,8 @@ namespace BTIDataBaseProj
                 Elevator = buildingInfo.Elevator
             };
 
+            //roomInfo.RoomsTable = rooms;
+
             contex.BuildingsTable.Add(building);
             buildingsViewSourse.View.Refresh();
             contex.SaveChanges();
@@ -226,8 +229,12 @@ namespace BTIDataBaseProj
 
         private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
         {
+            if (buildingsDataGrid.SelectedItem == null)
+            {
+                buildingInfo.Clear();
+                return;
+            }
             buildingsDataGrid.SelectedItem = null;
-            //buildingInfo.Clear();
         }
 
         #region forImage
@@ -245,27 +252,16 @@ namespace BTIDataBaseProj
         #region aboutFlats
         private void addFlatButtin_Click(object sender, RoutedEventArgs e)
         {
-            if (flatInfo.FlatId != -1 && flatInfo.FlatsTable != null)
-            {
-                MessageBoxResult res = MessageBox.Show("Информация о квартире ссылается на существующею квартиру\nДобавить новую квартиру?", "Внимание", MessageBoxButton.YesNo);
+            //if (flatInfo.FlatId != -1 && flatInfo.FlatsTable != null)
+            //{
+            //    MessageBoxResult res = MessageBox.Show("Информация о квартире ссылается на существующею квартиру\nДобавить новую квартиру?", "Внимание", MessageBoxButton.YesNo);
 
-                if (res != MessageBoxResult.Yes)
-                    return;
-            }
+            //    if (res != MessageBoxResult.Yes)
+            //        return;
+            //}
 
-            #region checkKadastr
-            {
-                IEnumerable<string> kadastrs = from building in contex.BuildingsTable
-                                               select building.Kadastr;
+            CheckKadastrForFlat();
 
-                if (!kadastrs.Contains(flatInfo.BuildingKadastr))
-                {
-                    MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзмените кадастр здания для квартиры");
-                    return;
-                }
-            }
-            #endregion
-            
             FlatsTable flatsTable = new FlatsTable()
             {
                 BuildingKadastr = flatInfo.BuildingKadastr,
@@ -279,10 +275,14 @@ namespace BTIDataBaseProj
                 Rooms = flatInfo.Rooms,
                 SquareFlat = flatInfo.SquareFlat,
             };
-            
+
+            //flatInfo.FlatsTable = flatsTable;
+
             contex.FlatsTable.Add(flatsTable);
             flatsViewSourse.View.Refresh();
             contex.SaveChanges();
+
+            flatsDataGrid.SelectedItem = flatsTable;
         }
 
         private void removeFlatButton_Click(object sender, RoutedEventArgs e)
@@ -306,18 +306,8 @@ namespace BTIDataBaseProj
                 MessageBox.Show("Квартира для изменения не выбрана");
                 return;
             }
-            #region checkKadastr
-            {
-                IEnumerable<string> kadastrs = from building in contex.BuildingsTable
-                                               select building.Kadastr;
 
-                if (!kadastrs.Contains(flatInfo.BuildingKadastr))
-                {
-                    MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзменити кадастр здания для квартиры");
-                    return;
-                }
-            }
-            #endregion
+            CheckKadastrForFlat();
 
             flatInfo.FlatsTable.Dwell = flatInfo.Dwell;
             flatInfo.FlatsTable.Rooms = flatInfo.Rooms;
@@ -339,8 +329,12 @@ namespace BTIDataBaseProj
 
         private void flatClearButton_Click(object sender, RoutedEventArgs e)
         {
+            if (flatsDataGrid.SelectedItem == null)
+            {
+                flatInfo.Clear();
+                return;
+            }
             flatsDataGrid.SelectedItem = null;
-            //flatInfo.Clear();
         }
 
         private void addFlatToSelectedBuildingButton_Click(object sender, RoutedEventArgs e)
@@ -354,6 +348,17 @@ namespace BTIDataBaseProj
             flatInfo.BuildingKadastr = buildingInfo.Kadastr;
 
             addFlatButtin_Click(sender, e);
+        }
+        private void CheckKadastrForFlat()
+        {
+            IEnumerable<string> kadastrs = from building in contex.BuildingsTable
+                                           select building.Kadastr;
+
+            if (!kadastrs.Contains(flatInfo.BuildingKadastr))
+            {
+                MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзмените кадастр здания для квартиры");
+                return;
+            }
         }
 
         #region forError
@@ -393,17 +398,7 @@ namespace BTIDataBaseProj
                 return;
             }
 
-            #region checkFlatId
-            {
-                IEnumerable<int> flats = from flat in contex.FlatsTable
-                                         select flat.FlatId;
-                if (!(flats.Contains(roomInfo.Flat.Value)))
-                {
-                    MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\nИзмените ID квартиры здания для комнаты");
-                    return;
-                }
-            }
-            #endregion
+            CheckFlatIdForRoom();
 
             roomInfo.RoomsTable.Record = roomInfo.Record;
             roomInfo.RoomsTable.Flat = roomInfo.Flat;
@@ -438,25 +433,15 @@ namespace BTIDataBaseProj
 
         private void addRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            if (roomInfo.Flat.Value != -1 && roomInfo.RoomsTable != null)
-            {
-                MessageBoxResult res = MessageBox.Show("Информация о комнате ссылается на существующею кмнату\nДобавить новую комнату?", "Внимание", MessageBoxButton.YesNo);
+            //if (roomInfo.Flat.Value != -1 && roomInfo.RoomsTable != null)
+            //{
+            //    MessageBoxResult res = MessageBox.Show("Информация о комнате ссылается на существующею комнату\nДобавить новую комнату?", "Внимание", MessageBoxButton.YesNo);
 
-                if (res != MessageBoxResult.Yes)
-                    return;
-            }
+            //    if (res != MessageBoxResult.Yes)
+            //        return;
+            //}
 
-            #region checkFlatId
-            {
-                IEnumerable<int> flats = from flat in contex.FlatsTable
-                                          select flat.FlatId;
-                if (!(flats.Contains(roomInfo.Flat.Value)))
-                {
-                    MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\nИзмените ID квартиры здания для комнаты");
-                    return;
-                }
-            }
-            #endregion
+            CheckFlatIdForRoom();
 
             RoomsTable rooms = new RoomsTable()
             {
@@ -471,12 +456,52 @@ namespace BTIDataBaseProj
                 Record = roomInfo.Record,
             };
 
+            //roomInfo.RoomsTable = rooms;
+
             contex.RoomsTable.Add(rooms);
             roomsViewSourse.View.Refresh();
             contex.SaveChanges();
+
+            roomsDataGrid.SelectedItem = rooms;
         }
+
+        private void CheckFlatIdForRoom()
+        {
+            IEnumerable<int> flats = from flat in contex.FlatsTable
+                                     select flat.FlatId;
+            if (!(flats.Contains(roomInfo.Flat.Value)))
+            {
+                MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\nИзмените ID квартиры здания для комнаты");
+                return;
+            }
+        }
+
+        private void clearRoomInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (roomsDataGrid.SelectedItem == null)
+            {
+                roomInfo.Clear();
+                return;
+            }
+            roomsDataGrid.SelectedItem = null;
+        }
+
+        private void addRoomToSelectedFlatButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (flatInfo.FlatsTable == null)
+            {
+                MessageBox.Show("Квартира не выбрана");
+                return;
+            }
+
+            roomInfo.Flat = flatInfo.FlatId;
+
+            addRoomButton_Click(sender, e);
+        }
+
         #region forErrors
         private int roomsErrorsCount = 0;
+
         private void RoomsTextBox_Error(object sender, ValidationErrorEventArgs e)
         {
             if (e.Action == ValidationErrorEventAction.Added)
@@ -484,6 +509,7 @@ namespace BTIDataBaseProj
                 addRoomButton.IsEnabled = false;
                 removeRoomButton.IsEnabled = false;
                 updateRoomButton.IsEnabled = false;
+                addRoomToSelectedFlatButton.IsEnabled = false;
                 roomsErrorsCount++;
             }
             else if (e.Action == ValidationErrorEventAction.Removed)
@@ -494,6 +520,7 @@ namespace BTIDataBaseProj
                     addRoomButton.IsEnabled = true;
                     removeRoomButton.IsEnabled = true;
                     updateRoomButton.IsEnabled = true;
+                    addRoomToSelectedFlatButton.IsEnabled = true;
                 }
             }
         }
@@ -502,6 +529,25 @@ namespace BTIDataBaseProj
         #endregion
 
         #region menu
+        #region forTables
+        private void openBuildingsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(buildingsTable);
+
+
+        private void openFlatsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(flatsTable);
+
+
+        private void openRoomsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(roomsTable);
+
+
+        private void OpenTableInAvalonDock(LayoutContent content)
+        {
+            if (tableLayout.Children.Contains(content))
+                return;
+
+            tableLayout.Children.Add(content);
+            tableLayout.SelectedContentIndex = tableLayout.Children.Count - 1;
+        }
+        #endregion
         #region forVisibleofPanels
         private void buildingInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingInfoPanel.IsVisible = true;
         
@@ -513,13 +559,15 @@ namespace BTIDataBaseProj
         
 
         private void buildingImagePanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingImagePanel.IsVisible = true;
-        
+
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
 
         #endregion
 
         #endregion
+
+        
 
         
     }

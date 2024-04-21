@@ -45,11 +45,11 @@
     <DockPanel>
         <!--Меню-->
         <Menu DockPanel.Dock="Top">
-            <!--<MenuItem Header="Таблицы">
-                <MenuItem Header="Здания" Click="buildingTableMenuItem_Click"/>
-                <MenuItem Header="Квартиры" Click="MenuItem_Click_1"/>
-                <MenuItem Header="Комнаты" Click="MenuItem_Click_2"/>
-            </MenuItem>-->
+            <MenuItem Header="Таблицы">
+                <MenuItem Header="Здания" Click="openBuildingsTableMenuItem_Click"/>
+                <MenuItem Header="Квартиры" Click="openFlatsTableMenuItem_Click"/>
+                <MenuItem Header="Комнаты" Click="openRoomsTableMenuItem_Click"/>
+            </MenuItem>
             <MenuItem Header="Информация">
                 <MenuItem Header="О здании" Click="buildingInfoPanelMenuItem_Click"/>
                 <MenuItem Header="О квартире" Click="flatInfoPanelMenuItem_Click"/>
@@ -226,17 +226,20 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <!--Панель инструментов-->
-                                    
                                     <ToolBar Grid.Column="0" Grid.Row="0">
                                         <Button x:Name="addRoomButton" Content="Добавить" Click="addRoomButton_Click"/>
                                         <Button x:Name="updateRoomButton" Content="Изменить" Click="updateRoomButton_Click"/>
                                         <Button x:Name="removeRoomButton" Content="Удалить" Click="removeRoomButton_Click"/>
+                                        <Button Content="Очистить" Click="clearRoomInfoButton_Click"/>
                                     </ToolBar>
-                                    
-                                    <Grid Grid.Column="0" Grid.Row="1">
+                                    <ToolBar Grid.Column="0" Grid.Row="1">
+                                        <Button x:Name="addRoomToSelectedFlatButton" Content="Добавить комнату к выбранной квартире" Click="addRoomToSelectedFlatButton_Click"/>
+                                    </ToolBar>
+                                    <Grid Grid.Column="0" Grid.Row="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -281,7 +284,7 @@
                     <!--Таблицы-->
                     <xcad:LayoutDocumentPane x:Name="tableLayout">
                         <!--здания-->
-                        <xcad:LayoutDocument x:Name="buildingsTable" ContentId="buildings" Title="Здания" CanClose="False">
+                        <xcad:LayoutDocument x:Name="buildingsTable" ContentId="buildings" Title="Здания" CanClose="True">
                             <DataGrid DataContext="{StaticResource buildingViewSourse}" Background="Gray"
                                       ItemsSource="{Binding}"
                                       x:Name="buildingsDataGrid" 
@@ -307,7 +310,7 @@
                             </DataGrid>
                         </xcad:LayoutDocument>
                         <!--Квартиры-->
-                        <xcad:LayoutDocument ContentId="flats" Title="Квартиры" CanClose="False">
+                        <xcad:LayoutDocument x:Name="flatsTable" ContentId="flats" Title="Квартиры" CanClose="True">
                             <DataGrid ItemsSource="{Binding Source={StaticResource flatsViewSourse}}" Background="Gray" 
                                       x:Name="flatsDataGrid"
                                       IsReadOnly="True" 
@@ -330,7 +333,7 @@
                             </DataGrid>
                         </xcad:LayoutDocument>
                         <!--Комнаты-->
-                        <xcad:LayoutDocument ContentId="rooms" Title="Комнаты" CanClose="False">
+                        <xcad:LayoutDocument x:Name="roomsTable" ContentId="rooms" Title="Комнаты" CanClose="True">
                             <DataGrid ItemsSource="{Binding Source={StaticResource roomsViewSourse}}" Background="Gray"
                                       x:Name="roomsDataGrid" 
                                       IsReadOnly="True" 
