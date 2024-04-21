@@ -208,6 +208,22 @@ namespace BTIDataBaseProj
             contex.SaveChanges();
         }
 
+        private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingsDataGrid.SelectedItem == null)
+            {
+                buildingInfo.Clear();
+                return;
+            }
+            buildingsDataGrid.SelectedItem = null;
+        }
+
+        private void openBuildongCommentsButton_Click(object sender, RoutedEventArgs e)=>buildingCommentsPanelMenuItem_Click(sender, e);
+        
+
+        private void openBuildingImageButton_Click(object sender, RoutedEventArgs e)=>buildingImagePanelMenuItem_Click(sender, e);
+        
+
         private void loadImageButton_Click(object sender, RoutedEventArgs e)
         {
             Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
@@ -227,14 +243,9 @@ namespace BTIDataBaseProj
             }
         }
 
-        private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
+        private void clearBuildingPictureButton_Click(object sender, RoutedEventArgs e)
         {
-            if (buildingsDataGrid.SelectedItem == null)
-            {
-                buildingInfo.Clear();
-                return;
-            }
-            buildingsDataGrid.SelectedItem = null;
+            buildingInfo.Picture = null;
         }
 
         #region forImage
@@ -563,12 +574,11 @@ namespace BTIDataBaseProj
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
 
-        #endregion
+
+
 
         #endregion
 
-        
-
-        
+        #endregion
     }
 }

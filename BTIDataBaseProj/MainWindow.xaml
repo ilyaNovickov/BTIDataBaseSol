@@ -82,18 +82,23 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
                                     <!--Панель инструментов-->
                                     <ToolBar Grid.Column="0" Grid.Row="0">
                                         <Button Content="Добавить" Click="addBuildingButton_Click"/>
                                         <Button Content="Изменить" Click="updateBuildingButton_Click"/>
-                                        <Button Content="Загрузить фото" Click="loadImageButton_Click"/>
+                                        <Button Content="Загрузить фото" Click="openBuildingImageButton_Click"/>
                                         <Button Content="Удалить" Click="removeBuildingButton_Click"/>
                                         <Button Content="Очистить" Click="clearBuildingInfoButton_Click"/>
                                     </ToolBar>
+                                    <ToolBar Grid.Column="0" Grid.Row="1">
+                                        <Button Content="Изображение" Click="openBuildingImageButton_Click"/>
+                                        <Button Content="Коммантарии" Click="openBuildongCommentsButton_Click"/>
+                                    </ToolBar>
                                     <!--О здании-->
-                                    <Grid Grid.Column="0" Grid.Row="1">
+                                    <Grid Grid.Column="0" Grid.Row="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                             <ColumnDefinition/>
@@ -362,6 +367,11 @@
                                                ContentId="buildingPicture" 
                                                Title="Изображение здания" CanHide="True" CanClose="False">
                             <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="Загрузить фото для выбранного здания" Click="loadImageButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Очистить фото" Click="clearBuildingPictureButton_Click"/>
+                                </ToolBar>
                                 <StatusBar DockPanel.Dock="Bottom">
                                     <Slider x:Name="slider" 
                                         Minimum="0" 
