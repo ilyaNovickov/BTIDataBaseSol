@@ -155,7 +155,8 @@ namespace BTIDataBaseProj
 
             contex.BuildingsTable.Add(building);
             buildingsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
 
             buildingsDataGrid.SelectedItem = building;
         }
@@ -171,7 +172,8 @@ namespace BTIDataBaseProj
             contex.BuildingsTable.Remove(buildingInfo.BuildingsTable);
             buildingInfo.Clear();
             buildingsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
         }
 
         private void updateBuildingButton_Click(object sender, RoutedEventArgs e)
@@ -204,8 +206,11 @@ namespace BTIDataBaseProj
             buildingInfo.BuildingsTable.Land = buildingInfo.Land;
             //buildingInfo.BuildingsTable.Kadastr = buildingInfo.Kadastr;
 
+            //contex.SaveChanges();
+            SaveDBChangings();
+
             buildingsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            
         }
 
         private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
@@ -299,7 +304,8 @@ namespace BTIDataBaseProj
 
             contex.FlatsTable.Add(flatsTable);
             flatsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
 
             flatsDataGrid.SelectedItem = flatsTable;
         }
@@ -315,7 +321,8 @@ namespace BTIDataBaseProj
             contex.FlatsTable.Remove(flatInfo.FlatsTable);
             flatInfo.Clear();
             flatsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
         }
 
         private void updateFlatButton_Click(object sender, RoutedEventArgs e)
@@ -339,7 +346,9 @@ namespace BTIDataBaseProj
             flatInfo.FlatsTable.SquareFlat = flatInfo.SquareFlat;
             flatInfo.FlatsTable.BuildingKadastr = flatInfo.BuildingKadastr;
 
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
+
             buildingsViewSourse.View.Refresh();
             flatsViewSourse.View.Refresh();
 
@@ -430,7 +439,9 @@ namespace BTIDataBaseProj
             roomInfo.RoomsTable.Name = roomInfo.Name;
 
 
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
+
             roomsViewSourse.View.Refresh();
             flatsViewSourse.View.Refresh();
             buildingsViewSourse.View.Refresh();
@@ -447,7 +458,8 @@ namespace BTIDataBaseProj
             contex.RoomsTable.Remove(roomInfo.RoomsTable);
             roomInfo.Clear();
             roomsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
         }
 
         private void addRoomButton_Click(object sender, RoutedEventArgs e)
@@ -479,7 +491,8 @@ namespace BTIDataBaseProj
 
             contex.RoomsTable.Add(rooms);
             roomsViewSourse.View.Refresh();
-            contex.SaveChanges();
+            //contex.SaveChanges();
+            SaveDBChangings();
 
             roomsDataGrid.SelectedItem = rooms;
         }
@@ -581,13 +594,25 @@ namespace BTIDataBaseProj
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
 
-
+        private void saveDBMenuItem_Click(object sender, RoutedEventArgs e) => SaveDBChangings();
 
 
         #endregion
 
         #endregion
 
-        
+
+
+        private void SaveDBChangings()
+        {
+            try
+            {
+                contex.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

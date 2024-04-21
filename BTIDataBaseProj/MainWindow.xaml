@@ -45,6 +45,7 @@
     <DockPanel>
         <!--Меню-->
         <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Сохранить" Click="saveDBMenuItem_Click"/>
             <MenuItem Header="Таблицы">
                 <MenuItem Header="Здания" Click="openBuildingsTableMenuItem_Click"/>
                 <MenuItem Header="Квартиры" Click="openFlatsTableMenuItem_Click"/>
