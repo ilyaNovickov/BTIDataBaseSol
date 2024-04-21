@@ -219,7 +219,6 @@ namespace BTIDataBaseProj
         }
 
         private void openBuildongCommentsButton_Click(object sender, RoutedEventArgs e)=>buildingCommentsPanelMenuItem_Click(sender, e);
-        
 
         private void openBuildingImageButton_Click(object sender, RoutedEventArgs e)=>buildingImagePanelMenuItem_Click(sender, e);
 
