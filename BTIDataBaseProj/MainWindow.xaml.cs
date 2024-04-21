@@ -337,6 +337,25 @@ namespace BTIDataBaseProj
 
         }
 
+        private void flatClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            flatsDataGrid.SelectedItem = null;
+            //flatInfo.Clear();
+        }
+
+        private void addFlatToSelectedBuildingButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingInfo.BuildingsTable == null)
+            {
+                MessageBox.Show("Нет выбранного здания");
+                return;
+            }
+
+            flatInfo.BuildingKadastr = buildingInfo.Kadastr;
+
+            addFlatButtin_Click(sender, e);
+        }
+
         #region forError
         private int flatErrorsCount = 0;
         private void AboutFlatTextBox_Error(object sender, ValidationErrorEventArgs e)
@@ -502,23 +521,6 @@ namespace BTIDataBaseProj
 
         #endregion
 
-        private void flatClearButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsDataGrid.SelectedItem = null;
-            //flatInfo.Clear();
-        }
-
-        private void addToSelectedBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (buildingInfo.BuildingsTable == null)
-            {
-                MessageBox.Show("Нет выбранного здания");
-                return;
-            }
-
-            flatInfo.BuildingKadastr = buildingInfo.Kadastr;
-
-            addFlatButtin_Click(sender, e);
-        }
+        
     }
 }

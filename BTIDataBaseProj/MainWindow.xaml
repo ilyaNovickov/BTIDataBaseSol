@@ -167,7 +167,7 @@
                                         <Button Content="Очистить" Click="flatClearButton_Click"/>
                                     </ToolBar>
                                     <ToolBar Grid.Column="0" Grid.Row="1">
-                                        <Button x:Name="addToSelectedBuildingButton" Content="Добавить к выбранному зданию" Click="addToSelectedBuildingButton_Click"/>
+                                        <Button x:Name="addToSelectedBuildingButton" Content="Добавить к выбранному зданию" Click="addFlatToSelectedBuildingButton_Click"/>
                                     </ToolBar>
                                     <Grid Grid.Column="0" Grid.Row="2">
                                         <Grid.ColumnDefinitions>
