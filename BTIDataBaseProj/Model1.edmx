@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище BTIDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BuildingsTable">
+          <Key>
+            <PropertyRef Name="Kadastr" />
+          </Key>
+          <Property Name="Kadastr" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="District" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Land" Type="int" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Material" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Base" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar(max)" />
+          <Property Name="Wear" Type="int" Nullable="false" />
+          <Property Name="Flow" Type="int" Nullable="false" />
+          <Property Name="Line" Type="int" Nullable="false" />
+          <Property Name="Square" Type="int" Nullable="false" />
+          <Property Name="Picture" Type="varbinary(max)" />
+          <Property Name="Flats" Type="int" Nullable="false" />
+          <Property Name="Elevator" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlatsTable">
+          <Key>
+            <PropertyRef Name="FlatId" />
+          </Key>
+          <Property Name="FlatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Flat" Type="int" Nullable="false" />
+          <Property Name="Storey" Type="int" Nullable="false" />
+          <Property Name="Rooms" Type="int" Nullable="false" />
+          <Property Name="Level" Type="bit" Nullable="false" />
+          <Property Name="SquareFlat" Type="int" Nullable="false" />
+          <Property Name="Dwell" Type="int" Nullable="false" />
+          <Property Name="Branch" Type="int" Nullable="false" />
+          <Property Name="Balcony" Type="int" Nullable="false" />
+          <Property Name="Height" Type="int" Nullable="false" />
+          <Property Name="BuildingKadastr" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="RoomsTable">
+          <Key>
+            <PropertyRef Name="RoomId" />
+          </Key>
+          <Property Name="RoomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Record" Type="int" Nullable="false" />
+          <Property Name="SquareRoom" Type="int" Nullable="false" />
+          <Property Name="Size" Type="nvarchar" MaxLength="40" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Decoretion" Type="nvarchar" MaxLength="60" Nullable="false" />
+          <Property Name="HeightRoom" Type="int" Nullable="false" />
+          <Property Name="Socket" Type="int" Nullable="false" />
+          <Property Name="Section" Type="int" Nullable="false" />
+          <Property Name="Flat" Type="int" />
+        </EntityType>
+        <Association Name="FK__FlatsTabl__Build__47DBAE45">
+          <End Role="BuildingsTable" Type="Self.BuildingsTable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FlatsTable" Type="Self.FlatsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BuildingsTable">
+              <PropertyRef Name="Kadastr" />
+            </Principal>
+            <Dependent Role="FlatsTable">
+              <PropertyRef Name="BuildingKadastr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RoomsTable__Flat__49C3F6B7">
+          <End Role="FlatsTable" Type="Self.FlatsTable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoomsTable" Type="Self.RoomsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlatsTable">
+              <PropertyRef Name="FlatId" />
+            </Principal>
+            <Dependent Role="RoomsTable">
+              <PropertyRef Name="Flat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddBuilding" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="kadastr" Type="nvarchar" Mode="In" />
+          <Parameter Name="address" Type="nvarchar" Mode="In" />
+          <Parameter Name="district" Type="nvarchar" Mode="In" />
+          <Parameter Name="land" Type="int" Mode="In" />
+          <Parameter Name="year" Type="int" Mode="In" />
+          <Parameter Name="material" Type="nvarchar" Mode="In" />
+          <Parameter Name="base" Type="nvarchar" Mode="In" />
+          <Parameter Name="flow" Type="int" Mode="In" />
+          <Parameter Name="line" Type="int" Mode="In" />
+          <Parameter Name="square" Type="int" Mode="In" />
+          <Parameter Name="flats" Type="int" Mode="In" />
+          <Parameter Name="comments" Type="nvarchar" Mode="In" />
+          <Parameter Name="wear" Type="int" Mode="In" />
+          <Parameter Name="picture" Type="varbinary(max)" Mode="In" />
+          <Parameter Name="elevator" Type="bit" Mode="In" />
+        </Function>
+        <Function Name="AddFlat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="buildingKadastr" Type="nvarchar" Mode="In" />
+          <Parameter Name="flat" Type="int" Mode="In" />
+          <Parameter Name="storey" Type="int" Mode="In" />
+          <Parameter Name="rooms" Type="int" Mode="In" />
+          <Parameter Name="squareFlat" Type="int" Mode="In" />
+          <Parameter Name="dwell" Type="int" Mode="In" />
+          <Parameter Name="branch" Type="int" Mode="In" />
+          <Parameter Name="height" Type="int" Mode="In" />
+          <Parameter Name="level" Type="bit" Mode="In" />
+          <Parameter Name="balcony" Type="int" Mode="In" />
+        </Function>
+        <Function Name="AddRoom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="flat" Type="int" Mode="In" />
+          <Parameter Name="record" Type="int" Mode="In" />
+          <Parameter Name="squareRoom" Type="int" Mode="In" />
+          <Parameter Name="size" Type="nvarchar" Mode="In" />
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="heightRoom" Type="int" Mode="In" />
+          <Parameter Name="socket" Type="int" Mode="In" />
+          <Parameter Name="section" Type="int" Mode="In" />
+          <Parameter Name="decoretion" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteBuilding" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="buildingKadastr" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteFlat" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FlatId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="DeleteRoom" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="RoomId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetFlats" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="buildingKadastr" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="GetRooms" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FlatId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="Хранилище BTIDataBaseModelContainer">
+          <EntitySet Name="BuildingsTable" EntityType="Self.BuildingsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlatsTable" EntityType="Self.FlatsTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RoomsTable" EntityType="Self.RoomsTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__FlatsTabl__Build__47DBAE45" Association="Self.FK__FlatsTabl__Build__47DBAE45">
+            <End Role="BuildingsTable" EntitySet="BuildingsTable" />
+            <End Role="FlatsTable" EntitySet="FlatsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RoomsTable__Flat__49C3F6B7" Association="Self.FK__RoomsTable__Flat__49C3F6B7">
+            <End Role="FlatsTable" EntitySet="FlatsTable" />
+            <End Role="RoomsTable" EntitySet="RoomsTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BTIDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BuildingsTable">
+          <Key>
+            <PropertyRef Name="Kadastr" />
+          </Key>
+          <Property Name="Kadastr" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="District" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Land" Type="Int32" Nullable="false" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Material" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Base" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Wear" Type="Int32" Nullable="false" />
+          <Property Name="Flow" Type="Int32" Nullable="false" />
+          <Property Name="Line" Type="Int32" Nullable="false" />
+          <Property Name="Square" Type="Int32" Nullable="false" />
+          <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="Flats" Type="Int32" Nullable="false" />
+          <Property Name="Elevator" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="FlatsTable" Relationship="Self.FK__FlatsTabl__Build__47DBAE45" FromRole="BuildingsTable" ToRole="FlatsTable" />
+        </EntityType>
+        <EntityType Name="FlatsTable">
+          <Key>
+            <PropertyRef Name="FlatId" />
+          </Key>
+          <Property Name="FlatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Flat" Type="Int32" Nullable="false" />
+          <Property Name="Storey" Type="Int32" Nullable="false" />
+          <Property Name="Rooms" Type="Int32" Nullable="false" />
+          <Property Name="Level" Type="Boolean" Nullable="false" />
+          <Property Name="SquareFlat" Type="Int32" Nullable="false" />
+          <Property Name="Dwell" Type="Int32" Nullable="false" />
+          <Property Name="Branch" Type="Int32" Nullable="false" />
+          <Property Name="Balcony" Type="Int32" Nullable="false" />
+          <Property Name="Height" Type="Int32" Nullable="false" />
+          <Property Name="BuildingKadastr" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BuildingsTable" Relationship="Self.FK__FlatsTabl__Build__47DBAE45" FromRole="FlatsTable" ToRole="BuildingsTable" />
+          <NavigationProperty Name="RoomsTable" Relationship="Self.FK__RoomsTable__Flat__49C3F6B7" FromRole="FlatsTable" ToRole="RoomsTable" />
+        </EntityType>
+        <EntityType Name="RoomsTable">
+          <Key>
+            <PropertyRef Name="RoomId" />
+          </Key>
+          <Property Name="RoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Record" Type="Int32" Nullable="false" />
+          <Property Name="SquareRoom" Type="Int32" Nullable="false" />
+          <Property Name="Size" Type="String" MaxLength="40" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Decoretion" Type="String" MaxLength="60" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HeightRoom" Type="Int32" Nullable="false" />
+          <Property Name="Socket" Type="Int32" Nullable="false" />
+          <Property Name="Section" Type="Int32" Nullable="false" />
+          <Property Name="Flat" Type="Int32" />
+          <NavigationProperty Name="FlatsTable" Relationship="Self.FK__RoomsTable__Flat__49C3F6B7" FromRole="RoomsTable" ToRole="FlatsTable" />
+        </EntityType>
+        <Association Name="FK__FlatsTabl__Build__47DBAE45">
+          <End Role="BuildingsTable" Type="Self.BuildingsTable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FlatsTable" Type="Self.FlatsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BuildingsTable">
+              <PropertyRef Name="Kadastr" />
+            </Principal>
+            <Dependent Role="FlatsTable">
+              <PropertyRef Name="BuildingKadastr" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RoomsTable__Flat__49C3F6B7">
+          <End Role="FlatsTable" Type="Self.FlatsTable" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RoomsTable" Type="Self.RoomsTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FlatsTable">
+              <PropertyRef Name="FlatId" />
+            </Principal>
+            <Dependent Role="RoomsTable">
+              <PropertyRef Name="Flat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BTIDataBaseEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BuildingsTable" EntityType="Self.BuildingsTable" />
+          <EntitySet Name="FlatsTable" EntityType="Self.FlatsTable" />
+          <EntitySet Name="RoomsTable" EntityType="Self.RoomsTable" />
+          <AssociationSet Name="FK__FlatsTabl__Build__47DBAE45" Association="Self.FK__FlatsTabl__Build__47DBAE45">
+            <End Role="BuildingsTable" EntitySet="BuildingsTable" />
+            <End Role="FlatsTable" EntitySet="FlatsTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RoomsTable__Flat__49C3F6B7" Association="Self.FK__RoomsTable__Flat__49C3F6B7">
+            <End Role="FlatsTable" EntitySet="FlatsTable" />
+            <End Role="RoomsTable" EntitySet="RoomsTable" />
+          </AssociationSet>
+          <FunctionImport Name="AddBuilding">
+            <Parameter Name="kadastr" Mode="In" Type="String" />
+            <Parameter Name="address" Mode="In" Type="String" />
+            <Parameter Name="district" Mode="In" Type="String" />
+            <Parameter Name="land" Mode="In" Type="Int32" />
+            <Parameter Name="year" Mode="In" Type="Int32" />
+            <Parameter Name="material" Mode="In" Type="String" />
+            <Parameter Name="base" Mode="In" Type="String" />
+            <Parameter Name="flow" Mode="In" Type="Int32" />
+            <Parameter Name="line" Mode="In" Type="Int32" />
+            <Parameter Name="square" Mode="In" Type="Int32" />
+            <Parameter Name="flats" Mode="In" Type="Int32" />
+            <Parameter Name="comments" Mode="In" Type="String" />
+            <Parameter Name="wear" Mode="In" Type="Int32" />
+            <Parameter Name="picture" Mode="In" Type="Binary" />
+            <Parameter Name="elevator" Mode="In" Type="Boolean" />
+          </FunctionImport>
+          <FunctionImport Name="AddFlat">
+            <Parameter Name="buildingKadastr" Mode="In" Type="String" />
+            <Parameter Name="flat" Mode="In" Type="Int32" />
+            <Parameter Name="storey" Mode="In" Type="Int32" />
+            <Parameter Name="rooms" Mode="In" Type="Int32" />
+            <Parameter Name="squareFlat" Mode="In" Type="Int32" />
+            <Parameter Name="dwell" Mode="In" Type="Int32" />
+            <Parameter Name="branch" Mode="In" Type="Int32" />
+            <Parameter Name="height" Mode="In" Type="Int32" />
+            <Parameter Name="level" Mode="In" Type="Boolean" />
+            <Parameter Name="balcony" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="AddRoom">
+            <Parameter Name="flat" Mode="In" Type="Int32" />
+            <Parameter Name="record" Mode="In" Type="Int32" />
+            <Parameter Name="squareRoom" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="String" />
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="heightRoom" Mode="In" Type="Int32" />
+            <Parameter Name="socket" Mode="In" Type="Int32" />
+            <Parameter Name="section" Mode="In" Type="Int32" />
+            <Parameter Name="decoretion" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteBuilding">
+            <Parameter Name="buildingKadastr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteFlat">
+            <Parameter Name="FlatId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteRoom">
+            <Parameter Name="RoomId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetFlats" ReturnType="Collection(BTIDataBaseModel.GetFlats_Result)">
+            <Parameter Name="buildingKadastr" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="GetRooms" ReturnType="Collection(BTIDataBaseModel.GetRooms_Result)">
+            <Parameter Name="FlatId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetFlats_Result">
+          <Property Type="Int32" Name="FlatId" Nullable="false" />
+          <Property Type="Int32" Name="Flat" Nullable="false" />
+          <Property Type="Int32" Name="Storey" Nullable="false" />
+          <Property Type="Int32" Name="Rooms" Nullable="false" />
+          <Property Type="Boolean" Name="Level" Nullable="false" />
+          <Property Type="Int32" Name="SquareFlat" Nullable="false" />
+          <Property Type="Int32" Name="Dwell" Nullable="false" />
+          <Property Type="Int32" Name="Branch" Nullable="false" />
+          <Property Type="Int32" Name="Balcony" Nullable="false" />
+          <Property Type="Int32" Name="Height" Nullable="false" />
+          <Property Type="String" Name="BuildingKadastr" Nullable="true" MaxLength="20" />
+        </ComplexType>
+        <ComplexType Name="GetRooms_Result">
+          <Property Type="Int32" Name="RoomId" Nullable="false" />
+          <Property Type="Int32" Name="Record" Nullable="false" />
+          <Property Type="Int32" Name="SquareRoom" Nullable="false" />
+          <Property Type="String" Name="Size" Nullable="false" MaxLength="40" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Decoretion" Nullable="false" MaxLength="60" />
+          <Property Type="Int32" Name="HeightRoom" Nullable="false" />
+          <Property Type="Int32" Name="Socket" Nullable="false" />
+          <Property Type="Int32" Name="Section" Nullable="false" />
+          <Property Type="Int32" Name="Flat" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BTIDataBaseModelContainer" CdmEntityContainer="BTIDataBaseEntities1">
+          <EntitySetMapping Name="BuildingsTable">
+            <EntityTypeMapping TypeName="BTIDataBaseModel.BuildingsTable">
+              <MappingFragment StoreEntitySet="BuildingsTable">
+                <ScalarProperty Name="Kadastr" ColumnName="Kadastr" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Land" ColumnName="Land" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Base" ColumnName="Base" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="Wear" ColumnName="Wear" />
+                <ScalarProperty Name="Flow" ColumnName="Flow" />
+                <ScalarProperty Name="Line" ColumnName="Line" />
+                <ScalarProperty Name="Square" ColumnName="Square" />
+                <ScalarProperty Name="Picture" ColumnName="Picture" />
+                <ScalarProperty Name="Flats" ColumnName="Flats" />
+                <ScalarProperty Name="Elevator" ColumnName="Elevator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlatsTable">
+            <EntityTypeMapping TypeName="BTIDataBaseModel.FlatsTable">
+              <MappingFragment StoreEntitySet="FlatsTable">
+                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+                <ScalarProperty Name="Storey" ColumnName="Storey" />
+                <ScalarProperty Name="Rooms" ColumnName="Rooms" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="SquareFlat" ColumnName="SquareFlat" />
+                <ScalarProperty Name="Dwell" ColumnName="Dwell" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="Balcony" ColumnName="Balcony" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="BuildingKadastr" ColumnName="BuildingKadastr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RoomsTable">
+            <EntityTypeMapping TypeName="BTIDataBaseModel.RoomsTable">
+              <MappingFragment StoreEntitySet="RoomsTable">
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="Record" ColumnName="Record" />
+                <ScalarProperty Name="SquareRoom" ColumnName="SquareRoom" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Decoretion" ColumnName="Decoretion" />
+                <ScalarProperty Name="HeightRoom" ColumnName="HeightRoom" />
+                <ScalarProperty Name="Socket" ColumnName="Socket" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddBuilding" FunctionName="Хранилище BTIDataBaseModel.AddBuilding" />
+          <FunctionImportMapping FunctionImportName="AddFlat" FunctionName="Хранилище BTIDataBaseModel.AddFlat" />
+          <FunctionImportMapping FunctionImportName="AddRoom" FunctionName="Хранилище BTIDataBaseModel.AddRoom" />
+          <FunctionImportMapping FunctionImportName="DeleteBuilding" FunctionName="Хранилище BTIDataBaseModel.DeleteBuilding" />
+          <FunctionImportMapping FunctionImportName="DeleteFlat" FunctionName="Хранилище BTIDataBaseModel.DeleteFlat" />
+          <FunctionImportMapping FunctionImportName="DeleteRoom" FunctionName="Хранилище BTIDataBaseModel.DeleteRoom" />
+          <FunctionImportMapping FunctionImportName="GetFlats" FunctionName="Хранилище BTIDataBaseModel.GetFlats">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BTIDataBaseModel.GetFlats_Result">
+                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+                <ScalarProperty Name="Storey" ColumnName="Storey" />
+                <ScalarProperty Name="Rooms" ColumnName="Rooms" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="SquareFlat" ColumnName="SquareFlat" />
+                <ScalarProperty Name="Dwell" ColumnName="Dwell" />
+                <ScalarProperty Name="Branch" ColumnName="Branch" />
+                <ScalarProperty Name="Balcony" ColumnName="Balcony" />
+                <ScalarProperty Name="Height" ColumnName="Height" />
+                <ScalarProperty Name="BuildingKadastr" ColumnName="BuildingKadastr" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetRooms" FunctionName="Хранилище BTIDataBaseModel.GetRooms">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BTIDataBaseModel.GetRooms_Result">
+                <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+                <ScalarProperty Name="Record" ColumnName="Record" />
+                <ScalarProperty Name="SquareRoom" ColumnName="SquareRoom" />
+                <ScalarProperty Name="Size" ColumnName="Size" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Decoretion" ColumnName="Decoretion" />
+                <ScalarProperty Name="HeightRoom" ColumnName="HeightRoom" />
+                <ScalarProperty Name="Socket" ColumnName="Socket" />
+                <ScalarProperty Name="Section" ColumnName="Section" />
+                <ScalarProperty Name="Flat" ColumnName="Flat" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

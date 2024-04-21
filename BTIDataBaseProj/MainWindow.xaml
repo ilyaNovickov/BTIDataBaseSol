@@ -5,8 +5,455 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BTIDataBaseProj"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        xmlns:BTIDataBaseProj="clr-namespace:BTIDataBaseProj"
+        xmlns:h="clr-namespace:BTIDataBaseProj.Helpers"
+        x:Name="mainWin"
+        Title="Бюро технической инвентаризации" 
+        Height="450" Width="800" 
+        Loaded="Window_Loaded"
+        Closing="mainWin_Closing">
+    <Window.Resources>
+        <CollectionViewSource x:Key="buildingViewSourse" d:DesignSource="{d:DesignInstance {x:Type BTIDataBaseProj:BuildingsTable}}"/>
+        <CollectionViewSource x:Key="flatsViewSourse" Source="{Binding FlatsTable, Source={StaticResource buildingViewSourse}}"/>
+        <CollectionViewSource x:Key="roomsViewSourse" Source="{Binding RoomsTable, Source={StaticResource flatsViewSourse}}"/>
+
+        <Style x:Key="errorToolTip" TargetType="TextBox">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="True">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self},
+                                    Path=(Validation.Errors)[0].ErrorContent}" />
+                    <Setter Property="Foreground" Value="Red" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Violet" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" FontSize="26" FontWeight="Bold" VerticalAlignment="Center">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
+
+        <BitmapImage x:Key="imageFailed" UriSource="Assests/nonImage.png"/>
+    </Window.Resources>
+    <DockPanel>
+        <!--Меню-->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="Сохранить" Click="saveDBMenuItem_Click"/>
+            <MenuItem Header="Таблицы">
+                <MenuItem Header="Здания" Click="openBuildingsTableMenuItem_Click"/>
+                <MenuItem Header="Квартиры" Click="openFlatsTableMenuItem_Click"/>
+                <MenuItem Header="Комнаты" Click="openRoomsTableMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Информация">
+                <MenuItem Header="О здании" Click="buildingInfoPanelMenuItem_Click"/>
+                <MenuItem Header="О квартире" Click="flatInfoPanelMenuItem_Click"/>
+                <MenuItem Header="О комнате" Click="roomInfoMenuItem_Click"/>
+            </MenuItem>
+            <MenuItem Header="Дополнительное для здания">
+                <MenuItem Header="Изображение" Click="buildingImagePanelMenuItem_Click"/>
+                <MenuItem Header="Комметарии" Click="buildingCommentsPanelMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <StatusBar DockPanel.Dock="Bottom">
+            <Label Content=""/>
+        </StatusBar>
+        <xcad:DockingManager x:Name="dockingManager" AllowMixedOrientation="True" BorderBrush="Black"
+                             BorderThickness="1">
+            <xcad:LayoutRoot x:Name="layoutRoot">
+                <xcad:LayoutPanel>
+                    <!--Информация о ...-->
+                    <xcad:LayoutAnchorablePane>
+                        <!--Инфо про здания-->
+                        <xcad:LayoutAnchorable x:Name="buildingInfoPanel"
+                                               ContentId="buldingInfo" 
+                                               Title="О здании" 
+                                               CanHide="True" 
+                                               CanClose="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" BorderBrush="red" BorderThickness="2">
+                                <Grid x:Name="aboutBuildingGrid" MinHeight="500" MinWidth="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <!--Панель инструментов-->
+                                    <ToolBar Grid.Column="0" Grid.Row="0">
+                                        <Button Content="Добавить" Click="addBuildingButton_Click"/>
+                                        <Button Content="Изменить" Click="updateBuildingButton_Click"/>
+                                        <Button Content="Загрузить фото" Click="openBuildingImageButton_Click"/>
+                                        <Button Content="Удалить" Click="removeBuildingButton_Click"/>
+                                        <Button Content="Очистить" Click="clearBuildingInfoButton_Click"/>
+                                    </ToolBar>
+                                    <ToolBar Grid.Column="0" Grid.Row="1">
+                                        <Button Content="Изображение" Click="openBuildingImageButton_Click"/>
+                                        <Button Content="Коммантарии" Click="openBuildongCommentsButton_Click"/>
+                                    </ToolBar>
+                                    <!--О здании-->
+                                    <Grid Grid.Column="0" Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Кадастр:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBox Text="{Binding Kadastr, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Адресс:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <TextBox Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Район города:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding District, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Площадь земельного участка:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                        <xctk:IntegerUpDown Value="{Binding Land, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="3" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Год постройки:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <xctk:IntegerUpDown Value="{Binding Year, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="4" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Материал стен:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
+                                        <TextBox Text="{Binding Material, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Фундамент:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <TextBox Text="{Binding Base, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Износ, %:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <xctk:IntegerUpDown Value="{Binding Wear, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="7" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кол-во этажей:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <xctk:IntegerUpDown Value="{Binding Flow, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="8" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Расстояние от центра:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <xctk:IntegerUpDown Value="{Binding Line, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="9" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Площадь квартир:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
+                                        <xctk:IntegerUpDown Value="{Binding Square, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="10" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кол-во квартир:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="11"/>
+                                        <xctk:IntegerUpDown Value="{Binding Flats, UpdateSourceTrigger=PropertyChanged}" Minimum="0" Grid.Column="1" Grid.Row="11" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Наличие лифта:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="12"/>
+                                        <CheckBox IsChecked="{Binding Elevator, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="12" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </Grid>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
+                        <!--Инфо про квартиры-->
+                        <xcad:LayoutAnchorable x:Name="flatInfoPanel"
+                                               ContentId="flatInfo"
+                                               Title="О квартире"
+                                               CanHide="True"
+                                               CanClose="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <Grid x:Name="aboutFlatGrid" MinHeight="500" MinWidth="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <!--Панель инструментов-->
+                                    <ToolBar Grid.Column="0" Grid.Row="0">
+                                        <Button x:Name="addFlatButton" Content="Добавить" Click="addFlatButtin_Click"/>
+                                        <Button x:Name="updateFlatButton" Content="Изменить" Click="updateFlatButton_Click"/>
+                                        <Button x:Name="removeFlatButton" Content="Удалить" Click="removeFlatButton_Click"/>
+                                        <Button Content="Очистить" Click="flatClearButton_Click"/>
+                                    </ToolBar>
+                                    <ToolBar Grid.Column="0" Grid.Row="1">
+                                        <Button x:Name="addToSelectedBuildingButton" Content="Добавить к выбранному зданию" Click="addFlatToSelectedBuildingButton_Click"/>
+                                    </ToolBar>
+                                    <Grid Grid.Column="0" Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Id квартиры:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBlock Text="{Binding FlatId, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кадастр здания:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <TextBox Text="{Binding BuildingKadastr, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Номер квартиры:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding Flat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Этаж:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                        <TextBox Text="{Binding Storey, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Кол-во комант:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <TextBox Text="{Binding Rooms, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="4" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Общая площадь:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
+                                        <TextBox Text="{Binding SquareFlat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Жилая площадь:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <TextBox Text="{Binding Dwell, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="6" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Площадь балкона:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <TextBox Text="{Binding Balcony, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Вспомогательная площадь:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <TextBox Text="{Binding Branch, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="8" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Высота потолков:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <TextBox Text="{Binding Height, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="9" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left" Validation.Error="AboutFlatTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Двух уровневая:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="10"/>
+                                        <CheckBox IsChecked="{Binding Level, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="10" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </Grid>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
+                        <!--Инфо про комнату-->
+                        <xcad:LayoutAnchorable x:Name="roomInfoPanel"
+                                               ContentId="roomInfo"
+                                               Title="О комнате"
+                                               CanHide="True"
+                                               CanClose="False">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+                                <Grid x:Name="aboutRoomGrid" MinHeight="500" MinWidth="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <!--Панель инструментов-->
+                                    <ToolBar Grid.Column="0" Grid.Row="0">
+                                        <Button x:Name="addRoomButton" Content="Добавить" Click="addRoomButton_Click"/>
+                                        <Button x:Name="updateRoomButton" Content="Изменить" Click="updateRoomButton_Click"/>
+                                        <Button x:Name="removeRoomButton" Content="Удалить" Click="removeRoomButton_Click"/>
+                                        <Button Content="Очистить" Click="clearRoomInfoButton_Click"/>
+                                    </ToolBar>
+                                    <ToolBar Grid.Column="0" Grid.Row="1">
+                                        <Button x:Name="addRoomToSelectedFlatButton" Content="Добавить комнату к выбранной квартире" Click="addRoomToSelectedFlatButton_Click"/>
+                                    </ToolBar>
+                                    <Grid Grid.Column="0" Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <Label Content="Id комнаты:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="0"/>
+                                        <TextBlock Text="{Binding RoomId, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Id квартиры:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="1"/>
+                                        <TextBox Text="{Binding Flat, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="1" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="RoomsTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Номер помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="2"/>
+                                        <TextBox Text="{Binding Record, UpdateSourceTrigger=PropertyChanged, NotifyOnValidationError=True, ValidatesOnExceptions=True}" Grid.Column="1" Grid.Row="2" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left" Validation.Error="RoomsTextBox_Error" Validation.ErrorTemplate="{StaticResource validationFailed}" Style="{StaticResource errorToolTip}"/>
+                                        <Label Content="Назначение:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="3"/>
+                                        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="3" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Площадь помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="4"/>
+                                        <xctk:IntegerUpDown Value="{Binding SquareRoom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="4" Minimum="0" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Размер в плане:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="5" />
+                                        <TextBox Text="{Binding Size, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Высота помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="6"/>
+                                        <xctk:IntegerUpDown Value="{Binding HeightRoom, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="6" Minimum="0" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150"  MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Отделка помещения:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="7"/>
+                                        <TextBox Text="{Binding Decoretion, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="7" VerticalContentAlignment="Center" HorizontalScrollBarVisibility="auto" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Число элементов батарее отопления:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="8"/>
+                                        <xctk:IntegerUpDown Value="{Binding Section, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="8" Minimum="0" VerticalContentAlignment="Center"  Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                        <Label Content="Кол-во розеток:" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Grid.Column="0" Grid.Row="9"/>
+                                        <xctk:IntegerUpDown Value="{Binding Socket, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="9" Minimum="0" VerticalContentAlignment="Center" Margin="5,5,5,5" MaxWidth="150" MinWidth="150" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </Grid>
+                            </ScrollViewer>
+                        </xcad:LayoutAnchorable>
+                    </xcad:LayoutAnchorablePane>
+                    <!--Таблицы-->
+                    <xcad:LayoutDocumentPane x:Name="tableLayout">
+                        <!--здания-->
+                        <xcad:LayoutDocument x:Name="buildingsTable" ContentId="buildings" Title="Здания" CanClose="True">
+                            <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="|◄" Click="firstBuildingButton_Click"/>
+                                    <Button Content="◄" Click="previousBuildingButton_Click"/>
+                                    <Button Content="►" Click="nextBuildingButton_Click"/>
+                                    <Button Content="►|" Click="lastBuildingButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Удалить" Click="removeBuildingButton_Click"/>
+                                </ToolBar>
+                                <DataGrid DataContext="{StaticResource buildingViewSourse}" Background="Gray"
+                                      ItemsSource="{Binding}"
+                                      x:Name="buildingsDataGrid" 
+                                      IsReadOnly="True" 
+                                      HorizontalScrollBarVisibility="Visible" 
+                                      AutoGenerateColumns="False" 
+                                      SelectionChanged="buildingsDataGrid_SelectionChanged">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Binding="{Binding Kadastr}" Header="Кадастр" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Address}" Header="Адресс" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding District}" Header="Район города" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Land}" Header="Площадь земельного участка" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Year}" Header="Год постройки" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Material}" Header="Материал стен" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Base}" Header="Фундамент" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Wear}" Header="Износ, %" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flow}" Header="Кол-во этажей" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Line}" Header="Расстояние от центра" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Square}" Header="Площадь квартир" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flats}" Header="Кол-во квартир" Width="auto"/>
+                                        <DataGridCheckBoxColumn Binding="{Binding Elevator}" Header="Наличие лифта" Width="auto"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </xcad:LayoutDocument>
+                        <!--Квартиры-->
+                        <xcad:LayoutDocument x:Name="flatsTable" ContentId="flats" Title="Квартиры" CanClose="True">
+                            <DockPanel>
+                            <ToolBar DockPanel.Dock="Top">
+                                <Button Content="|◄" Click="firstFlatButton_Click"/>
+                                <Button Content="◄" Click="previousFlatButton_Click"/>
+                                <Button Content="►" Click="nextFlatButton_Click"/>
+                                <Button Content="►|" Click="lastFlatButton_Click"/>
+                                <Separator/>
+                                <Button Content="Удалить" Click="removeFlatButton_Click"/>
+                            </ToolBar>
+                            <DataGrid ItemsSource="{Binding Source={StaticResource flatsViewSourse}}" Background="Gray" 
+                                      x:Name="flatsDataGrid"
+                                      IsReadOnly="True" 
+                                      HorizontalScrollBarVisibility="Visible" 
+                                      AutoGenerateColumns="False" 
+                                      SelectionChanged="flatsDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding FlatId}" Header="Id квартиры" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding BuildingKadastr}" Header="Кадастр здания" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Flat}" Header="Номер квартиры" Width="auto"/>
+                                    <DataGridTextColumn  Binding="{Binding Storey}" Header="Этаж" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Rooms}" Header="Кол-во комнат" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding SquareFlat}" Header="Общая площадь" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Dwell}" Header="Жилая площадь" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Balcony}" Header="Площадь балкона" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Branch}" Header="Вспомогательная площадь" Width="auto"/>
+                                    <DataGridTextColumn Binding="{Binding Height}" Header="Высота полотков" Width="auto"/>
+                                    <DataGridCheckBoxColumn Binding="{Binding Level}" Header="Двух уровневая" Width="auto"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            </DockPanel>
+                        </xcad:LayoutDocument>
+                        <!--Комнаты-->
+                        <xcad:LayoutDocument x:Name="roomsTable" ContentId="rooms" Title="Комнаты" CanClose="True">
+                            <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="|◄" Click="firstRoomButton_Click"/>
+                                    <Button Content="◄" Click="previousRoomButton_Click"/>
+                                    <Button Content="►" Click="nextRoomButton_Click"/>
+                                    <Button Content="►|" Click="lastRoomButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Удалить" Click="removeRoomButton_Click"/>
+                                </ToolBar>
+                                <DataGrid ItemsSource="{Binding Source={StaticResource roomsViewSourse}}" Background="Gray"
+                                          x:Name="roomsDataGrid" 
+                                          IsReadOnly="True" 
+                                          HorizontalScrollBarVisibility="Visible" 
+                                          AutoGenerateColumns="False"
+                                          SelectionChanged="roomsDataGrid_SelectionChanged">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn  Binding="{Binding RoomId}" Header="Id комнаты" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Flat}" Header="Id квартиры"  Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Record}" Header="Номер помещения" Width="auto"/>
+                                        <DataGridTextColumn  Binding="{Binding Name}" Header="Назначение" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding SquareRoom}" Header="Площадь помещения" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Size}" Header="Размер в плане" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding HeightRoom}" Header="Высота помещения" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Decoretion}" Header="Отделка помещения" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Section}" Header="Число элементов в батарее отопления" Width="auto"/>
+                                        <DataGridTextColumn Binding="{Binding Socket}" Header="Кол-во розеток" Width="auto"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DockPanel>
+                        </xcad:LayoutDocument>
+                    </xcad:LayoutDocumentPane>
+                    <!--Доп информация о здании-->
+                    <xcad:LayoutAnchorablePane>
+                        <!--Изображение-->
+                        <xcad:LayoutAnchorable x:Name="buildingImagePanel"
+                                               ContentId="buildingPicture" 
+                                               Title="Изображение здания" CanHide="True" CanClose="False">
+                            <DockPanel>
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="Сохранить изменения" Click="updateBuildingButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Загрузить фото для выбранного здания" Click="loadImageButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Очистить фото" Click="clearBuildingPictureButton_Click"/>
+                                </ToolBar>
+                                <StatusBar DockPanel.Dock="Bottom">
+                                    <Slider x:Name="slider" 
+                                        Minimum="0" 
+                                        Maximum="1" 
+                                        MinWidth="100" 
+                                        Value="0.5" 
+                                        ValueChanged="slider_ValueChanged"
+                                        TickPlacement="BottomRight"
+                                        IsSelectionRangeEnabled="True"
+                                        SelectionStart="0"
+                                        SelectionEnd="1"/>
+                                </StatusBar>
+                                <Border Grid.Row="1" BorderThickness="2" BorderBrush="Gray" Margin="5,5,5,5">
+                                    <ScrollViewer Margin="5,5,5,5" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                                        <Image Stretch="None" DataContext="{Binding ElementName=aboutBuildingGrid, Path=DataContext}"
+                                               Source="{Binding Picture, UpdateSourceTrigger=PropertyChanged, TargetNullValue={StaticResource imageFailed}}">
+                                            <Image.LayoutTransform>
+                                                <ScaleTransform ScaleX="{Binding ElementName=mainWin, Path=Scale}" ScaleY="{Binding ElementName=mainWin, Path=Scale}"/>
+                                            </Image.LayoutTransform>
+                                        </Image>
+                                    </ScrollViewer>
+                                </Border>
+                            </DockPanel>
+                        </xcad:LayoutAnchorable>
+                        <!--Комментарии-->
+                        <xcad:LayoutAnchorable x:Name="buildingCommentsPanel"
+                                               ContentId="buildingComments" 
+                                               Title="Комментарии к зданию" CanClose="False" CanHide="True" >
+                            <DockPanel LastChildFill="True">
+                                <ToolBar DockPanel.Dock="Top">
+                                    <Button Content="Сохранить изменения" Click="updateBuildingButton_Click"/>
+                                    <Separator/>
+                                    <Button Content="Копировать" Command="Copy" CommandTarget="{Binding ElementName=buildingCommentsTextBox}"/>
+                                    <Button Content="Вырезать" Command="Cut" CommandTarget="{Binding ElementName=buildingCommentsTextBox}"/>
+                                    <Button Content="Вставить" Command="Paste" CommandTarget="{Binding ElementName=buildingCommentsTextBox}"/>
+                                    <Separator/>
+                                    <Button Content="Очистить" Click="clearBuildingCommentsButton_Click"/>
+                                </ToolBar>
+                                <TextBox x:Name="buildingCommentsTextBox" 
+                                         DataContext="{Binding ElementName=aboutBuildingGrid, Path=DataContext}" 
+                                         Text="{Binding Comments, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" AcceptsReturn="True" TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                            </DockPanel>
+                        </xcad:LayoutAnchorable>
+                        
+                        
+                    </xcad:LayoutAnchorablePane>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
+    </DockPanel>
 </Window>
