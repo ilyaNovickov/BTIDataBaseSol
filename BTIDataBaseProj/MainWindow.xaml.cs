@@ -737,7 +737,7 @@ namespace BTIDataBaseProj
                 return;
             }
 
-            if (SelectBuildingOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).BuildingKadastr))
+            if (!SelectBuildingOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).BuildingKadastr))
             {
                 MessageBox.Show("Здания с таким кадастром нет");
                 return;
