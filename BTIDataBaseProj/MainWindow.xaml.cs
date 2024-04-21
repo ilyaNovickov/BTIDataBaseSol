@@ -731,20 +731,26 @@ namespace BTIDataBaseProj
 
 
         #endregion
+        #region forSeaching
+        private void openBuildingSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(buildingsSeachPanel);
 
-        #endregion
 
-        private void SaveDBChangings()
+        private void openFlatSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(flatsSeachPanel);
+
+
+        private void openRoomSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(roomsSeachPanel);
+
+
+        private void OpenSeachPanelInAvalonDock(LayoutAnchorable content)
         {
-            try
-            {
-                contex.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            if (extraPanel.Children.Contains(content))
+                return;
+
+            extraPanel.Children.Add(content);
+            extraPanel.SelectedContentIndex = extraPanel.Children.Count - 1;
         }
+        #endregion
+        #endregion
 
         #region seach
         #region buildingSeach
@@ -861,5 +867,16 @@ namespace BTIDataBaseProj
         }
         #endregion
 
+        private void SaveDBChangings()
+        {
+            try
+            {
+                contex.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

@@ -60,6 +60,11 @@
                 <MenuItem Header="Изображение" Click="buildingImagePanelMenuItem_Click"/>
                 <MenuItem Header="Комметарии" Click="buildingCommentsPanelMenuItem_Click"/>
             </MenuItem>
+            <MenuItem Header="Поиск">
+                <MenuItem Header="Поиск здания" Click="openBuildingSeachMenuItem_Click"/>
+                <MenuItem Header="Поиск квартиры" Click="openFlatSeachMenuItem_Click"/>
+                <MenuItem Header="Поиск комнаты" Click="openRoomSeachMenuItem_Click"/>
+            </MenuItem>
         </Menu>
         <StatusBar DockPanel.Dock="Bottom">
             <Label Content=""/>
@@ -392,7 +397,7 @@
                         </xcad:LayoutDocument>
                     </xcad:LayoutDocumentPane>
                     <!--Доп информация о здании-->
-                    <xcad:LayoutAnchorablePane>
+                    <xcad:LayoutAnchorablePane x:Name="extraPanel">
                         <!--Изображение-->
                         <xcad:LayoutAnchorable x:Name="buildingImagePanel"
                                                ContentId="buildingPicture" 
