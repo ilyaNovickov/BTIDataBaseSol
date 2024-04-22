@@ -60,7 +60,6 @@ namespace BTIDataBaseProj
         private ICollectionView buildingsSeachCollectionView;
         private ICollectionView roomsSeachCollectionView;
 
-        //private CollectionViewSource bs;
 
         public MainWindow()
         {
@@ -69,8 +68,6 @@ namespace BTIDataBaseProj
             buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingViewSourse")));
             flatsViewSourse = ((CollectionViewSource)(FindResource("flatsViewSourse")));
             roomsViewSourse = ((CollectionViewSource)FindResource("roomsViewSourse"));
-
-            //bs = new CollectionViewSource();
         }
 
         ~MainWindow()
@@ -108,9 +105,8 @@ namespace BTIDataBaseProj
             #region forFlatSeach
             contex.FlatsTable.Load();
 
-            ObservableCollection<FlatsTable> flatsObservableList = new ObservableCollection<FlatsTable>(contex.FlatsTable.Local);
+            flatsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.FlatsTable.Local);
 
-            flatsSeachCollectionView = CollectionViewSource.GetDefaultView(flatsObservableList);
             flatsSeachCollectionView.Filter = (obj) =>
             {
                 if ((flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "") &&
@@ -123,14 +119,12 @@ namespace BTIDataBaseProj
                             f.Flat.ToString().Contains(flatNumberSeachTextBox.Text);
             };
             
-            flatSeachDataGrid.ItemsSource = flatsObservableList;
+            flatSeachDataGrid.ItemsSource = contex.FlatsTable.Local;
             #endregion
             #region forRoomSeach
             contex.RoomsTable.Load();
 
-            ObservableCollection<RoomsTable> roomsTables = new ObservableCollection<RoomsTable>(contex.RoomsTable.Local);
-
-            roomsSeachCollectionView = CollectionViewSource.GetDefaultView(roomsTables);
+            roomsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.RoomsTable.Local);
             roomsSeachCollectionView.Filter = (obj) =>
             {
                 if ((roomIdSeachTextBox.Text == null || roomIdSeachTextBox.Text == "")
@@ -145,7 +139,7 @@ namespace BTIDataBaseProj
                         room.Record.ToString().Contains(roomRecordSeachTextBox.Text);
             };
 
-            roomsSeachDataGrid.ItemsSource = roomsTables;
+            roomsSeachDataGrid.ItemsSource = contex.RoomsTable.Local;
 #endregion
         }
 
@@ -421,7 +415,8 @@ namespace BTIDataBaseProj
 
             contex.FlatsTable.Add(flatsTable);
             flatsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            flatsSeachCollectionView.Refresh();
+
             SaveDBChangings();
 
             flatsDataGrid.SelectedItem = flatsTable;
@@ -436,9 +431,10 @@ namespace BTIDataBaseProj
             }
 
             contex.FlatsTable.Remove(flatInfo.FlatsTable);
-            flatInfo.Clear();
+
             flatsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            flatsSeachCollectionView.Refresh();
+
             SaveDBChangings();
         }
 
@@ -463,12 +459,11 @@ namespace BTIDataBaseProj
             flatInfo.FlatsTable.SquareFlat = flatInfo.SquareFlat;
             flatInfo.FlatsTable.BuildingKadastr = flatInfo.BuildingKadastr;
 
-            //contex.SaveChanges();
             SaveDBChangings();
 
             buildingsViewSourse.View.Refresh();
             flatsViewSourse.View.Refresh();
-
+            flatsSeachCollectionView.Refresh();
 
         }
 
@@ -578,12 +573,12 @@ namespace BTIDataBaseProj
             roomInfo.RoomsTable.Name = roomInfo.Name;
 
 
-            //contex.SaveChanges();
             SaveDBChangings();
 
             roomsViewSourse.View.Refresh();
             flatsViewSourse.View.Refresh();
             buildingsViewSourse.View.Refresh();
+            roomsSeachCollectionView.Refresh();
         }
 
         private void removeRoomButton_Click(object sender, RoutedEventArgs e)
@@ -595,9 +590,10 @@ namespace BTIDataBaseProj
             }
 
             contex.RoomsTable.Remove(roomInfo.RoomsTable);
-            roomInfo.Clear();
+
             roomsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            roomsSeachCollectionView.Refresh();
+
             SaveDBChangings();
         }
 
@@ -630,7 +626,8 @@ namespace BTIDataBaseProj
 
             contex.RoomsTable.Add(rooms);
             roomsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            roomsSeachCollectionView.Refresh();
+
             SaveDBChangings();
 
             roomsDataGrid.SelectedItem = rooms;
