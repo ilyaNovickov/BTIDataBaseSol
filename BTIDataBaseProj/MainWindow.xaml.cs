@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using System.ComponentModel;
 using System.Runtime.Remoting.Contexts;
 using Xceed.Wpf.AvalonDock.Layout;
+using System.Collections.ObjectModel;
 
 namespace BTIDataBaseProj
 {
@@ -55,6 +56,11 @@ namespace BTIDataBaseProj
         FlatInfo flatInfo = new FlatInfo();
         RoomInfo roomInfo = new RoomInfo();
 
+        private ICollectionView flatsSeachCollectionView;
+        private ICollectionView buildingsSeachCollectionView;
+        private ICollectionView roomsSeachCollectionView;
+
+
         public MainWindow()
         {
             InitializeComponent();
@@ -77,6 +83,64 @@ namespace BTIDataBaseProj
             
             contex.BuildingsTable.Load();
             buildingsViewSourse.Source = contex.BuildingsTable.Local;
+            #region forBuildingSeach
+            buildingsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.BuildingsTable.Local);
+
+            buildingsSeachCollectionView.Filter = (obj) =>
+            {
+                if ((buildingKadastrSeachTextBox.Text == null || buildingKadastrSeachTextBox.Text == "")
+                && ((buildingAddressSeachTextBox.Text == null || buildingAddressSeachTextBox.Text == "")))
+                {
+                    return true;
+                }
+
+                BuildingsTable building = obj as BuildingsTable;
+
+                return building.Kadastr.Contains(buildingKadastrSeachTextBox.Text) &&
+                        building.Address.Contains(buildingAddressSeachTextBox.Text);
+            };
+
+            buildingsSeachDataGrid.ItemsSource = contex.BuildingsTable.Local;
+#endregion
+            #region forFlatSeach
+            contex.FlatsTable.Load();
+
+            flatsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.FlatsTable.Local);
+
+            flatsSeachCollectionView.Filter = (obj) =>
+            {
+                if ((flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "") &&
+                    (flatNumberSeachTextBox.Text == null || flatNumberSeachTextBox.Text == ""))
+                    return true;
+
+                FlatsTable f = obj as FlatsTable;
+
+                return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text) && 
+                            f.Flat.ToString().Contains(flatNumberSeachTextBox.Text);
+            };
+            
+            flatSeachDataGrid.ItemsSource = contex.FlatsTable.Local;
+            #endregion
+            #region forRoomSeach
+            contex.RoomsTable.Load();
+
+            roomsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.RoomsTable.Local);
+            roomsSeachCollectionView.Filter = (obj) =>
+            {
+                if ((roomIdSeachTextBox.Text == null || roomIdSeachTextBox.Text == "")
+                && ((roomRecordSeachTextBox.Text == null || roomRecordSeachTextBox.Text == "")))
+                {
+                    return true;
+                }
+
+                RoomsTable room = obj as RoomsTable;
+
+                return room.RoomId.ToString().Contains(roomIdSeachTextBox.Text) &&
+                        room.Record.ToString().Contains(roomRecordSeachTextBox.Text);
+            };
+
+            roomsSeachDataGrid.ItemsSource = contex.RoomsTable.Local;
+#endregion
         }
 
         private void mainWin_Closing(object sender, CancelEventArgs e)
@@ -177,8 +241,10 @@ namespace BTIDataBaseProj
             //roomInfo.RoomsTable = rooms;
 
             contex.BuildingsTable.Add(building);
+
             buildingsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            buildingsSeachCollectionView.Refresh();
+
             SaveDBChangings();
 
             buildingsDataGrid.SelectedItem = building;
@@ -193,9 +259,10 @@ namespace BTIDataBaseProj
             }
 
             contex.BuildingsTable.Remove(buildingInfo.BuildingsTable);
-            buildingInfo.Clear();
+
             buildingsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            buildingsSeachCollectionView.Refresh();
+
             SaveDBChangings();
         }
 
@@ -229,11 +296,11 @@ namespace BTIDataBaseProj
             buildingInfo.BuildingsTable.Land = buildingInfo.Land;
             //buildingInfo.BuildingsTable.Kadastr = buildingInfo.Kadastr;
 
-            //contex.SaveChanges();
             SaveDBChangings();
 
             buildingsViewSourse.View.Refresh();
-            
+            buildingsSeachCollectionView.Refresh();
+
         }
 
         private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
@@ -348,7 +415,8 @@ namespace BTIDataBaseProj
 
             contex.FlatsTable.Add(flatsTable);
             flatsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            flatsSeachCollectionView.Refresh();
+
             SaveDBChangings();
 
             flatsDataGrid.SelectedItem = flatsTable;
@@ -363,9 +431,10 @@ namespace BTIDataBaseProj
             }
 
             contex.FlatsTable.Remove(flatInfo.FlatsTable);
-            flatInfo.Clear();
+
             flatsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            flatsSeachCollectionView.Refresh();
+
             SaveDBChangings();
         }
 
@@ -390,12 +459,11 @@ namespace BTIDataBaseProj
             flatInfo.FlatsTable.SquareFlat = flatInfo.SquareFlat;
             flatInfo.FlatsTable.BuildingKadastr = flatInfo.BuildingKadastr;
 
-            //contex.SaveChanges();
             SaveDBChangings();
 
             buildingsViewSourse.View.Refresh();
             flatsViewSourse.View.Refresh();
-
+            flatsSeachCollectionView.Refresh();
 
         }
 
@@ -505,12 +573,12 @@ namespace BTIDataBaseProj
             roomInfo.RoomsTable.Name = roomInfo.Name;
 
 
-            //contex.SaveChanges();
             SaveDBChangings();
 
             roomsViewSourse.View.Refresh();
             flatsViewSourse.View.Refresh();
             buildingsViewSourse.View.Refresh();
+            roomsSeachCollectionView.Refresh();
         }
 
         private void removeRoomButton_Click(object sender, RoutedEventArgs e)
@@ -522,9 +590,10 @@ namespace BTIDataBaseProj
             }
 
             contex.RoomsTable.Remove(roomInfo.RoomsTable);
-            roomInfo.Clear();
+
             roomsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            roomsSeachCollectionView.Refresh();
+
             SaveDBChangings();
         }
 
@@ -557,7 +626,8 @@ namespace BTIDataBaseProj
 
             contex.RoomsTable.Add(rooms);
             roomsViewSourse.View.Refresh();
-            //contex.SaveChanges();
+            roomsSeachCollectionView.Refresh();
+
             SaveDBChangings();
 
             roomsDataGrid.SelectedItem = rooms;
@@ -626,6 +696,8 @@ namespace BTIDataBaseProj
 
         #endregion
         #region menu
+        private void saveDBMenuItem_Click(object sender, RoutedEventArgs e) => SaveDBChangings();
+        private void closeMenuItem_Click(object sender, RoutedEventArgs e) => this.Close();
         #region forTables
         private void openBuildingsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(buildingsTable);
 
@@ -659,12 +731,141 @@ namespace BTIDataBaseProj
 
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
+        #endregion
+        #region forSeaching
+        private void openBuildingSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(buildingsSeachPanel);
 
-        private void saveDBMenuItem_Click(object sender, RoutedEventArgs e) => SaveDBChangings();
+
+        private void openFlatSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(flatsSeachPanel);
 
 
+        private void openRoomSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(roomsSeachPanel);
+
+
+        private void OpenSeachPanelInAvalonDock(LayoutAnchorable content)
+        {
+            if (extraPanel.Children.Contains(content))
+                return;
+
+            extraPanel.Children.Add(content);
+            extraPanel.SelectedContentIndex = extraPanel.Children.Count - 1;
+        }
+        #endregion
         #endregion
 
+        #region seach
+        #region buildingSeach
+        private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e) => buildingsSeachCollectionView.Refresh();
+
+
+        private void selectBuildingOnSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (buildingsSeachDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Здание не выбрано");
+                return;
+            }
+
+            SelectBuildingOnSeach(((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr);
+        }
+        #endregion
+        #region flatSeach
+        private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e) => flatsSeachCollectionView.Refresh();
+
+
+        private void selectFlatOnSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (flatSeachDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Квартира не выбрана");
+                return;
+            }
+
+            if (!SelectBuildingOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).BuildingKadastr))
+            {
+                MessageBox.Show("Здания с таким кадастром нет");
+                return;
+            }
+
+            SelectFlatOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId);
+        }
+        #endregion
+        #region roomSeach
+        private void updateRoomsSeachButton_Click(object sender, RoutedEventArgs e) => roomsSeachCollectionView.Refresh();
+
+        private void selectRoomOnSeachButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (roomsSeachDataGrid.SelectedItem == null)
+            {
+                MessageBox.Show("Комната не выбрана");
+                return;
+            }
+
+            if (!SelectBuildingOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).FlatsTable.BuildingKadastr))
+            {
+                MessageBox.Show("Здания с таким кадастром нет");
+                return;
+            }
+
+            if (!SelectFlatOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).FlatsTable.FlatId))
+            {
+                MessageBox.Show("Квартиры с таким Id нет");
+                return;
+            }
+
+            SelectRoomOnSeach(((RoomsTable)roomsSeachDataGrid.SelectedItem).RoomId);
+        }
+        #endregion
+
+        private bool SelectBuildingOnSeach(string kadastr = "")
+        {
+            IEnumerable<BuildingsTable> buildings = from BuildingsTable building in buildingsDataGrid.Items
+                                                    where building.Kadastr == kadastr
+                                                    select building;
+
+            if (buildings.Count() != 1)
+            {
+                MessageBox.Show("В таблице нет здания с таким кадастром");
+                return false;
+            }
+
+            buildingsDataGrid.SelectedItem = buildings.First();
+
+            return true;
+        }
+
+        private bool SelectFlatOnSeach(int flatId = -1)
+        {
+            IEnumerable<FlatsTable> flats = from FlatsTable flat in flatsDataGrid.Items
+                                            where flat.FlatId == flatId
+                                            select flat;
+            if (flats.Count() != 1)
+            {
+                MessageBox.Show("В таблице нет квартиры с таким Id");
+                return false;
+            }
+
+            flatsDataGrid.SelectedItem = flats.First();
+
+            return true;
+        }
+
+        private bool SelectRoomOnSeach(int roomId = -1)
+        {
+            IEnumerable<RoomsTable> rooms = from RoomsTable room in roomsDataGrid.Items
+                                            where room.RoomId == roomId
+                                            select room;
+
+            if (rooms.Count() != 1)
+            {
+                MessageBox.Show("В таблице нет комнаты с таким Id");
+                return false;
+            }
+
+            roomsDataGrid.SelectedItem = rooms.First();
+
+            return true;
+        }
         #endregion
 
         private void SaveDBChangings()
@@ -678,6 +879,6 @@ namespace BTIDataBaseProj
                 MessageBox.Show(ex.Message);
             }
         }
-  
+        
     }
 }
