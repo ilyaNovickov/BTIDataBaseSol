@@ -14,6 +14,9 @@ using System.Windows.Data;
 
 namespace BTIDataBaseProj.Helpers
 {
+    /// <summary>
+    /// Информация о помещении
+    /// </summary>
     public class RoomInfo : INotifyPropertyChanged
     {
         private int roomId = -1;
@@ -28,6 +31,9 @@ namespace BTIDataBaseProj.Helpers
         private int? flat = 0;
         private RoomsTable roomsTable = null;
 
+        /// <summary>
+        /// ID помещения
+        /// </summary>
         public int RoomId 
         {
             get => roomId;
@@ -37,6 +43,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Номер помещения
+        /// </summary>
         public int Record 
         {
             get => record; 
@@ -46,6 +55,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Площадь помещения
+        /// </summary>
         public int SquareRoom 
         {
             get => squareRoom;
@@ -55,6 +67,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Размер помещения в плане
+        /// </summary>
         public string Size 
         {
             get => size;
@@ -64,6 +79,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Назначение
+        /// </summary>
         public string Name 
         {
             get => name;
@@ -73,6 +91,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Отделка
+        /// </summary>
         public string Decoretion 
         {
             get => decoration;
@@ -82,6 +103,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Высота помещения
+        /// </summary>
         public int HeightRoom
         {
             get => heightRoom;
@@ -91,6 +115,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Кол-во розеток
+        /// </summary>
         public int Socket 
         {
             get => socket;
@@ -100,6 +127,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Кол-во элементов в батарее отопления
+        /// </summary>
         public int Section 
         {
             get => section;
@@ -109,6 +139,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// ID связанной квартиры
+        /// </summary>
         public Nullable<int> Flat 
         {
             get => flat ?? 0;
@@ -118,7 +151,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
-
+        /// <summary>
+        /// Модель помещения в БД
+        /// </summary>
         public RoomsTable RoomsTable
         {
             get => roomsTable;
@@ -137,6 +172,7 @@ End:
             }
         }
 
+        //Установка соотведствующих свойств помещения
         private void SetProperties(RoomsTable roomsTable)
         {
             RoomId = roomsTable.RoomId;
@@ -151,6 +187,7 @@ End:
             Flat = roomsTable.Flat;
         }
 
+        //Сброс свойств в значение по умолчанию
         private void ClearProperties()
         {
             RoomId = -1;
@@ -165,6 +202,9 @@ End:
             Flat = -1;
         }
 
+        /// <summary>
+        /// Сброс свойств
+        /// </summary>
         public void Clear()
         {
             ClearProperties();

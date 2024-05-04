@@ -56,7 +56,7 @@
           <Property Name="Section" Type="int" Nullable="false" />
           <Property Name="Flat" Type="int" />
         </EntityType>
-        <Association Name="FK__FlatsTabl__Build__47DBAE45">
+        <Association Name="FK__FlatsTabl__Build__3E52440B">
           <End Role="BuildingsTable" Type="Self.BuildingsTable" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -70,7 +70,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RoomsTable__Flat__49C3F6B7">
+        <Association Name="FK__RoomsTable__Flat__4222D4EF">
           <End Role="FlatsTable" Type="Self.FlatsTable" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -143,11 +143,11 @@
           <EntitySet Name="BuildingsTable" EntityType="Self.BuildingsTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FlatsTable" EntityType="Self.FlatsTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RoomsTable" EntityType="Self.RoomsTable" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__FlatsTabl__Build__47DBAE45" Association="Self.FK__FlatsTabl__Build__47DBAE45">
+          <AssociationSet Name="FK__FlatsTabl__Build__3E52440B" Association="Self.FK__FlatsTabl__Build__3E52440B">
             <End Role="BuildingsTable" EntitySet="BuildingsTable" />
             <End Role="FlatsTable" EntitySet="FlatsTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__RoomsTable__Flat__49C3F6B7" Association="Self.FK__RoomsTable__Flat__49C3F6B7">
+          <AssociationSet Name="FK__RoomsTable__Flat__4222D4EF" Association="Self.FK__RoomsTable__Flat__4222D4EF">
             <End Role="FlatsTable" EntitySet="FlatsTable" />
             <End Role="RoomsTable" EntitySet="RoomsTable" />
           </AssociationSet>
@@ -176,7 +176,7 @@
           <Property Name="Picture" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="Flats" Type="Int32" Nullable="false" />
           <Property Name="Elevator" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="FlatsTable" Relationship="Self.FK__FlatsTabl__Build__47DBAE45" FromRole="BuildingsTable" ToRole="FlatsTable" />
+          <NavigationProperty Name="FlatsTable" Relationship="Self.FK__FlatsTabl__Build__3E52440B" FromRole="BuildingsTable" ToRole="FlatsTable" />
         </EntityType>
         <EntityType Name="FlatsTable">
           <Key>
@@ -193,8 +193,8 @@
           <Property Name="Balcony" Type="Int32" Nullable="false" />
           <Property Name="Height" Type="Int32" Nullable="false" />
           <Property Name="BuildingKadastr" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BuildingsTable" Relationship="Self.FK__FlatsTabl__Build__47DBAE45" FromRole="FlatsTable" ToRole="BuildingsTable" />
-          <NavigationProperty Name="RoomsTable" Relationship="Self.FK__RoomsTable__Flat__49C3F6B7" FromRole="FlatsTable" ToRole="RoomsTable" />
+          <NavigationProperty Name="BuildingsTable" Relationship="Self.FK__FlatsTabl__Build__3E52440B" FromRole="FlatsTable" ToRole="BuildingsTable" />
+          <NavigationProperty Name="RoomsTable" Relationship="Self.FK__RoomsTable__Flat__4222D4EF" FromRole="FlatsTable" ToRole="RoomsTable" />
         </EntityType>
         <EntityType Name="RoomsTable">
           <Key>
@@ -210,9 +210,9 @@
           <Property Name="Socket" Type="Int32" Nullable="false" />
           <Property Name="Section" Type="Int32" Nullable="false" />
           <Property Name="Flat" Type="Int32" />
-          <NavigationProperty Name="FlatsTable" Relationship="Self.FK__RoomsTable__Flat__49C3F6B7" FromRole="RoomsTable" ToRole="FlatsTable" />
+          <NavigationProperty Name="FlatsTable" Relationship="Self.FK__RoomsTable__Flat__4222D4EF" FromRole="RoomsTable" ToRole="FlatsTable" />
         </EntityType>
-        <Association Name="FK__FlatsTabl__Build__47DBAE45">
+        <Association Name="FK__FlatsTabl__Build__3E52440B">
           <End Role="BuildingsTable" Type="Self.BuildingsTable" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -226,7 +226,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__RoomsTable__Flat__49C3F6B7">
+        <Association Name="FK__RoomsTable__Flat__4222D4EF">
           <End Role="FlatsTable" Type="Self.FlatsTable" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -240,15 +240,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="BTIDataBaseEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="BTIDataBaseEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BuildingsTable" EntityType="Self.BuildingsTable" />
           <EntitySet Name="FlatsTable" EntityType="Self.FlatsTable" />
           <EntitySet Name="RoomsTable" EntityType="Self.RoomsTable" />
-          <AssociationSet Name="FK__FlatsTabl__Build__47DBAE45" Association="Self.FK__FlatsTabl__Build__47DBAE45">
+          <AssociationSet Name="FK__FlatsTabl__Build__3E52440B" Association="Self.FK__FlatsTabl__Build__3E52440B">
             <End Role="BuildingsTable" EntitySet="BuildingsTable" />
             <End Role="FlatsTable" EntitySet="FlatsTable" />
           </AssociationSet>
-          <AssociationSet Name="FK__RoomsTable__Flat__49C3F6B7" Association="Self.FK__RoomsTable__Flat__49C3F6B7">
+          <AssociationSet Name="FK__RoomsTable__Flat__4222D4EF" Association="Self.FK__RoomsTable__Flat__4222D4EF">
             <End Role="FlatsTable" EntitySet="FlatsTable" />
             <End Role="RoomsTable" EntitySet="RoomsTable" />
           </AssociationSet>
@@ -338,7 +338,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище BTIDataBaseModelContainer" CdmEntityContainer="BTIDataBaseEntities1">
+        <EntityContainerMapping StorageEntityContainer="Хранилище BTIDataBaseModelContainer" CdmEntityContainer="BTIDataBaseEntities">
           <EntitySetMapping Name="BuildingsTable">
             <EntityTypeMapping TypeName="BTIDataBaseModel.BuildingsTable">
               <MappingFragment StoreEntitySet="BuildingsTable">

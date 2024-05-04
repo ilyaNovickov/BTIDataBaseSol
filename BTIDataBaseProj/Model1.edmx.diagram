@@ -4,12 +4,12 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="8a917b4693014ad8878ac6d852ff879a" Name="Diagram1">
+      <Diagram DiagramId="f60f3519bc48484bacaaacbafa07d428" Name="Diagram1">
         <EntityTypeShape EntityType="BTIDataBaseModel.BuildingsTable" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="BTIDataBaseModel.FlatsTable" Width="1.5" PointX="3" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="BTIDataBaseModel.RoomsTable" Width="1.5" PointX="5.25" PointY="1.5" IsExpanded="true" />
-        <AssociationConnector Association="BTIDataBaseModel.FK__FlatsTabl__Build__47DBAE45" ManuallyRouted="false" />
-        <AssociationConnector Association="BTIDataBaseModel.FK__RoomsTable__Flat__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="BTIDataBaseModel.FK__FlatsTabl__Build__3E52440B" ManuallyRouted="false" />
+        <AssociationConnector Association="BTIDataBaseModel.FK__RoomsTable__Flat__4222D4EF" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

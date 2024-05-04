@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace BTIDataBaseProj.Helpers
 {
+    /// <summary>
+    /// Информация о здании
+    /// </summary>
     public class BuildingInfo : INotifyPropertyChanged
     {
         private BuildingsTable building = null;
@@ -29,11 +32,15 @@ namespace BTIDataBaseProj.Helpers
         private bool elevator = false;
 
         public BuildingInfo() { }
+
         public BuildingInfo(BuildingsTable building)
         {
             BuildingsTable = building;
         }
 
+        /// <summary>
+        /// Кадастр здания
+        /// </summary>
         public string Kadastr 
         {
             get => kadastr;
@@ -43,6 +50,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Адресс здания
+        /// </summary>
         public string Address 
         {
             get => address;
@@ -52,6 +62,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Район 
+        /// </summary>
         public string District 
         {
             get => district;
@@ -61,6 +74,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Площадь земельного участка
+        /// </summary>
         public int Land 
         {
             get => land;
@@ -70,6 +86,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Год постройки
+        /// </summary>
         public int Year 
         {
             get => year;
@@ -79,6 +98,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Материал стен
+        /// </summary>
         public string Material
         {
             get => material;
@@ -88,6 +110,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Материал фундамента
+        /// </summary>
         public string Base 
         {
             get => @base;
@@ -97,6 +122,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Примечания к зданию
+        /// </summary>
         public string Comments
         {
             get => comments;
@@ -106,6 +134,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Износ в процентах
+        /// </summary>
         public int Wear 
         {
             get => wear;
@@ -115,6 +146,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Кол-во этажей 
+        /// </summary>
         public int Flow 
         {
             get => flow;
@@ -124,6 +158,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Расстояние от центра города
+        /// </summary>
         public int Line 
         {
             get => line;
@@ -133,6 +170,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Площадь квартир
+        /// </summary>
         public int Square 
         {
             get => square;
@@ -142,6 +182,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Изображение здания
+        /// </summary>
         public byte[] Picture 
         {
             get => pic;
@@ -151,6 +194,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Кол-во квартир
+        /// </summary>
         public int Flats 
         {
             get => flats;
@@ -160,6 +206,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Наличие лифта
+        /// </summary>
         public bool Elevator 
         {
             get => elevator;
@@ -170,6 +219,9 @@ namespace BTIDataBaseProj.Helpers
             }
         }
 
+        /// <summary>
+        /// Связанная модель здания из БД
+        /// </summary>
         public  BuildingsTable BuildingsTable 
         {
             get => building;
@@ -188,6 +240,7 @@ End:
             }
         }
 
+        //Установка свойств информации о здании
         private void SetProperties(BuildingsTable buildingsTable)
         {
             Kadastr = buildingsTable.Kadastr;
@@ -207,6 +260,7 @@ End:
             Elevator = buildingsTable.Elevator;
         }
 
+        //Сброс свойств в состояние по умолчанию
         private void ClearProperties()
         {
             Kadastr = string.Empty;
@@ -226,6 +280,9 @@ End:
             Elevator = false;
         }
 
+        /// <summary>
+        /// Сброс свойств
+        /// </summary>
         public void Clear()
         {
             ClearProperties();
