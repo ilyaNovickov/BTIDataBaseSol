@@ -77,75 +77,86 @@ namespace BTIDataBaseProj
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            aboutBuildingGrid.DataContext = buildingInfo;
-            aboutFlatGrid.DataContext = flatInfo;
-            aboutRoomGrid.DataContext = roomInfo;
-            
-            contex.BuildingsTable.Load();
-            buildingsViewSourse.Source = contex.BuildingsTable.Local;
-            #region forBuildingSeach
-            buildingsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.BuildingsTable.Local);
-
-            buildingsSeachCollectionView.Filter = (obj) =>
+            try
             {
-                if ((buildingKadastrSeachTextBox.Text == null || buildingKadastrSeachTextBox.Text == "")
-                && ((buildingAddressSeachTextBox.Text == null || buildingAddressSeachTextBox.Text == "")))
+                aboutBuildingGrid.DataContext = buildingInfo;
+                aboutFlatGrid.DataContext = flatInfo;
+                aboutRoomGrid.DataContext = roomInfo;
+
+                contex.BuildingsTable.Load();
+                buildingsViewSourse.Source = contex.BuildingsTable.Local;
+                #region forBuildingSeach
+                buildingsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.BuildingsTable.Local);
+
+                buildingsSeachCollectionView.Filter = (obj) =>
                 {
-                    return true;
-                }
+                    if ((buildingKadastrSeachTextBox.Text == null || buildingKadastrSeachTextBox.Text == "")
+                    && ((buildingAddressSeachTextBox.Text == null || buildingAddressSeachTextBox.Text == "")))
+                    {
+                        return true;
+                    }
 
-                BuildingsTable building = obj as BuildingsTable;
+                    BuildingsTable building = obj as BuildingsTable;
 
-                return building.Kadastr.Contains(buildingKadastrSeachTextBox.Text) &&
-                        building.Address.Contains(buildingAddressSeachTextBox.Text);
-            };
+                    return building.Kadastr.Contains(buildingKadastrSeachTextBox.Text) &&
+                            building.Address.Contains(buildingAddressSeachTextBox.Text);
+                };
 
-            buildingsSeachDataGrid.ItemsSource = contex.BuildingsTable.Local;
-#endregion
-            #region forFlatSeach
-            contex.FlatsTable.Load();
+                buildingsSeachDataGrid.ItemsSource = contex.BuildingsTable.Local;
+                #endregion
+                #region forFlatSeach
+                contex.FlatsTable.Load();
 
-            flatsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.FlatsTable.Local);
+                flatsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.FlatsTable.Local);
 
-            flatsSeachCollectionView.Filter = (obj) =>
-            {
-                if ((flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "") &&
-                    (flatNumberSeachTextBox.Text == null || flatNumberSeachTextBox.Text == ""))
-                    return true;
-
-                FlatsTable f = obj as FlatsTable;
-
-                return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text) && 
-                            f.Flat.ToString().Contains(flatNumberSeachTextBox.Text);
-            };
-            
-            flatSeachDataGrid.ItemsSource = contex.FlatsTable.Local;
-            #endregion
-            #region forRoomSeach
-            contex.RoomsTable.Load();
-
-            roomsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.RoomsTable.Local);
-            roomsSeachCollectionView.Filter = (obj) =>
-            {
-                if ((roomIdSeachTextBox.Text == null || roomIdSeachTextBox.Text == "")
-                && ((roomRecordSeachTextBox.Text == null || roomRecordSeachTextBox.Text == "")))
+                flatsSeachCollectionView.Filter = (obj) =>
                 {
-                    return true;
-                }
+                    if ((flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "") &&
+                        (flatNumberSeachTextBox.Text == null || flatNumberSeachTextBox.Text == ""))
+                        return true;
 
-                RoomsTable room = obj as RoomsTable;
+                    FlatsTable f = obj as FlatsTable;
 
-                return room.RoomId.ToString().Contains(roomIdSeachTextBox.Text) &&
-                        room.Record.ToString().Contains(roomRecordSeachTextBox.Text);
-            };
+                    return f.FlatId.ToString().Contains(flatIdSeachTextBox.Text) &&
+                                f.Flat.ToString().Contains(flatNumberSeachTextBox.Text);
+                };
 
-            roomsSeachDataGrid.ItemsSource = contex.RoomsTable.Local;
-#endregion
+                flatSeachDataGrid.ItemsSource = contex.FlatsTable.Local;
+                #endregion
+                #region forRoomSeach
+                contex.RoomsTable.Load();
+
+                roomsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.RoomsTable.Local);
+                roomsSeachCollectionView.Filter = (obj) =>
+                {
+                    if ((roomIdSeachTextBox.Text == null || roomIdSeachTextBox.Text == "")
+                    && ((roomRecordSeachTextBox.Text == null || roomRecordSeachTextBox.Text == "")))
+                    {
+                        return true;
+                    }
+
+                    RoomsTable room = obj as RoomsTable;
+
+                    return room.RoomId.ToString().Contains(roomIdSeachTextBox.Text) &&
+                            room.Record.ToString().Contains(roomRecordSeachTextBox.Text);
+                };
+
+                roomsSeachDataGrid.ItemsSource = contex.RoomsTable.Local;
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Не удалось подключиться к базе данных. Информация о ошибке:\n" +
+                    $"\"{ex.Message}\"\n" +
+                    $"Проверте файл *.exe.config", "Ошибка подключения к БД",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+                this.Close();
+            }
         }
 
         private void mainWin_Closing(object sender, CancelEventArgs e)
         {
-            contex.Dispose();
+            contex?.Dispose();
         }
 
         #region dataGrids Selection Changed
