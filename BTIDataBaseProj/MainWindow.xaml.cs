@@ -31,12 +31,23 @@ namespace BTIDataBaseProj
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         #region forScale
+        /*
+         * Для изменения маштаба изображения
+         */
+        //Максимально, минимальное и текущее значение
+        //маштаба в % (1f == 100%)
         private float minScale = 0.02f;
         private float maxScale = 10.0f;
         private float scale = 1f;
 
+        /// <summary>
+        /// Событие изменения свойств
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Маштаб изображения
+        /// </summary>
         public float Scale
         {
             get => scale;
@@ -48,14 +59,22 @@ namespace BTIDataBaseProj
         }
         #endregion
 
+        //Контекст подлючения к бд
         BTIDataBaseEntities contex = new BTIDataBaseEntities();
+
+        //Коллекции здания, квартир выбранного здания
+        //и комнат выбранной квартиры
         CollectionViewSource buildingsViewSourse;
         CollectionViewSource flatsViewSourse;
         CollectionViewSource roomsViewSourse;
+
+        //Информация о здании/квартире/помещении
         BuildingInfo buildingInfo = new BuildingInfo();
         FlatInfo flatInfo = new FlatInfo();
         RoomInfo roomInfo = new RoomInfo();
 
+        //Коллекции ВСЕХ здания/квартир/комнат
+        //предназначено для поиска
         private ICollectionView flatsSeachCollectionView;
         private ICollectionView buildingsSeachCollectionView;
         private ICollectionView roomsSeachCollectionView;
@@ -64,7 +83,7 @@ namespace BTIDataBaseProj
         public MainWindow()
         {
             InitializeComponent();
-
+            //Получение коллекций из ресурсов приложения
             buildingsViewSourse = ((CollectionViewSource)(FindResource("buildingViewSourse")));
             flatsViewSourse = ((CollectionViewSource)(FindResource("flatsViewSourse")));
             roomsViewSourse = ((CollectionViewSource)FindResource("roomsViewSourse"));
@@ -75,19 +94,29 @@ namespace BTIDataBaseProj
             contex?.Dispose();
         }
 
+        //Обработка события загрузки приложения
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
             {
+                //Привязка контекста данных с информацией
+                //о здании/квартире/комнаты элементов управления
                 aboutBuildingGrid.DataContext = buildingInfo;
                 aboutFlatGrid.DataContext = flatInfo;
                 aboutRoomGrid.DataContext = roomInfo;
 
+                //Загрузка таблицы зданий и её привязка к элементу DataGrid
+                //При привязке также привязываются квартиры выбранного здания
+                //и комнаты выбранной квартиры
                 contex.BuildingsTable.Load();
                 buildingsViewSourse.Source = contex.BuildingsTable.Local;
+
+                //Для поиска зданий
                 #region forBuildingSeach
+                //Привязка данных из БД к таблице 
                 buildingsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.BuildingsTable.Local);
 
+                //Привязка фильтрации зданий по кадастру и адрессу
                 buildingsSeachCollectionView.Filter = (obj) =>
                 {
                     if ((buildingKadastrSeachTextBox.Text == null || buildingKadastrSeachTextBox.Text == "")
@@ -104,11 +133,14 @@ namespace BTIDataBaseProj
 
                 buildingsSeachDataGrid.ItemsSource = contex.BuildingsTable.Local;
                 #endregion
+                //Для поиска квартир
                 #region forFlatSeach
+                //Привязка данных из БД к таблице 
                 contex.FlatsTable.Load();
 
                 flatsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.FlatsTable.Local);
 
+                //Привязка фильтрации квартир по ID и номеру квартиры
                 flatsSeachCollectionView.Filter = (obj) =>
                 {
                     if ((flatIdSeachTextBox.Text == null || flatIdSeachTextBox.Text == "") &&
@@ -123,10 +155,14 @@ namespace BTIDataBaseProj
 
                 flatSeachDataGrid.ItemsSource = contex.FlatsTable.Local;
                 #endregion
+                //Для поиска комнат
                 #region forRoomSeach
+                //Привязка данных из БД к таблице 
                 contex.RoomsTable.Load();
 
                 roomsSeachCollectionView = CollectionViewSource.GetDefaultView(contex.RoomsTable.Local);
+
+                //Привязка фильтрации комнат по ID и номеру помещения
                 roomsSeachCollectionView.Filter = (obj) =>
                 {
                     if ((roomIdSeachTextBox.Text == null || roomIdSeachTextBox.Text == "")
@@ -146,6 +182,8 @@ namespace BTIDataBaseProj
             }
             catch (Exception ex)
             {
+                //Вывод сообщения при неудачном подключении к БД
+                //и закрытие приложения
                 MessageBox.Show($"Не удалось подключиться к базе данных. Информация о ошибке:\n" +
                     $"\"{ex.Message}\"\n" +
                     $"Проверте файл *.exe.config", "Ошибка подключения к БД",
@@ -159,6 +197,7 @@ namespace BTIDataBaseProj
             contex?.Dispose();
         }
 
+        //Изменение выбранного элемента в таблице
         #region dataGrids Selection Changed
         private void buildingsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -193,30 +232,20 @@ namespace BTIDataBaseProj
             roomInfo.RoomsTable = (RoomsTable)roomsDataGrid.SelectedItem;
         }
         #endregion
+        //Для таблицы и для поля с информацией о здании
         #region forBuilding
+        //Для панели управления таблицы
         #region buildingsToolBar
-        private void firstBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToFirst();
-        }
-
-        private void previousBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToPrevious();
-        }
-
-        private void nextBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToNext();
-        }
-
-        private void lastBuildingButton_Click(object sender, RoutedEventArgs e)
-        {
-            buildingsViewSourse.View.MoveCurrentToLast();
-        }
-
-
+        private void firstBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToFirst();
+        
+        private void previousBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToPrevious();
+        
+        private void nextBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToNext();
+        
+        private void lastBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToLast();
         #endregion
+
+        //Добавление здания 
         private void addBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.Kadastr == "" || buildingInfo.Kadastr == null)
@@ -249,8 +278,6 @@ namespace BTIDataBaseProj
                 Elevator = buildingInfo.Elevator
             };
 
-            //roomInfo.RoomsTable = rooms;
-
             contex.BuildingsTable.Add(building);
 
             buildingsViewSourse.View.Refresh();
@@ -261,6 +288,7 @@ namespace BTIDataBaseProj
             buildingsDataGrid.SelectedItem = building;
         }
 
+        //Удаление выбранного здания
         private void removeBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable?.Kadastr)
@@ -277,6 +305,7 @@ namespace BTIDataBaseProj
             SaveDBChangings();
         }
 
+        //Обновление данных для выбранного здания
         private void updateBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.BuildingsTable == null && buildingInfo.Kadastr != buildingInfo.BuildingsTable.Kadastr)
@@ -305,15 +334,16 @@ namespace BTIDataBaseProj
             buildingInfo.BuildingsTable.Square = buildingInfo.Square;
             buildingInfo.BuildingsTable.Line = buildingInfo.Line;
             buildingInfo.BuildingsTable.Land = buildingInfo.Land;
+            //Кадастр менять нельзя так как это первичный ключ
             //buildingInfo.BuildingsTable.Kadastr = buildingInfo.Kadastr;
 
             SaveDBChangings();
 
             buildingsViewSourse.View.Refresh();
             buildingsSeachCollectionView.Refresh();
-
         }
 
+        //Очистка информации с панели
         private void clearBuildingInfoButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingsDataGrid.SelectedItem == null)
@@ -324,10 +354,11 @@ namespace BTIDataBaseProj
             buildingsDataGrid.SelectedItem = null;
         }
 
+        //Открытие панели с примечаниями о здании
         private void openBuildongCommentsButton_Click(object sender, RoutedEventArgs e)=>buildingCommentsPanelMenuItem_Click(sender, e);
 
+        //Открытие панели с изображением здания
         private void openBuildingImageButton_Click(object sender, RoutedEventArgs e)=>buildingImagePanelMenuItem_Click(sender, e);
-
         #region extraForBuilding
         #region forImage
         private void loadImageButton_Click(object sender, RoutedEventArgs e)
@@ -374,38 +405,21 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
+        //Для таблицы и для поля с информацией о квартире
         #region aboutFlats
+        //Для панели управления таблицы
         #region flatToolBar
-        private void firstFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToFirst();
-        }
-
-        private void previousFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToPrevious();
-        }
-
-        private void nextFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToNext();
-        }
-
-        private void lastFlatButton_Click(object sender, RoutedEventArgs e)
-        {
-            flatsViewSourse.View.MoveCurrentToLast();
-        }
+        private void firstFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToFirst();
+        
+        private void previousFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToPrevious();
+        
+        private void nextFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToNext();
+        
+        private void lastFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToLast();
         #endregion
+        //Добавление квартиры
         private void addFlatButtin_Click(object sender, RoutedEventArgs e)
         {
-            //if (flatInfo.FlatId != -1 && flatInfo.FlatsTable != null)
-            //{
-            //    MessageBoxResult res = MessageBox.Show("Информация о квартире ссылается на существующею квартиру\nДобавить новую квартиру?", "Внимание", MessageBoxButton.YesNo);
-
-            //    if (res != MessageBoxResult.Yes)
-            //        return;
-            //}
-
             CheckKadastrForFlat();
 
             FlatsTable flatsTable = new FlatsTable()
@@ -422,8 +436,6 @@ namespace BTIDataBaseProj
                 SquareFlat = flatInfo.SquareFlat,
             };
 
-            //flatInfo.FlatsTable = flatsTable;
-
             contex.FlatsTable.Add(flatsTable);
             flatsViewSourse.View.Refresh();
             flatsSeachCollectionView.Refresh();
@@ -433,9 +445,10 @@ namespace BTIDataBaseProj
             flatsDataGrid.SelectedItem = flatsTable;
         }
 
+        //Удаление квартиры выбранной
         private void removeFlatButton_Click(object sender, RoutedEventArgs e)
         {
-            if (flatInfo.FlatsTable == null)// && flatInfo.FlatId != buildingInfo.BuildingsTable.Kadastr)
+            if (flatInfo.FlatsTable == null)
             {
                 MessageBox.Show("Запис квартиры не выбрана");
                 return;
@@ -449,6 +462,7 @@ namespace BTIDataBaseProj
             SaveDBChangings();
         }
 
+        //обновление данных в выбранной квартире
         private void updateFlatButton_Click(object sender, RoutedEventArgs e)
         {
             if (flatInfo.FlatsTable == null)
@@ -478,6 +492,7 @@ namespace BTIDataBaseProj
 
         }
 
+        //Очистка панели с информацией
         private void flatClearButton_Click(object sender, RoutedEventArgs e)
         {
             if (flatsDataGrid.SelectedItem == null)
@@ -488,6 +503,7 @@ namespace BTIDataBaseProj
             flatsDataGrid.SelectedItem = null;
         }
 
+        //Добавление квартиры к выбранному зданию
         private void addFlatToSelectedBuildingButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingInfo.BuildingsTable == null)
@@ -500,22 +516,29 @@ namespace BTIDataBaseProj
 
             addFlatButtin_Click(sender, e);
         }
+
+        /// <summary>
+        /// Проверка кадастра здания для добавляемого здания
+        /// </summary>
         private void CheckKadastrForFlat()
         {
             IEnumerable<string> kadastrs = from building in contex.BuildingsTable
                                            select building.Kadastr;
 
             if (!kadastrs.Contains(flatInfo.BuildingKadastr))
-            {
-                MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\nИзмените кадастр здания для квартиры");
-                return;
-            }
+                MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\n" +
+                    "Измените кадастр здания для квартиры", "Внимание",
+                    MessageBoxButton.OK ,MessageBoxImage.Warning);
         }
 
+        //Обработка ошибок с валидацией вводимых данных
         #region forError
+        //Кол-во найденных ошибок
         private int flatErrorsCount = 0;
+
         private void AboutFlatTextBox_Error(object sender, ValidationErrorEventArgs e)
         {
+            //Нельзя добавить квартиру при наличии ошибок
             if (e.Action == ValidationErrorEventAction.Added)
             {
                 addFlatButton.IsEnabled = false;
@@ -524,6 +547,7 @@ namespace BTIDataBaseProj
                 addToSelectedBuildingButton.IsEnabled = false;
                 flatErrorsCount++;
             }
+            //Можно добавить квартиру когда ошибок нет
             else if (e.Action == ValidationErrorEventAction.Removed)
             {
                 flatErrorsCount--;
@@ -540,29 +564,19 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
+        //Для таблицы и для поля с информацией о помещении
         #region aboutRooms
+        //Для панели управления таблицы
         #region roomsToolBar
-        private void firstRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToFirst();
-        }
+        private void firstRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToFirst();
 
-        private void previousRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToPrevious();
+        private void previousRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToPrevious();
 
-        }
+        private void nextRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToNext();
 
-        private void nextRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToNext();
-        }
-
-        private void lastRoomButton_Click(object sender, RoutedEventArgs e)
-        {
-            roomsViewSourse.View.MoveCurrentToLast();
-        }
+        private void lastRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToLast();
         #endregion
+        //Обновление данных в выбранной квартире
         private void updateRoomButton_Click(object sender, RoutedEventArgs e)
         {
             if (roomInfo.RoomsTable == null)
@@ -583,7 +597,6 @@ namespace BTIDataBaseProj
             roomInfo.RoomsTable.SquareRoom = roomInfo.SquareRoom;
             roomInfo.RoomsTable.Name = roomInfo.Name;
 
-
             SaveDBChangings();
 
             roomsViewSourse.View.Refresh();
@@ -592,6 +605,7 @@ namespace BTIDataBaseProj
             roomsSeachCollectionView.Refresh();
         }
 
+        //Удаление выбранной комнаты
         private void removeRoomButton_Click(object sender, RoutedEventArgs e)
         {
             if (roomInfo.RoomsTable == null && roomInfo.RoomId != roomInfo.RoomsTable?.RoomId)
@@ -608,16 +622,9 @@ namespace BTIDataBaseProj
             SaveDBChangings();
         }
 
+        //Добавление комнаты
         private void addRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            //if (roomInfo.Flat.Value != -1 && roomInfo.RoomsTable != null)
-            //{
-            //    MessageBoxResult res = MessageBox.Show("Информация о комнате ссылается на существующею комнату\nДобавить новую комнату?", "Внимание", MessageBoxButton.YesNo);
-
-            //    if (res != MessageBoxResult.Yes)
-            //        return;
-            //}
-
             CheckFlatIdForRoom();
 
             RoomsTable rooms = new RoomsTable()
@@ -633,8 +640,6 @@ namespace BTIDataBaseProj
                 Record = roomInfo.Record,
             };
 
-            //roomInfo.RoomsTable = rooms;
-
             contex.RoomsTable.Add(rooms);
             roomsViewSourse.View.Refresh();
             roomsSeachCollectionView.Refresh();
@@ -644,17 +649,20 @@ namespace BTIDataBaseProj
             roomsDataGrid.SelectedItem = rooms;
         }
 
+        /// <summary>
+        /// Проверка ID квартиры для добавляемой комнаты
+        /// </summary>
         private void CheckFlatIdForRoom()
         {
             IEnumerable<int> flats = from flat in contex.FlatsTable
                                      select flat.FlatId;
             if (!(flats.Contains(roomInfo.Flat.Value)))
-            {
-                MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\nИзмените ID квартиры здания для комнаты");
-                return;
-            }
+                MessageBox.Show("Не указана ID квартиры или квартира с таким ID не существует\n" +
+                    "Измените ID квартиры здания для комнаты",
+                     "Внимание", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
+        //Очистка информации о помещении
         private void clearRoomInfoButton_Click(object sender, RoutedEventArgs e)
         {
             if (roomsDataGrid.SelectedItem == null)
@@ -665,6 +673,7 @@ namespace BTIDataBaseProj
             roomsDataGrid.SelectedItem = null;
         }
 
+        //Добавления помещения к выбранной квартире
         private void addRoomToSelectedFlatButton_Click(object sender, RoutedEventArgs e)
         {
             if (flatInfo.FlatsTable == null)
@@ -678,11 +687,14 @@ namespace BTIDataBaseProj
             addRoomButton_Click(sender, e);
         }
 
+        //Для проверки ошибок при валидации данныхы
         #region forErrors
+        //Кол-во ошибок связанных с данными помещения
         private int roomsErrorsCount = 0;
 
         private void RoomsTextBox_Error(object sender, ValidationErrorEventArgs e)
         {
+            //Нельзя добавить помещении при наличие ошибок
             if (e.Action == ValidationErrorEventAction.Added)
             {
                 addRoomButton.IsEnabled = false;
@@ -691,6 +703,7 @@ namespace BTIDataBaseProj
                 addRoomToSelectedFlatButton.IsEnabled = false;
                 roomsErrorsCount++;
             }
+            //Можно добавить помещении когда ошибок нет
             else if (e.Action == ValidationErrorEventAction.Removed)
             {
                 roomsErrorsCount--;
@@ -706,19 +719,25 @@ namespace BTIDataBaseProj
         #endregion
 
         #endregion
+
+        //Для меню
         #region menu
+        //Сохранение БД
         private void saveDBMenuItem_Click(object sender, RoutedEventArgs e) => SaveDBChangings();
+        //Закрытие приложения
         private void closeMenuItem_Click(object sender, RoutedEventArgs e) => this.Close();
+        //Менюшки для таблиц с данными
         #region forTables
         private void openBuildingsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(buildingsTable);
 
-
         private void openFlatsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(flatsTable);
-
 
         private void openRoomsTableMenuItem_Click(object sender, RoutedEventArgs e) => OpenTableInAvalonDock(roomsTable);
 
-
+        /// <summary>
+        /// Открывает закрытое окно в панели для отображения таблиц БД
+        /// </summary>
+        /// <param name="content"></param>
         private void OpenTableInAvalonDock(LayoutContent content)
         {
             if (tableLayout.Children.Contains(content))
@@ -728,31 +747,30 @@ namespace BTIDataBaseProj
             tableLayout.SelectedContentIndex = tableLayout.Children.Count - 1;
         }
         #endregion
+        //Менюшки для "Информация о ..."
         #region forVisibleofPanels
         private void buildingInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingInfoPanel.IsVisible = true;
         
-
         private void flatInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => flatInfoPanel.IsVisible = true;
         
-
         private void roomInfoMenuItem_Click(object sender, RoutedEventArgs e) => roomInfoPanel.IsVisible = true;
         
-
         private void buildingImagePanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingImagePanel.IsVisible = true;
-
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
         #endregion
+        //Менюшки для поиска
         #region forSeaching
         private void openBuildingSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(buildingsSeachPanel);
 
-
         private void openFlatSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(flatsSeachPanel);
-
 
         private void openRoomSeachMenuItem_Click(object sender, RoutedEventArgs e) => OpenSeachPanelInAvalonDock(roomsSeachPanel);
 
-
+        /// <summary>
+        /// Открытие панелей с таблицами для поиска 
+        /// </summary>
+        /// <param name="content"></param>
         private void OpenSeachPanelInAvalonDock(LayoutAnchorable content)
         {
             if (extraPanel.Children.Contains(content))
@@ -764,11 +782,14 @@ namespace BTIDataBaseProj
         #endregion
         #endregion
 
+        //Для поиска
         #region seach
+        //Для поиска зданий
         #region buildingSeach
+        //обновить таблицу для поиска
         private void updateBuildingSeachButton_Click(object sender, RoutedEventArgs e) => buildingsSeachCollectionView.Refresh();
 
-
+        //Выбрать здание из окна поиска в окно главно таблицы
         private void selectBuildingOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
             if (buildingsSeachDataGrid.SelectedItem == null)
@@ -780,10 +801,12 @@ namespace BTIDataBaseProj
             SelectBuildingOnSeach(((BuildingsTable)buildingsSeachDataGrid.SelectedItem).Kadastr);
         }
         #endregion
+        //Для поиска квартир
         #region flatSeach
+        //обновить таблицу для поиска
         private void updateFlatSeachButton_Click(object sender, RoutedEventArgs e) => flatsSeachCollectionView.Refresh();
 
-
+        //Выбрать квартиру из окна поиска в окно главно таблицы
         private void selectFlatOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
             if (flatSeachDataGrid.SelectedItem == null)
@@ -801,9 +824,12 @@ namespace BTIDataBaseProj
             SelectFlatOnSeach(((FlatsTable)flatSeachDataGrid.SelectedItem).FlatId);
         }
         #endregion
+        //Для поиска помещений
         #region roomSeach
+        //обновить таблицу для поиска
         private void updateRoomsSeachButton_Click(object sender, RoutedEventArgs e) => roomsSeachCollectionView.Refresh();
 
+        //Выбрать помещение из окна поиска в окно главно таблицы
         private void selectRoomOnSeachButton_Click(object sender, RoutedEventArgs e)
         {
             if (roomsSeachDataGrid.SelectedItem == null)
@@ -828,6 +854,11 @@ namespace BTIDataBaseProj
         }
         #endregion
 
+        /// <summary>
+        /// Выбрать здание, найденное в таблице поиска, в главной таблице
+        /// </summary>
+        /// <param name="kadastr">Кадастр выбранного здания</param>
+        /// <returns></returns>
         private bool SelectBuildingOnSeach(string kadastr = "")
         {
             IEnumerable<BuildingsTable> buildings = from BuildingsTable building in buildingsDataGrid.Items
@@ -845,6 +876,11 @@ namespace BTIDataBaseProj
             return true;
         }
 
+        /// <summary>
+        /// Выбрать квартиру, найденное в таблице поиска, в главной таблице
+        /// </summary>
+        /// <param name="flatId">ID квартиры</param>
+        /// <returns></returns>
         private bool SelectFlatOnSeach(int flatId = -1)
         {
             IEnumerable<FlatsTable> flats = from FlatsTable flat in flatsDataGrid.Items
@@ -861,6 +897,11 @@ namespace BTIDataBaseProj
             return true;
         }
 
+        /// <summary>
+        /// Выбрать помещение, найденное в таблице поиска, в главной таблице
+        /// </summary>
+        /// <param name="roomId">ID комнаты</param>
+        /// <returns></returns>
         private bool SelectRoomOnSeach(int roomId = -1)
         {
             IEnumerable<RoomsTable> rooms = from RoomsTable room in roomsDataGrid.Items
@@ -879,6 +920,9 @@ namespace BTIDataBaseProj
         }
         #endregion
 
+        /// <summary>
+        /// Сохранение базы данных
+        /// </summary>
         private void SaveDBChangings()
         {
             try
@@ -887,7 +931,9 @@ namespace BTIDataBaseProj
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Ошибка сохранения БД. Сообщение об ошибке:\n"+
+                    $"{ex.Message}", "Ошибка сохранения БД",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         

@@ -15,6 +15,9 @@ using System.Windows.Controls;
 
 namespace BTIDataBaseProj.Helpers
 {
+    /// <summary>
+    /// Информация о квартире
+    /// </summary>
     public class FlatInfo : INotifyPropertyChanged
     {
         private FlatsTable flatTable = null;
@@ -30,6 +33,9 @@ namespace BTIDataBaseProj.Helpers
         private int height = 0;
         private string buildingKadastr = "";
 
+        /// <summary>
+        /// Id квартиры
+        /// </summary>
         public int FlatId 
         {
             get => flatId;
@@ -39,6 +45,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Номер квартиры
+        /// </summary>
         public int Flat 
         {
             get => flat;
@@ -48,6 +57,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Номер этажа
+        /// </summary>
         public int Storey 
         {
             get => storey; 
@@ -57,6 +69,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Кол-во комнат
+        /// </summary>
         public int Rooms 
         {
             get => rooms;
@@ -66,6 +81,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Двух уровневая
+        /// </summary>
         public bool Level 
         {
             get => level;
@@ -75,6 +93,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Общая площадь квартиры
+        /// </summary>
         public int SquareFlat 
         {
             get => squareFlat;
@@ -84,6 +105,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Жилая площадь
+        /// </summary>
         public int Dwell 
         {
             get => dwell;
@@ -93,6 +117,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Вспомогательная площадь
+        /// </summary>
         public int Branch 
         {
             get => branch;
@@ -102,6 +129,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Площадб балкона
+        /// </summary>
         public int Balcony 
         {
             get => balcony;
@@ -111,6 +141,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Высота квартиры
+        /// </summary>
         public int Height 
         {
             get => height;
@@ -120,6 +153,9 @@ namespace BTIDataBaseProj.Helpers
                 OnPropertyChanged();
             }
         }
+        /// <summary>
+        /// Кадастр здания, где находится эта квартира
+        /// </summary>
         public string BuildingKadastr 
         {
             get => buildingKadastr;
@@ -130,6 +166,9 @@ namespace BTIDataBaseProj.Helpers
             }
         }
 
+        /// <summary>
+        /// Связанная модель квартиры из БД
+        /// </summary>
         public FlatsTable FlatsTable
         {
             get => flatTable;
@@ -148,6 +187,7 @@ End:
             }
         }
 
+        //Установка соотведствующих свойств квартиры
         private void SetProperties(FlatsTable buildingsTable)
         {
             FlatId = buildingsTable.FlatId;
@@ -163,6 +203,7 @@ End:
             SquareFlat = buildingsTable.SquareFlat;
         }
 
+        //Сброс свойств в значение по умолчанию
         private void ClearProperties()
         {
             FlatId = -1;
@@ -178,6 +219,9 @@ End:
             SquareFlat = 0;
         }
 
+        /// <summary>
+        /// Сброс свойств
+        /// </summary>
         public void Clear()
         {
             ClearProperties();

@@ -1,10 +1,10 @@
-﻿create database BTIDataBase;
+﻿--Создание БД
+create database BTIDataBase;
 go
-
+--Подключение БД
 use BTIDataBase;
-
 go
-
+--Создание таблицы Зданий
 create table BuildingsTable
 (
 	Kadastr nvarchar(20) primary key,
@@ -23,9 +23,8 @@ create table BuildingsTable
 	Flats int not null,
 	Elevator bit not null default 0
 )
-
 go
-
+--Создание таблицы квартир
 create table FlatsTable
 (
 	FlatId int primary key identity,
@@ -40,9 +39,8 @@ create table FlatsTable
 	Height int not null,
 	BuildingKadastr nvarchar(20) references BuildingsTable(Kadastr) on delete cascade ON UPDATE CASCADE
 )
-
 go
-
+--Создание таблицы комнат
 create table RoomsTable
 (
 	RoomId int primary key identity,
@@ -56,12 +54,9 @@ create table RoomsTable
 	Section int not null,
 	Flat int references FlatsTable(FlatId) on delete cascade ON UPDATE CASCADE
 )
-
 go
 
---(кадастр, адресс, район, площадб земельного участка, год, материал стен,
---материал фундамента, примичания, износ%, кол-во этажей, расстояние от центра, площадб квартир,
---картинка, кол-во квартир, лифт
+--Добавление записей для зданий
 insert BuildingsTable values (N'69:40:0100230:58', N'г Тверь, ул Горького, д. 140', 
 N'Центральный', 4833, 1971, N'Кирпич', N'Бетон', default, default , 10, 15, 50, default , 50, default)
 go
@@ -71,8 +66,7 @@ go
 insert BuildingsTable values (N'69:40:0300336:12', N'г Тверь, ул Марины Расковой, д. 41/42', 
 N'Южный', 562, 1968, N'Кирпич', N'Бетон', default, 27, 2, 23, 45, default , 8, default)
 go
---(id, номер квартиы, этаж, кол-во комнат, два уровня, общая площадь, жилая площадь, 
---вспомогательная площадь, площадь балкона, высота квартир, id задания)
+--Добавление записей для квартир
 insert into FlatsTable (Flat, Storey, Rooms, Level, SquareFlat, Dwell, Branch, Balcony, Height, BuildingKadastr) 
 values (1, 1, 3, 0, 50, 30, 20, 0, 3, N'69:40:0100230:58')
 go
@@ -88,9 +82,7 @@ insert FlatsTable values (3, 1, 4, 0, 30, 15, 15, 0, 3, N'69:40:0400099:174')
 go
 insert FlatsTable values (4, 2, 5, 0, 45, 30, 15, 0, 4, N'69:40:0300336:12')
 go
---(id, номер, площадь, размер в плане, назначение, отделка, 
---высота, кол-во розеток, кол-во элементов в батарее отоплени, id-квартиры)
---1
+--Добавление записей для комнат
 insert RoomsTable values (1, 30, '5x6', N'Комната', N'Паркт, обои', 3, 10, 2, 1)
 go
 insert RoomsTable values (2, 5, '2.5x2', N'Сан узел', N'Плитка', 3, 0, 1, 1)
@@ -109,7 +101,6 @@ insert RoomsTable values (8, 5, '2.5x2', N'Сан узел', N'Плитка, о�
 go
 insert RoomsTable values (6, 15, '3x5', N'Кухня', N'Обои, ленолиум, натяжной потолок', 3, 3, 1, 3)
 go
---2
 insert RoomsTable values (1, 15, '5x3', N'Комната', N'Обои, лелониум', 3, 3, 2, 4)
 go
 insert RoomsTable values (2, 3, '1.5x2', N'Сан узел', N'Плитка', 3, 1, 1, 4)
@@ -128,7 +119,6 @@ insert RoomsTable values (17, 3, '1.5x2', N'Сан узел', N'Плитка', 3
 go
 insert RoomsTable values (18, 7, '2x3.5', N'Кухня', N'Обои, лелониум', 3, 2, 1, 6)
 go
---3
 insert RoomsTable values (8, 20, '4x5', N'Комната', N'Обои, лелолиум', 4, 3, 2, 7)
 go
 insert RoomsTable values (8, 10, '4x2.5', N'Комната', N'Обои, лелолиум', 4, 2, 1, 7)
@@ -137,6 +127,8 @@ insert RoomsTable values (9, 5, '2.5x2', N'Сан узел', N'Плитка', 4,
 go
 insert RoomsTable values (10, 10, '3x3.5', N'Кухня', N'Лелониум', 4, 2, 1, 7)
 go
+
+--Создание процедуры добавления здания
 create procedure AddBuilding
 	@kadastr nvarchar(20),
 	@address nvarchar(15),
@@ -155,9 +147,8 @@ create procedure AddBuilding
 	@elevator bit = 0
 as insert into BuildingsTable values (@kadastr, @address, @district, @land, @year, 
 @material, @base, @comments, @wear, @flow, @line, @square, @picture, @flats, @elevator)
-
 go
-
+--Создание процедуры добавления квартиры
 create procedure AddFlat
 	@buildingKadastr nvarchar,
 	@flat int,
@@ -171,9 +162,8 @@ create procedure AddFlat
 	@balcony int = 0
 as insert into FlatsTable (Flat, Storey, Rooms, Level, SquareFlat, Dwell, Branch, Balcony, Height, BuildingKadastr) 
 values (@flat, @storey, @rooms, @level ,@squareFlat, @dwell, @branch, @balcony, @height, @buildingKadastr )
-
 go
-
+--Добавление процедуры добавления помещения
 create procedure AddRoom
 	@flat int,
 	@record int,
@@ -186,45 +176,31 @@ create procedure AddRoom
 	@decoretion nvarchar(60) = 'Отсуствует'
 as insert into RoomsTable (Flat, Record, SquareRoom, Size, Name, Decoretion, HeightRoom, Socket, Section) 
 values (@flat, @record, @squareRoom, @size, @name, @decoretion, @heightRoom, @socket, @section) 
-
 go
-
+--Получить квартиры по кадастру здания
 create procedure GetFlats
 	@buildingKadastr nvarchar 
 as select * from FlatsTable where BuildingKadastr = @buildingKadastr
-
 go
-
+--Получить комнаты по Id квартиры
 create procedure GetRooms
 	@FlatId int 
 as select * from RoomsTable where Flat = @FlatId
-
 go
-
+--Удалить здание по кадастру
 create procedure DeleteBuilding
 	@buildingKadastr nvarchar
 as delete from BuildingsTable where kadastr = @buildingKadastr
-
 go
-
+--Удалить квартиру по Id
 create procedure DeleteFlat
 	@FlatId int
 as delete from FlatsTable where FlatId = @FlatId
-
 go
-
+--Удалить комнату по Id
 create procedure DeleteRoom
 	 @RoomId int
 as delete from RoomsTable where RoomId = @RoomId
-
--- create procedure DeleteBuildingAndAll
--- 	@buildingKadastr nvarchar
--- as 
--- begin
--- 	delete from BuildingsTable where buildingKadastr = @buildingKadastr
-
--- 	 select flat from FlatId where buildingKadastr = @buildingKadastr
--- end
 
 
 
