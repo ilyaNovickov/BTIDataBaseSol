@@ -48,7 +48,7 @@ namespace BTIDataBaseProj
         }
         #endregion
 
-        BTIDataBaseEntities1 contex = new BTIDataBaseEntities1();
+        BTIDataBaseEntities contex = new BTIDataBaseEntities();
         CollectionViewSource buildingsViewSourse;
         CollectionViewSource flatsViewSourse;
         CollectionViewSource roomsViewSourse;
