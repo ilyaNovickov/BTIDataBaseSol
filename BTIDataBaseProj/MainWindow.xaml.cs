@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -10,6 +12,8 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using Xceed.Wpf.AvalonDock;
 using Xceed.Wpf.AvalonDock.Layout;
+using System.Data.EntityClient;
+using BTIDataBaseProj.ExtraWins;
 
 namespace BTIDataBaseProj
 {
@@ -48,7 +52,7 @@ namespace BTIDataBaseProj
         #endregion
 
         //Контекст подлючения к бд
-        BTIDataBaseEntities contex = new BTIDataBaseEntities();
+        BTIDataBaseEntities contex;
 
         //Коллекции здания, квартир выбранного здания
         //и комнат выбранной квартиры
@@ -85,14 +89,29 @@ namespace BTIDataBaseProj
         //Обработка события загрузки приложения
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //Строка подключения к БД
+            string connection = null;
+            //Окно подключения к бд
+            StartWin w = new StartWin();
+            bool? res = w.ShowDialog();
+
+            if (res.HasValue && !res.Value)
+                this.Close();
+            else if (res.HasValue && res.Value)
+                connection = w.ConnectionString;
+            else
+                this.Close();
+
             try
             {
+                //contex = new BTIDataBaseEntities(entityBuilder.ToString());
+                contex = new BTIDataBaseEntities(connection);
+
                 //Привязка контекста данных с информацией
                 //о здании/квартире/комнаты элементов управления
                 aboutBuildingGrid.DataContext = buildingInfo;
                 aboutFlatGrid.DataContext = flatInfo;
                 aboutRoomGrid.DataContext = roomInfo;
-
                 //Загрузка таблицы зданий и её привязка к элементу DataGrid
                 //При привязке также привязываются квартиры выбранного здания
                 //и комнаты выбранной квартиры
@@ -174,7 +193,7 @@ namespace BTIDataBaseProj
                 //и закрытие приложения
                 MessageBox.Show($"Не удалось подключиться к базе данных. Информация о ошибке:\n" +
                     $"\"{ex.Message}\"\n" +
-                    $"Проверте файл *.exe.config", "Ошибка подключения к БД",
+                    $"Проверте файл *.exe.config или введённые данные для входа", "Ошибка подключения к БД",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 this.Close();
             }

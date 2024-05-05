@@ -14,12 +14,24 @@ namespace BTIDataBaseProj
     using System.Data.Entity.Infrastructure;
     using System.Data.Entity.Core.Objects;
     using System.Linq;
-    
+    using System.Data.Common;
+
     public partial class BTIDataBaseEntities : DbContext
     {
         public BTIDataBaseEntities()
             : base("name=BTIDataBaseEntities")
         {
+        }
+
+        public BTIDataBaseEntities(string stringConnection)
+            : base(stringConnection ?? "name=BTIDataBaseEntities")
+        {
+
+        }
+
+        public BTIDataBaseEntities(DbConnection conn) : base(conn, true)
+        {
+
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
