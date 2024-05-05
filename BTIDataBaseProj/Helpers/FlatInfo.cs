@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows.Media.Media3D;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Xml.Linq;
-using System.Windows.Controls;
 
 namespace BTIDataBaseProj.Helpers
 {
@@ -36,7 +24,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Id квартиры
         /// </summary>
-        public int FlatId 
+        public int FlatId
         {
             get => flatId;
             set
@@ -48,7 +36,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Номер квартиры
         /// </summary>
-        public int Flat 
+        public int Flat
         {
             get => flat;
             set
@@ -60,9 +48,9 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Номер этажа
         /// </summary>
-        public int Storey 
+        public int Storey
         {
-            get => storey; 
+            get => storey;
             set
             {
                 storey = value;
@@ -72,7 +60,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кол-во комнат
         /// </summary>
-        public int Rooms 
+        public int Rooms
         {
             get => rooms;
             set
@@ -84,7 +72,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Двух уровневая
         /// </summary>
-        public bool Level 
+        public bool Level
         {
             get => level;
             set
@@ -96,7 +84,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Общая площадь квартиры
         /// </summary>
-        public int SquareFlat 
+        public int SquareFlat
         {
             get => squareFlat;
             set
@@ -108,7 +96,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Жилая площадь
         /// </summary>
-        public int Dwell 
+        public int Dwell
         {
             get => dwell;
             set
@@ -120,7 +108,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Вспомогательная площадь
         /// </summary>
-        public int Branch 
+        public int Branch
         {
             get => branch;
             set
@@ -132,7 +120,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Площадб балкона
         /// </summary>
-        public int Balcony 
+        public int Balcony
         {
             get => balcony;
             set
@@ -144,7 +132,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Высота квартиры
         /// </summary>
-        public int Height 
+        public int Height
         {
             get => height;
             set
@@ -156,7 +144,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кадастр здания, где находится эта квартира
         /// </summary>
-        public string BuildingKadastr 
+        public string BuildingKadastr
         {
             get => buildingKadastr;
             set
@@ -229,8 +217,8 @@ End:
             FlatsTable = null;
         }
 
-        public FlatInfo() 
-        { 
+        public FlatInfo()
+        {
 
         }
 
@@ -241,7 +229,7 @@ End:
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName] string propertyName ="")
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

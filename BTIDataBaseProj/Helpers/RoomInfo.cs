@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Net;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.Media3D;
-using System.Windows.Media;
-using System.Windows.Shapes;
-using System.Xml.Linq;
-using System.Windows.Data;
 
 namespace BTIDataBaseProj.Helpers
 {
@@ -34,7 +24,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// ID помещения
         /// </summary>
-        public int RoomId 
+        public int RoomId
         {
             get => roomId;
             set
@@ -46,9 +36,9 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Номер помещения
         /// </summary>
-        public int Record 
+        public int Record
         {
-            get => record; 
+            get => record;
             set
             {
                 record = value;
@@ -58,7 +48,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Площадь помещения
         /// </summary>
-        public int SquareRoom 
+        public int SquareRoom
         {
             get => squareRoom;
             set
@@ -70,7 +60,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Размер помещения в плане
         /// </summary>
-        public string Size 
+        public string Size
         {
             get => size;
             set
@@ -82,7 +72,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Назначение
         /// </summary>
-        public string Name 
+        public string Name
         {
             get => name;
             set
@@ -94,7 +84,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Отделка
         /// </summary>
-        public string Decoretion 
+        public string Decoretion
         {
             get => decoration;
             set
@@ -118,7 +108,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кол-во розеток
         /// </summary>
-        public int Socket 
+        public int Socket
         {
             get => socket;
             set
@@ -130,7 +120,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кол-во элементов в батарее отопления
         /// </summary>
-        public int Section 
+        public int Section
         {
             get => section;
             set
@@ -142,7 +132,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// ID связанной квартиры
         /// </summary>
-        public Nullable<int> Flat 
+        public Nullable<int> Flat
         {
             get => flat ?? 0;
             set

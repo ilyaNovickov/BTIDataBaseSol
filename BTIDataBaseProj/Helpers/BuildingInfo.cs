@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BTIDataBaseProj.Helpers
 {
@@ -16,12 +10,12 @@ namespace BTIDataBaseProj.Helpers
     {
         private BuildingsTable building = null;
         private string kadastr = "";
-        private string address="";
+        private string address = "";
         private string district = "";
         private int land = 0;
         private int year = 0;
         private string material = "";
-        private string @base ="";
+        private string @base = "";
         private string comments = null;
         private int wear = 0;
         private int flow = 0;
@@ -41,7 +35,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кадастр здания
         /// </summary>
-        public string Kadastr 
+        public string Kadastr
         {
             get => kadastr;
             set
@@ -53,7 +47,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Адресс здания
         /// </summary>
-        public string Address 
+        public string Address
         {
             get => address;
             set
@@ -65,7 +59,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Район 
         /// </summary>
-        public string District 
+        public string District
         {
             get => district;
             set
@@ -77,7 +71,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Площадь земельного участка
         /// </summary>
-        public int Land 
+        public int Land
         {
             get => land;
             set
@@ -89,7 +83,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Год постройки
         /// </summary>
-        public int Year 
+        public int Year
         {
             get => year;
             set
@@ -113,7 +107,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Материал фундамента
         /// </summary>
-        public string Base 
+        public string Base
         {
             get => @base;
             set
@@ -137,7 +131,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Износ в процентах
         /// </summary>
-        public int Wear 
+        public int Wear
         {
             get => wear;
             set
@@ -149,7 +143,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кол-во этажей 
         /// </summary>
-        public int Flow 
+        public int Flow
         {
             get => flow;
             set
@@ -161,7 +155,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Расстояние от центра города
         /// </summary>
-        public int Line 
+        public int Line
         {
             get => line;
             set
@@ -173,7 +167,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Площадь квартир
         /// </summary>
-        public int Square 
+        public int Square
         {
             get => square;
             set
@@ -185,7 +179,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Изображение здания
         /// </summary>
-        public byte[] Picture 
+        public byte[] Picture
         {
             get => pic;
             set
@@ -197,7 +191,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Кол-во квартир
         /// </summary>
-        public int Flats 
+        public int Flats
         {
             get => flats;
             set
@@ -209,7 +203,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Наличие лифта
         /// </summary>
-        public bool Elevator 
+        public bool Elevator
         {
             get => elevator;
             set
@@ -222,7 +216,7 @@ namespace BTIDataBaseProj.Helpers
         /// <summary>
         /// Связанная модель здания из БД
         /// </summary>
-        public  BuildingsTable BuildingsTable 
+        public BuildingsTable BuildingsTable
         {
             get => building;
             set
@@ -292,7 +286,7 @@ End:
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }

@@ -1,27 +1,15 @@
-﻿using System;
-using System.CodeDom.Compiler;
+﻿using BTIDataBaseProj.Helpers;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Xceed.Wpf.AvalonDock;
-using BTIDataBaseProj.Helpers;
-using System.IO;
-using Microsoft.Win32;
-using System.ComponentModel;
-using System.Runtime.Remoting.Contexts;
 using Xceed.Wpf.AvalonDock.Layout;
-using System.Collections.ObjectModel;
 
 namespace BTIDataBaseProj
 {
@@ -236,13 +224,13 @@ namespace BTIDataBaseProj
         #region forBuilding
         //Для панели управления таблицы
         #region buildingsToolBar
-        private void firstBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToFirst();
-        
-        private void previousBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToPrevious();
-        
-        private void nextBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToNext();
-        
-        private void lastBuildingButton_Click(object sender, RoutedEventArgs e)=>buildingsViewSourse.View.MoveCurrentToLast();
+        private void firstBuildingButton_Click(object sender, RoutedEventArgs e) => buildingsViewSourse.View.MoveCurrentToFirst();
+
+        private void previousBuildingButton_Click(object sender, RoutedEventArgs e) => buildingsViewSourse.View.MoveCurrentToPrevious();
+
+        private void nextBuildingButton_Click(object sender, RoutedEventArgs e) => buildingsViewSourse.View.MoveCurrentToNext();
+
+        private void lastBuildingButton_Click(object sender, RoutedEventArgs e) => buildingsViewSourse.View.MoveCurrentToLast();
         #endregion
 
         //Добавление здания 
@@ -355,10 +343,10 @@ namespace BTIDataBaseProj
         }
 
         //Открытие панели с примечаниями о здании
-        private void openBuildongCommentsButton_Click(object sender, RoutedEventArgs e)=>buildingCommentsPanelMenuItem_Click(sender, e);
+        private void openBuildongCommentsButton_Click(object sender, RoutedEventArgs e) => buildingCommentsPanelMenuItem_Click(sender, e);
 
         //Открытие панели с изображением здания
-        private void openBuildingImageButton_Click(object sender, RoutedEventArgs e)=>buildingImagePanelMenuItem_Click(sender, e);
+        private void openBuildingImageButton_Click(object sender, RoutedEventArgs e) => buildingImagePanelMenuItem_Click(sender, e);
         #region extraForBuilding
         #region forImage
         private void loadImageButton_Click(object sender, RoutedEventArgs e)
@@ -409,13 +397,13 @@ namespace BTIDataBaseProj
         #region aboutFlats
         //Для панели управления таблицы
         #region flatToolBar
-        private void firstFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToFirst();
-        
-        private void previousFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToPrevious();
-        
-        private void nextFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToNext();
-        
-        private void lastFlatButton_Click(object sender, RoutedEventArgs e)=>flatsViewSourse.View.MoveCurrentToLast();
+        private void firstFlatButton_Click(object sender, RoutedEventArgs e) => flatsViewSourse.View.MoveCurrentToFirst();
+
+        private void previousFlatButton_Click(object sender, RoutedEventArgs e) => flatsViewSourse.View.MoveCurrentToPrevious();
+
+        private void nextFlatButton_Click(object sender, RoutedEventArgs e) => flatsViewSourse.View.MoveCurrentToNext();
+
+        private void lastFlatButton_Click(object sender, RoutedEventArgs e) => flatsViewSourse.View.MoveCurrentToLast();
         #endregion
         //Добавление квартиры
         private void addFlatButtin_Click(object sender, RoutedEventArgs e)
@@ -528,7 +516,7 @@ namespace BTIDataBaseProj
             if (!kadastrs.Contains(flatInfo.BuildingKadastr))
                 MessageBox.Show("Не указан кадастр здания или здания с таким кадастром не существует\n" +
                     "Измените кадастр здания для квартиры", "Внимание",
-                    MessageBoxButton.OK ,MessageBoxImage.Warning);
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         //Обработка ошибок с валидацией вводимых данных
@@ -568,13 +556,13 @@ namespace BTIDataBaseProj
         #region aboutRooms
         //Для панели управления таблицы
         #region roomsToolBar
-        private void firstRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToFirst();
+        private void firstRoomButton_Click(object sender, RoutedEventArgs e) => roomsViewSourse.View.MoveCurrentToFirst();
 
-        private void previousRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToPrevious();
+        private void previousRoomButton_Click(object sender, RoutedEventArgs e) => roomsViewSourse.View.MoveCurrentToPrevious();
 
-        private void nextRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToNext();
+        private void nextRoomButton_Click(object sender, RoutedEventArgs e) => roomsViewSourse.View.MoveCurrentToNext();
 
-        private void lastRoomButton_Click(object sender, RoutedEventArgs e)=>roomsViewSourse.View.MoveCurrentToLast();
+        private void lastRoomButton_Click(object sender, RoutedEventArgs e) => roomsViewSourse.View.MoveCurrentToLast();
         #endregion
         //Обновление данных в выбранной квартире
         private void updateRoomButton_Click(object sender, RoutedEventArgs e)
@@ -750,11 +738,11 @@ namespace BTIDataBaseProj
         //Менюшки для "Информация о ..."
         #region forVisibleofPanels
         private void buildingInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingInfoPanel.IsVisible = true;
-        
+
         private void flatInfoPanelMenuItem_Click(object sender, RoutedEventArgs e) => flatInfoPanel.IsVisible = true;
-        
+
         private void roomInfoMenuItem_Click(object sender, RoutedEventArgs e) => roomInfoPanel.IsVisible = true;
-        
+
         private void buildingImagePanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingImagePanel.IsVisible = true;
 
         private void buildingCommentsPanelMenuItem_Click(object sender, RoutedEventArgs e) => buildingCommentsPanel.IsVisible = true;
@@ -931,11 +919,11 @@ namespace BTIDataBaseProj
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Ошибка сохранения БД. Сообщение об ошибке:\n"+
+                MessageBox.Show("Ошибка сохранения БД. Сообщение об ошибке:\n" +
                     $"{ex.Message}", "Ошибка сохранения БД",
                     MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        
+
     }
 }
